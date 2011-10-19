@@ -6,7 +6,7 @@
  * Contains the things that are common for all the controllers
  *
  */
-class Controller_SuperController extends Kohana_Controller {
+class Controller_Admin_SuperController extends Kohana_Controller {
     protected $mainView;
     protected $db;
     protected $user;
@@ -15,22 +15,31 @@ class Controller_SuperController extends Kohana_Controller {
     private $stats = array();
     protected $css = array();
 	protected $js = array();
+	protected $session;
 	/**
 	 * This function is run before the controller. 
 	 * Useful for preparing the environment
 	 * 
 	 */
     public function before(){
-        Session::instance();
+    	$this->session = Session::instance();
+    	if($this->session->get('user') === NULL){
+    		$this->session->set('user', user::instance());
+    	}
+        if(!$this->session->get('user')->isAdmin() && $this->request->controller() != 'login') {
+//			var_dump(urlencode(serialize(explode('/', $this->request->uri()))));
+    		$this->request->redirect('/admin/login/redirect/'.str_replace('/', '_', $this->request->uri()));
+    	}
     }
     /**
      * Runs after everything else.
      * Used here to render the menu and then send the collected response to the client
      */
     public function after(){
-    	$this->mainView = View::factory('main');
-        $this->mainView->content = $this->content;
-
+        $this->mainView = View::factory('admin/main');
+    	$this->mainView->content = $this->content;
+		
+    	$this->css[] = '/css/adminstyle.css';
         $this->mainView->css = $this->css;
         $this->mainView->js = $this->js;
         
