@@ -8,7 +8,7 @@
  * @copyright  (c) 2008-2011 Kohana Team
  * @license    http://kohanaframework.org/license
  */
-class Kohana_Validation implements ArrayAccess {
+class Kohana_Validation extends ArrayObject {
 
 	/**
 	 * Creates a new Validation instance.
@@ -36,9 +36,6 @@ class Kohana_Validation implements ArrayAccess {
 	// Error list, field => rule
 	protected $_errors = array();
 
-	// Array to validate
-	protected $_data = array();
-
 	/**
 	 * Sets the unique "any field" key and creates an ArrayObject from the
 	 * passed array.
@@ -48,62 +45,11 @@ class Kohana_Validation implements ArrayAccess {
 	 */
 	public function __construct(array $array)
 	{
-		$this->_data = $array;
+		parent::__construct($array, ArrayObject::STD_PROP_LIST);
 	}
 
 	/**
-	 * Throws an exception because Validation is read-only.
-	 * Implements ArrayAccess method.
-	 *
-	 * @throws  object   Kohana_Exception
-	 * @param   string   key to set
-	 * @param   mixed    value to set
-	 * @return  void
-	 */
-	public function offsetSet($offset, $value)
-	{
-		throw new Kohana_Exception('Validation objects are read-only.');
-	}
-
-	/**
-	 * Checks if key is set in array data.
-	 * Implements ArrayAccess method.
-	 *
-	 * @param   string   key to check
-	 * @return  bool     whether the key is set
-	 */
-	public function offsetExists($offset)
-	{
-		return isset($this->_data[$offset]);
-	}
-
-	/**
-	 * Throws an exception because Validation is read-only.
-	 * Implements ArrayAccess method.
-	 *
-	 * @throws  object   Kohana_Exception
-	 * @param   string   key to unset
-	 * @return  void
-	 */
-	public function offsetUnset($offset)
-	{
-		throw new Kohana_Exception('Validation objects are read-only.');
-	}
-
-	/**
-	 * Gets a value from the array data.
-	 * Implements ArrayAccess method.
-	 *
-	 * @param   string   key to return
-	 * @return  mixed    value from array
-	 */
-	public function offsetGet($offset)
-	{
-		return $this->_data[$offset];
-	}
-
-	/**
-	 * Copies the current rules to a new array.
+	 * Copies the current rule to a new array.
 	 *
 	 *     $copy = $array->copy($new_data);
 	 *
@@ -117,31 +63,19 @@ class Kohana_Validation implements ArrayAccess {
 		$copy = clone $this;
 
 		// Replace the data set
-		$copy->_data = $array;
+		$copy->exchangeArray($array);
 
 		return $copy;
 	}
 
 	/**
 	 * Returns the array representation of the current object.
-	 * Deprecated in favor of [Validation::data]
 	 *
-	 * @deprecated
 	 * @return  array
 	 */
 	public function as_array()
 	{
-		return $this->_data;
-	}
-
-	/**
-	 * Returns the array of data to be validated.
-	 *
-	 * @return  array
-	 */
-	public function data()
-	{
-		return $this->_data;
+		return $this->getArrayCopy();
 	}
 
 	/**
@@ -184,7 +118,7 @@ class Kohana_Validation implements ArrayAccess {
 	 *
 	 *     // The "username" must not be empty and have a minimum length of 4
 	 *     $validation->rule('username', 'not_empty')
-	 *                ->rule('username', 'min_length', array(':value', 4));
+	 *                ->rule('username', 'min_length', array('username', 4));
 	 *
 	 *     // The "password" field must match the "password_repeat" field
 	 *     $validation->rule('password', 'matches', array(':validation', 'password', 'password_repeat'));
@@ -283,7 +217,7 @@ class Kohana_Validation implements ArrayAccess {
 		$data = $this->_errors = array();
 
 		// Store the original data because this class should not modify it post-validation
-		$original = $this->_data;
+		$original = $this->getArrayCopy();
 
 		// Get a list of the expected fields
 		$expected = Arr::merge(array_keys($original), array_keys($this->_labels));
@@ -310,15 +244,13 @@ class Kohana_Validation implements ArrayAccess {
 		}
 
 		// Overload the current array with the new one
-		$this->_data = $data;
+		$this->exchangeArray($data);
 
 		// Remove the rules that apply to every field
 		unset($rules[TRUE]);
 
 		// Bind the validation object to :validation
 		$this->bind(':validation', $this);
-		// Bind the data to :data
-		$this->bind(':data', $this->_data);
 
 		// Execute the rules
 		foreach ($rules as $field => $set)
@@ -352,13 +284,6 @@ class Kohana_Validation implements ArrayAccess {
 
 				if (is_array($rule))
 				{
-					// Allows rule('field', array(':model', 'some_rule'));
-					if (is_string($rule[0]) AND array_key_exists($rule[0], $this->_bound))
-					{
-						// Replace with bound value
-						$rule[0] = $this->_bound[$rule[0]];
-					}
-
 					// This is an array callback, the method name is the error name
 					$error_name = $rule[1];
 					$passed = call_user_func_array($rule, $params);
@@ -413,7 +338,7 @@ class Kohana_Validation implements ArrayAccess {
 		}
 
 		// Restore the data to its original form
-		$this->_data = $original;
+		$this->exchangeArray($original);
 
 		if (isset($benchmark))
 		{

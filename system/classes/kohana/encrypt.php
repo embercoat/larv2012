@@ -60,7 +60,7 @@ class Kohana_Encrypt {
 		if ( ! isset(Encrypt::$instances[$name]))
 		{
 			// Load the configuration data
-			$config = Kohana::$config->load('encrypt')->$name;
+			$config = Kohana::config('encrypt')->$name;
 
 			if ( ! isset($config['key']))
 			{

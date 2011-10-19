@@ -1,5 +1,3 @@
-# Kohana PHP Framework, version 3.2 (development)
+# Kohana PHP Framework, version 3.1 (release)
 
-This is the current development version of [Kohana](http://kohanaframework.org/).
-
-For the most current release, see the 3.1/master branch.
+This is the current release version of [Kohana](http://kohanaframework.org/).

@@ -12,7 +12,6 @@
       - [Config Files](files/config)
       - [Translation Files](files/i18n)
       - [Message Files](files/messages)
-   - [Configuration](config)
    - [Request Flow](flow)
    - [Bootstrap](bootstrap)
    - [Modules](modules)

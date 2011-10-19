@@ -14,19 +14,18 @@ return array
 			 * string   username     database username
 			 * string   password     database password
 			 * boolean  persistent   use persistent connections?
-			 * array    variables    system variables as "key => value" pairs
 			 *
 			 * Ports and sockets may be appended to the hostname.
 			 */
 			'hostname'   => 'localhost',
-			'database'   => 'kohana',
-			'username'   => FALSE,
-			'password'   => FALSE,
+			'database'   => 'larv2012',
+			'username'   => "larv2012",
+			'password'   => "MHCpjgSY",
 			'persistent' => FALSE,
 		),
 		'table_prefix' => '',
 		'charset'      => 'utf8',
-		'caching'      => FALSE,
+		'caching'      => TRUE,
 		'profiling'    => TRUE,
 	),
 	'alternate' => array(

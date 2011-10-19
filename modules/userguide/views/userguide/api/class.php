@@ -1,8 +1,9 @@
 <h1>
 	<?php echo $doc->modifiers, $doc->class->name ?>
-	<?php foreach ($doc->parents as $parent): ?>
+	<?php $parent = $doc->class; ?>
+	<?php while ($parent = $parent->getParentClass()): ?>
 	<br/><small>extends <?php echo HTML::anchor($route->uri(array('class' => $parent->name)), $parent->name, NULL, NULL, TRUE) ?></small>
-	<?php endforeach; ?>
+	<?php endwhile ?>
 </h1>
 
 <?php echo $doc->description ?>

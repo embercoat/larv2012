@@ -13,11 +13,8 @@ class Kohana_Database_Query {
 	// Query type
 	protected $_type;
 
-	// Execute the query during a cache hit
-	protected $_force_execute = FALSE;
-
 	// Cache lifetime
-	protected $_lifetime = NULL;
+	protected $_lifetime = 0;
 
 	// SQL statement
 	protected $_sql;
@@ -30,7 +27,7 @@ class Kohana_Database_Query {
 
 	// Parameters for __construct when using object results
 	protected $_object_params = array();
-
+	
 	/**
 	 * Creates a new SQL query of the specified type.
 	 *
@@ -75,12 +72,11 @@ class Kohana_Database_Query {
 	/**
 	 * Enables the query to be cached for a specified amount of time.
 	 *
-	 * @param   integer  number of seconds to cache, 0 deletes it from the cache
-	 * @param   boolean  whether or not to execute the query during a cache hit
+	 * @param   integer  number of seconds to cache
 	 * @return  $this
 	 * @uses    Kohana::$cache_life
 	 */
-	public function cached($lifetime = NULL, $force = FALSE)
+	public function cached($lifetime = NULL)
 	{
 		if ($lifetime === NULL)
 		{
@@ -88,7 +84,6 @@ class Kohana_Database_Query {
 			$lifetime = Kohana::$cache_life;
 		}
 
-		$this->_force_execute = $force;
 		$this->_lifetime = $lifetime;
 
 		return $this;
@@ -199,29 +194,16 @@ class Kohana_Database_Query {
 	 * Execute the current query on the given database.
 	 *
 	 * @param   mixed    Database instance or name of instance
-	 * @param   string   result object classname, TRUE for stdClass or FALSE for array
-	 * @param   array    result object constructor arguments
-	 *
 	 * @return  object   Database_Result for SELECT queries
 	 * @return  mixed    the insert id for INSERT queries
 	 * @return  integer  number of affected rows for all other queries
 	 */
-	public function execute($db = NULL, $as_object = NULL, $object_params = NULL)
+	public function execute($db = NULL)
 	{
 		if ( ! is_object($db))
 		{
 			// Get the database instance
 			$db = Database::instance($db);
-		}
-
-		if ($as_object === NULL)
-		{
-			$as_object = $this->_as_object;
-		}
-
-		if ($object_params === NULL)
-		{
-			$object_params = $this->_object_params;
 		}
 
 		// Compile the SQL query
@@ -232,19 +214,19 @@ class Kohana_Database_Query {
 			// Set the cache key based on the database instance name and SQL
 			$cache_key = 'Database::query("'.$db.'", "'.$sql.'")';
 
-			// Read the cache first to delete a possible hit with lifetime <= 0
-			if (($result = Kohana::cache($cache_key, NULL, $this->_lifetime)) !== NULL
-				AND ! $this->_force_execute)
+			if ($result = Kohana::cache($cache_key, NULL, $this->_lifetime))
 			{
 				// Return a cached result
-				return new Database_Result_Cached($result, $sql, $as_object, $object_params);
+				return new Database_Result_Cached($result, $sql, $this->_as_object, $this->_object_params);
 			}
 		}
 
 		// Execute the query
-		$result = $db->query($this->_type, $sql, $as_object, $object_params);
-
-		if (isset($cache_key) AND $this->_lifetime > 0)
+		$result = $db->query($this->_type, $sql, $this->_as_object, $this->_object_params);
+        $db->num_queries += 1;
+        $db->queries[] = $sql;
+//        file_put_contents('mysql.log', $sql."\r\n", FILE_APPEND);
+		if (isset($cache_key))
 		{
 			// Cache the result array
 			Kohana::cache($cache_key, $result->as_array(), $this->_lifetime);
@@ -252,5 +234,6 @@ class Kohana_Database_Query {
 
 		return $result;
 	}
+
 
 } // End Database_Query

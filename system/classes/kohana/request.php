@@ -22,11 +22,6 @@ class Kohana_Request implements HTTP_Request {
 	public static $client_ip = '0.0.0.0';
 
 	/**
-	 * @var  string  trusted proxy server IPs
-	 */
-	public static $trusted_proxies = array('127.0.0.1', 'localhost', 'localhost.localdomain');
-
-	/**
 	 * @var  Request  main request instance
 	 */
 	public static $initial;
@@ -49,11 +44,11 @@ class Kohana_Request implements HTTP_Request {
 	 * @param   Cache   $cache
 	 * @param   array   $injected_routes an array of routes to use, for testing
 	 * @return  void
-	 * @throws  Request_Exception
+	 * @throws  Kohana_Request_Exception
 	 * @uses    Route::all
 	 * @uses    Route::matches
 	 */
-	public static function factory($uri = TRUE, HTTP_Cache $cache = NULL, $injected_routes = array())
+	public static function factory($uri = TRUE, Cache $cache = NULL, $injected_routes = array())
 	{
 		// If this is the initial request
 		if ( ! Request::$initial)
@@ -106,15 +101,6 @@ class Kohana_Request implements HTTP_Request {
 			}
 			else
 			{
-				if (isset($_SERVER['SERVER_PROTOCOL']))
-				{
-					$protocol = $_SERVER['SERVER_PROTOCOL'];
-				}
-				else
-				{
-					$protocol = HTTP::$protocol;
-				}
-
 				if (isset($_SERVER['REQUEST_METHOD']))
 				{
 					// Use the server request method
@@ -129,7 +115,11 @@ class Kohana_Request implements HTTP_Request {
 				if ( ! empty($_SERVER['HTTPS']) AND filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN))
 				{
 					// This request is secure
-					$secure = TRUE;
+					$protocol = 'https';
+				}
+				else
+				{
+					$protocol = 'http';
 				}
 
 				if (isset($_SERVER['HTTP_REFERER']))
@@ -150,30 +140,17 @@ class Kohana_Request implements HTTP_Request {
 					$requested_with = $_SERVER['HTTP_X_REQUESTED_WITH'];
 				}
 
-				if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-				    AND isset($_SERVER['REMOTE_ADDR'])
-				    AND in_array($_SERVER['REMOTE_ADDR'], Request::$trusted_proxies))
+				if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
 				{
 					// Use the forwarded IP address, typically set when the
 					// client is using a proxy server.
-					// Format: "X-Forwarded-For: client1, proxy1, proxy2"
-					$client_ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-					
-					Request::$client_ip = array_shift($client_ips);
-
-					unset($client_ips);
+					Request::$client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 				}
-				elseif (isset($_SERVER['HTTP_CLIENT_IP'])
-				        AND isset($_SERVER['REMOTE_ADDR'])
-				        AND in_array($_SERVER['REMOTE_ADDR'], Request::$trusted_proxies))
+				elseif (isset($_SERVER['HTTP_CLIENT_IP']))
 				{
 					// Use the forwarded IP address, typically set when the
 					// client is using a proxy server.
-					$client_ips = explode(',', $_SERVER['HTTP_CLIENT_IP']);
-					
-					Request::$client_ip = array_shift($client_ips);
-
-					unset($client_ips);
+					Request::$client_ip = $_SERVER['HTTP_CLIENT_IP'];
 				}
 				elseif (isset($_SERVER['REMOTE_ADDR']))
 				{
@@ -181,7 +158,7 @@ class Kohana_Request implements HTTP_Request {
 					Request::$client_ip = $_SERVER['REMOTE_ADDR'];
 				}
 
-				if ($method !== HTTP_Request::GET)
+				if ($method !== 'GET')
 				{
 					// Ensure the raw body is saved for future use
 					$body = file_get_contents('php://input');
@@ -198,14 +175,13 @@ class Kohana_Request implements HTTP_Request {
 			Request::$initial = $request = new Request($uri, $cache);
 
 			// Store global GET and POST data in the initial request only
-			$request->protocol($protocol)
-				->query($_GET)
-				->post($_POST);
+			$request->query($_GET);
+			$request->post($_POST);
 
-			if (isset($secure))
+			if (isset($protocol))
 			{
-				// Set the request security
-				$request->secure($secure);
+				// Set the request protocol
+				$request->protocol($protocol);
 			}
 
 			if (isset($method))
@@ -366,7 +342,7 @@ class Kohana_Request implements HTTP_Request {
 	 *
 	 * @param   mixed   $value String to return: browser, version, robot, mobile, platform; or array of values
 	 * @return  mixed   requested information, FALSE if nothing is found
-	 * @uses    Kohana::$config
+	 * @uses    Kohana::config
 	 * @uses    Request::$user_agent
 	 */
 	public static function user_agent($value)
@@ -394,7 +370,7 @@ class Kohana_Request implements HTTP_Request {
 		if ($value === 'browser' OR $value == 'version')
 		{
 			// Load browsers
-			$browsers = Kohana::$config->load('user_agents')->browser;
+			$browsers = Kohana::config('user_agents')->browser;
 
 			foreach ($browsers as $search => $name)
 			{
@@ -421,7 +397,7 @@ class Kohana_Request implements HTTP_Request {
 		else
 		{
 			// Load the search group for this type
-			$group = Kohana::$config->load('user_agents')->$value;
+			$group = Kohana::config('user_agents')->$value;
 
 			foreach ($group as $search => $name)
 			{
@@ -651,11 +627,6 @@ class Kohana_Request implements HTTP_Request {
 	protected $_protocol;
 
 	/**
-	 * @var  boolean
-	 */
-	protected $_secure = FALSE;
-
-	/**
 	 * @var  string  referring URL
 	 */
 	protected $_referrer;
@@ -745,14 +716,14 @@ class Kohana_Request implements HTTP_Request {
 	 * be retrieved from the cache.
 	 *
 	 * @param   string  $uri URI of the request
-	 * @param   HTTP_Cache   $cache
+	 * @param   Cache   $cache
 	 * @param   array   $injected_routes an array of routes to use, for testing
 	 * @return  void
-	 * @throws  Request_Exception
+	 * @throws  Kohana_Request_Exception
 	 * @uses    Route::all
 	 * @uses    Route::matches
 	 */
-	public function __construct($uri, HTTP_Cache $cache = NULL, $injected_routes = array())
+	public function __construct($uri, Cache $cache = NULL, $injected_routes = array())
 	{
 		// Initialise the header
 		$this->_header = new HTTP_Header(array());
@@ -784,12 +755,11 @@ class Kohana_Request implements HTTP_Request {
 
 			$processed_uri = Request::process_uri($uri, $this->_injected_routes);
 
-			// Return here rather than throw exception. This will allow
-			// use of Request object even with unmatched route
 			if ($processed_uri === NULL)
 			{
-				$this->_uri = $uri;
-				return;
+				throw new HTTP_Exception_404('Unable to find a route to match the URI: :uri', array(
+					':uri' => $uri,
+				));
 			}
 
 			// Store the URI
@@ -839,17 +809,11 @@ class Kohana_Request implements HTTP_Request {
 			// Store the URI
 			$this->_uri = $uri;
 
-			// Set the security setting if required
-			if (strpos($uri, 'https://') === 0)
-			{
-				$this->secure(TRUE);
-			}
-
 			// Set external state
 			$this->_external = TRUE;
 
 			// Setup the client
-			$this->_client = Request_Client_External::factory(array('cache' => $cache));
+			$this->_client = new Request_Client_External(array('cache' => $cache));
 		}
 	}
 
@@ -866,23 +830,46 @@ class Kohana_Request implements HTTP_Request {
 	}
 
 	/**
-	 * Returns the URI for the current route.
+	 * Generates a relative URI for the current route.
 	 *
-	 *     $request->uri();
+	 *     $request->uri($params);
 	 *
 	 * @param   array   $params  Additional route parameters
 	 * @return  string
 	 * @uses    Route::uri
 	 */
-	public function uri()
+	public function uri(array $params = NULL)
 	{
-		return empty($this->_uri) ? '/' : $this->_uri;
+		if ( ! isset($params['directory']))
+		{
+			// Add the current directory
+			$params['directory'] = $this->directory();
+		}
+
+		if ( ! isset($params['controller']))
+		{
+			// Add the current controller
+			$params['controller'] = $this->controller();
+		}
+
+		if ( ! isset($params['action']))
+		{
+			// Add the current action
+			$params['action'] = $this->action();
+		}
+
+		// Add the current parameters
+		$params += $this->_params;
+
+		$uri = $this->_route->uri($params);
+
+		return $uri;
 	}
 
 	/**
-	 * Create a URL string from the current request. This is a shortcut for:
+	 * Create a URL from the current request. This is a shortcut for:
 	 *
-	 *     echo URL::site($this->request->uri(), $protocol);
+	 *     echo URL::site($this->request->uri($params), $protocol);
 	 *
 	 * @param   array    $params    URI parameters
 	 * @param   mixed    $protocol  protocol string or Request object
@@ -890,10 +877,12 @@ class Kohana_Request implements HTTP_Request {
 	 * @since   3.0.7
 	 * @uses    URL::site
 	 */
-	public function url($protocol = NULL)
+	public function url(array $params = NULL, $protocol = NULL)
 	{
 		// Create a URI with the current route and convert it to a URL
-		return URL::site($this->uri(), $protocol);
+		$url = URL::site($this->uri($params), $protocol);
+
+		return $url;
 	}
 
 	/**
@@ -917,6 +906,27 @@ class Kohana_Request implements HTTP_Request {
 	}
 
 	/**
+	 * Sends the response status and all set headers. The current server
+	 * protocol (HTTP/1.0 or HTTP/1.1) will be used when available. If not
+	 * available, HTTP/1.1 will be used.
+	 *
+	 *     $request->send_headers();
+	 *
+	 * @return  $this
+	 * @uses    Request::$messages
+	 * @deprecated This should not be here, it belongs in\n
+	 * Response::send_headers() where it is implemented correctly.
+	 */
+	public function send_headers()
+	{
+		if ( ! ($response = $this->response()) instanceof Response)
+			return $this;
+
+		$response->send_headers();
+		return $this;
+	}
+
+	/**
 	 * Redirects as the request response. If the URL does not include a
 	 * protocol, it will be converted into a complete URL.
 	 *
@@ -932,29 +942,23 @@ class Kohana_Request implements HTTP_Request {
 	 */
 	public function redirect($url = '', $code = 302)
 	{
-		$referrer = $this->uri();
-
-		if (strpos($referrer, '://') === FALSE)
-		{
-			$referrer = URL::site($referrer, TRUE, Kohana::$index_file);
-		}
-
 		if (strpos($url, '://') === FALSE)
 		{
 			// Make the URI into a URL
-			$url = URL::site($url, TRUE, Kohana::$index_file);
+			$url = URL::site($url, TRUE);
 		}
 
-		if (($response = $this->response()) === NULL)
-		{
-			$response = $this->create_response();
-		}
+		// Redirect
+		$response = $this->create_response();
 
-		echo $response->status($code)
-			->headers('Location', $url)
-			->headers('Referer', $referrer)
-			->send_headers()
-			->body();
+		// Set the response status
+		$response->status($code);
+
+		// Set the location header
+		$response->headers('Location', $url);
+
+		// Send headers
+		$response->send_headers();
 
 		// Stop execution
 		exit;
@@ -1061,20 +1065,15 @@ class Kohana_Request implements HTTP_Request {
 	}
 
 	/**
-	 * Provides access to the [Request_Client].
+	 * Provides readonly access to the [Request_Client],
+	 * useful for accessing the caching methods within the
+	 * request client.
 	 *
 	 * @return  Request_Client
-	 * @return  self
 	 */
-	public function client(Request_Client $client = NULL)
+	public function get_client()
 	{
-		if ($client === NULL)
-			return $this->_client;
-		else
-		{
-			$this->_client = $client;
-			return $this;
-		}
+		return $this->_client;
 	}
 
 	/**
@@ -1114,23 +1113,15 @@ class Kohana_Request implements HTTP_Request {
 	 *     $request->execute();
 	 *
 	 * @return  Response
-	 * @throws  Request_Exception
-	 * @throws  HTTP_Exception_404
+	 * @throws  Kohana_Exception
 	 * @uses    [Kohana::$profiling]
 	 * @uses    [Profiler]
 	 */
 	public function execute()
 	{
-		if ( ! $this->_route instanceof Route)
+		if ( ! $this->_client instanceof Kohana_Request_Client)
 		{
-			throw new HTTP_Exception_404('Unable to find a route to match the URI: :uri', array(
-				':uri' => $this->_uri,
-			));
-		}
-
-		if ( ! $this->_client instanceof Request_Client)
-		{
-			throw new Request_Exception('Unable to execute :uri without a Kohana_Request_Client', array(
+			throw new Kohana_Request_Exception('Unable to execute :uri without a Kohana_Request_Client', array(
 				':uri' => $this->_uri,
 			));
 		}
@@ -1153,19 +1144,6 @@ class Kohana_Request implements HTTP_Request {
 	}
 
 	/**
-	 * Readonly access to the [Request::$_external] property.
-	 * 
-	 *     if ( ! $request->is_external())
-	 *          // This is an internal request
-	 *
-	 * @return  boolean
-	 */
-	public function is_external()
-	{
-		return $this->_external;
-	}
-
-	/**
 	 * Returns whether this is an ajax request (as used by JS frameworks)
 	 *
 	 * @return  boolean
@@ -1185,13 +1163,13 @@ class Kohana_Request implements HTTP_Request {
 	 * exception will be thrown!
 	 *
 	 * @return string
-	 * @throws Request_Exception
+	 * @throws Kohana_Request_Exception
 	 */
 	public function generate_etag()
 	{
 	    if ($this->_response === NULL)
 		{
-			throw new Request_Exception('No response yet associated with request - cannot auto generate resource ETag');
+			throw new Kohana_Request_Exception('No response yet associated with request - cannot auto generate resource ETag');
 		}
 
 		// Generate a unique hash for the response
@@ -1266,8 +1244,8 @@ class Kohana_Request implements HTTP_Request {
 	}
 
 	/**
-	 * Gets or sets the HTTP protocol. If there is no current protocol set,
-	 * it will use the default set in HTTP::$protocol
+	 * Gets or sets the HTTP protocol. The standard protocol to use
+	 * is `http`.
 	 *
 	 * @param   string   $protocol  Protocol to set to the request/response
 	 * @return  mixed
@@ -1277,30 +1255,20 @@ class Kohana_Request implements HTTP_Request {
 		if ($protocol === NULL)
 		{
 			if ($this->_protocol)
+			{
+				// Act as a getter
 				return $this->_protocol;
+			}
 			else
-				return $this->_protocol = HTTP::$protocol;
+			{
+				// Get the default protocol
+				return HTTP::$protocol;
+			}
 		}
 
 		// Act as a setter
-		$this->_protocol = strtoupper($protocol);
-		return $this;
-	}
+		$this->_protocol = strtolower($protocol);
 
-	/**
-	 * Getter/Setter to the security settings for this request. This
-	 * method should be treated as immutable.
-	 *
-	 * @param   boolean   is this request secure?
-	 * @return  mixed
-	 */
-	public function secure($secure = NULL)
-	{
-		if ($secure === NULL)
-			return $this->_secure;
-
-		// Act as a setter
-		$this->_secure = (bool) $secure;
 		return $this;
 	}
 
@@ -1410,17 +1378,6 @@ class Kohana_Request implements HTTP_Request {
 	}
 
 	/**
-	 * Returns the length of the body for use with
-	 * content header
-	 *
-	 * @return  integer
-	 */
-	public function content_length()
-	{
-		return strlen($this->body());
-	}
-
-	/**
 	 * Renders the HTTP_Interaction to a string, producing
 	 *
 	 *  - Protocol
@@ -1433,8 +1390,14 @@ class Kohana_Request implements HTTP_Request {
 	 * @param   boolean  $response  Return the rendered response, else returns the rendered request
 	 * @return  string
 	 */
-	public function render()
+	public function render($response = TRUE)
 	{
+		if ($response)
+		{
+			// Act as a getter
+			return (string) $this->_response;
+		}
+
 		if ( ! $post = $this->post())
 		{
 			$body = $this->body();
@@ -1443,15 +1406,6 @@ class Kohana_Request implements HTTP_Request {
 		{
 			$this->headers('content-type', 'application/x-www-form-urlencoded');
 			$body = http_build_query($post, NULL, '&');
-		}
-
-		// Set the content length
-		$this->headers('content-length', (string) $this->content_length());
-
-		// If Kohana expose, set the user-agent
-		if (Kohana::$expose)
-		{
-			$this->headers('user-agent', 'Kohana Framework '.Kohana::VERSION.' ('.Kohana::CODENAME.')');
 		}
 
 		// Prepare cookies
@@ -1469,7 +1423,7 @@ class Kohana_Request implements HTTP_Request {
 			$this->_header['cookie'] = implode('; ', $cookie_string);
 		}
 
-		$output = $this->method().' '.$this->uri().' '.$this->protocol()."\r\n";
+		$output = $this->method().' '.$this->uri($this->param()).' '.strtoupper($this->protocol()).'/'.HTTP::$version."\n";
 		$output .= (string) $this->_header;
 		$output .= $body;
 

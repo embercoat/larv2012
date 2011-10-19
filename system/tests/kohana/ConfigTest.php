@@ -18,17 +18,30 @@ class Kohana_ConfigTest extends Unittest_TestCase
 {
 
 	/**
+	 * Calling Config::instance() should return the global singleton
+	 * which should persist
+	 *
+	 * @test
+	 * @covers Config::instance
+	 */
+	public function test_instance_returns_singleton_instance()
+	{
+		$this->assertSame(Config::instance(), Config::instance());
+		$this->assertNotSame(new Config, Config::instance());
+	}
+
+	/**
 	 * When a config object is initially created there should be
 	 * no readers attached
 	 *
 	 * @test
 	 * @covers Config
 	 */
-	public function test_initially_there_are_no_sources()
+	public function test_initially_there_are_no_readers()
 	{
 		$config = new Config;
 
-		$this->assertAttributeSame(array(), '_sources', $config);
+		$this->assertAttributeSame(array(), '_readers', $config);
 	}
 
 	/**
@@ -41,11 +54,11 @@ class Kohana_ConfigTest extends Unittest_TestCase
 	public function test_attach_adds_reader_and_returns_this()
 	{
 		$config = new Config;
-		$reader = $this->getMock('Kohana_Config_Reader');
+		$reader = $this->getMock('Config_Reader');
 
 		$this->assertSame($config, $config->attach($reader));
 
-		$this->assertAttributeContains($reader, '_sources', $config);
+		$this->assertAttributeContains($reader, '_readers', $config);
 	}
 
 	/**
@@ -59,15 +72,15 @@ class Kohana_ConfigTest extends Unittest_TestCase
 	{
 		$config  = new Config;
 
-		$reader1 = $this->getMock('Kohana_Config_Reader');
-		$reader2 = $this->getMock('Kohana_Config_Reader');
+		$reader1 = $this->getMock('Config_Reader');
+		$reader2 = $this->getMock('Config_Reader');
 
 		$config->attach($reader1);
 		$config->attach($reader2);
 
 		// Rather than do two assertContains we'll do an assertSame to assert
 		// the order of the readers
-		$this->assertAttributeSame(array($reader2, $reader1), '_sources', $config);
+		$this->assertAttributeSame(array($reader2, $reader1), '_readers', $config);
 
 		// Now we test using the second parameter
 		$config = new Config;
@@ -75,7 +88,7 @@ class Kohana_ConfigTest extends Unittest_TestCase
 		$config->attach($reader1);
 		$config->attach($reader2, TRUE);
 
-		$this->assertAttributeSame(array($reader2, $reader1), '_sources', $config);
+		$this->assertAttributeSame(array($reader2, $reader1), '_readers', $config);
 	}
 
 	/**
@@ -88,13 +101,13 @@ class Kohana_ConfigTest extends Unittest_TestCase
 	public function test_attach_can_add_reader_to_end_of_queue()
 	{
 		$config  = new Config;
-		$reader1 = $this->getMock('Kohana_Config_Reader');
-		$reader2 = $this->getMock('Kohana_Config_Reader');
+		$reader1 = $this->getMock('Config_Reader');
+		$reader2 = $this->getMock('Config_Reader');
 
 		$config->attach($reader1);
 		$config->attach($reader2, FALSE);
 
-		$this->assertAttributeSame(array($reader1, $reader2), '_sources', $config);
+		$this->assertAttributeSame(array($reader1, $reader2), '_readers', $config);
 	}
 
 	/**
@@ -111,20 +124,20 @@ class Kohana_ConfigTest extends Unittest_TestCase
 		// that has already been used then it just re-uses the first's name
 
 		// To get around this we have to specify a totally random name for the second mock object
-		$reader1 = $this->getMock('Kohana_Config_Reader');
-		$reader2 = $this->getMock('Kohana_Config_Reader', array(), array(), 'MY_AWESOME_READER');
+		$reader1 = $this->getMock('Config_Reader');
+		$reader2 = $this->getMock('Config_Reader', array(), array(), 'MY_AWESOME_READER');
 
 		$config->attach($reader1);
 		$config->attach($reader2);
 
 		$this->assertSame($config, $config->detach($reader1));
 
-		$this->assertAttributeNotContains($reader1, '_sources', $config);
-		$this->assertAttributeContains($reader2, '_sources', $config);
+		$this->assertAttributeNotContains($reader1, '_readers', $config);
+		$this->assertAttributeContains($reader2, '_readers', $config);
 
 		$this->assertSame($config, $config->detach($reader2));
 
-		$this->assertAttributeNotContains($reader2, '_sources', $config);
+		$this->assertAttributeNotContains($reader2, '_readers', $config);
 	}
 
 	/**
@@ -136,60 +149,9 @@ class Kohana_ConfigTest extends Unittest_TestCase
 	public function test_detach_returns_this_even_when_reader_dnx()
 	{
 		$config = new Config;
-		$reader = $this->getMock('Kohana_Config_Reader');
+		$reader = $this->getMock('Config_Reader');
 
 		$this->assertSame($config, $config->detach($reader));
-	}
-
-	/**
-	 * If we request a config variable with a dot path then
-	 * Config::load() should load the group and return the requested variable
-	 *
-	 * @test
-	 * @covers Config::load
-	 */
-	public function test_load_can_get_var_from_dot_path()
-	{
-		$config = new Config;
-
-		$reader = $this->getMock('Kohana_Config_Reader', array('load'));
-
-		$reader
-			->expects($this->once())
-			->method('load')
-			->with('beer')
-			->will($this->returnValue(array('stout' => 'Guinness')));
-
-		$config->attach($reader);
-
-		$this->assertSame('Guinness', $config->load('beer.stout'));
-	}
-
-	/**
-	 * If we've already loaded a config group then the correct variable
-	 * should be returned if we use the dot path notation to to request 
-	 * a var
-	 *
-	 * @test
-	 * @covers Config::load
-	 */
-	public function test_load_can_get_var_from_dot_path_for_loaded_group()
-	{
-		$config = new Config;
-
-		$reader = $this->getMock('Kohana_Config_Reader', array('load'));
-
-		$reader
-			->expects($this->once())
-			->method('load')
-			->with('beer')
-			->will($this->returnValue(array('stout' => 'Guinness')));
-
-		$config->attach($reader);
-
-		$config->load('beer');
-
-		$this->assertSame('Guinness', $config->load('beer.stout'));
 	}
 
 	/**
@@ -200,7 +162,7 @@ class Kohana_ConfigTest extends Unittest_TestCase
 	 * @covers Config::load
 	 * @expectedException Kohana_Exception
 	 */
-	public function test_load_throws_exception_if_there_are_no_sources()
+	public function test_load_throws_exception_if_there_are_no_readers()
 	{
 		// The following code should throw an exception and phpunit will catch / handle it
 		// (see the @expectedException doccomment)
@@ -210,196 +172,74 @@ class Kohana_ConfigTest extends Unittest_TestCase
 	}
 
 	/**
-	 * Provides test data for test_load_throws_exception_if_no_group_is_given()
-	 *
-	 * @return array
-	 */
-	public function provider_load_throws_exception_if_no_group_is_given()
-	{
-		return array(
-			array(NULL),
-			array(''),
-			array(array()),
-			array(array('foo' => 'bar')),
-			array(new StdClass),
-		);
-	}
-
-	/**
-	 * If an invalid group name is specified then an exception should be thrown.
-	 *
-	 * Invalid means it's either a non-string value, or empty
-	 *
-	 * @test
-	 * @dataProvider provider_load_throws_exception_if_no_group_is_given
-	 * @covers Config::load
-	 * @expectedException Kohana_Exception
-	 */
-	public function test_load_throws_exception_if_invalid_group($value)
-	{
-		$config = new Kohana_Config;
-
-		$reader = $this->getMock('Kohana_Config_Reader');
-
-		$config->attach($reader);
-
-		$config->load($value);
-	}
-
-	/**
-	 * Make sure that _write_config() passes the changed configuration to all 
-	 * writers in the queue
-	 *
-	 * @test
-	 * @covers Kohana_Config
-	 */
-	public function test_write_config_passes_changed_config_to_all_writers()
-	{
-		$config = new Kohana_Config;
-
-		$reader1 = $this->getMock('Kohana_Config_Reader');
-		$writer1 = $this->getMock('Kohana_Config_Writer', array('write'));
-		$writer2 = $this->getMock('Kohana_Config_Writer', array('write'));
-
-		$writer1
-			->expects($this->once())
-			->method('write')
-			->with('some_group', 'key', 'value');
-
-		$writer2
-			->expects($this->once())
-			->method('write')
-			->with('some_group', 'key', 'value');
-
-		$config->attach($reader1)->attach($writer1)->attach($writer2);
-
-		$config->_write_config('some_group', 'key', 'value');
-	}
-
-	/**
-	 * Config sources are stored in a stack, make sure that config at the bottom
-	 * of the stack is overriden by config at the top
+	 * When load() is called it should interrogate each reader in turn until a match
+	 * is found
 	 *
 	 * @test
 	 * @covers Config::load
 	 */
-	public function test_config_is_loaded_from_top_to_bottom_of_stack()
+	public function test_load_interrogates_each_reader_until_group_found()
 	{
-		$group_name =  'lolumns';
+		$config       = new Config;
+		$config_group = 'groupy';
 
-		$reader1 = $this->getMock('Kohana_Config_Reader', array('load'), array(), 'Unittest_Config_Reader_1');
-		$reader2 = $this->getMock('Kohana_Config_Reader', array('load'), array(), 'Unittest_Config_Reader_2');
-
+		$reader1 = $this->getMock('Config_Reader', array('load'));
 		$reader1
 			->expects($this->once())
 			->method('load')
-			->with($group_name)
-			->will($this->returnValue(array('foo' => 'bar', 'kohana' => 'awesome', 'life' => array('normal', 'fated'))));
+			->with($config_group)
+			->will($this->returnValue(FALSE));
 
+		$reader2 = $this->getMock('Config_Reader', array('load'));
 		$reader2
 			->expects($this->once())
 			->method('load')
-			->with($group_name)
-			->will($this->returnValue(array('kohana' => 'sweet', 'music' => 'tasteful', 'life' => array('extraordinary', 'destined'))));
+			->with($config_group)
+			->will($this->returnValue($reader2));
 
-		$config = new Kohana_Config;
+		$reader3 = $this->getMock('Config_Reader', array('load'));
+		$reader3->expects($this->never())->method('load');
 
-		// Attach $reader1 at the "top" and reader2 at the "bottom"
-		$config->attach($reader1)->attach($reader2, FALSE);
+		$config->attach($reader1, FALSE);
+		$config->attach($reader2, FALSE);
+		$config->attach($reader3, FALSE);
 
-		$this->assertSame(
-			array(
-				'kohana' => 'awesome',
-				'music'  => 'tasteful',
-				'life'   => array(
-					'extraordinary',
-					'destined',
-					'normal',
-					'fated',
-				),
-				'foo'    => 'bar',
-			),
-			$config->load($group_name)->as_array()
-		);
+		// By asserting a return type we're making the test a little less brittle / less likely
+		// to break due to minor modifications
+		$this->assertInstanceOf('Config_Reader', $config->load($config_group));
 	}
 
 	/**
-	 * load() should keep a record of what config groups have been requested and if
-	 * a group is requested more than once the first instance should be returned
+	 * Calling load() with a group that doesn't exist, should get it to use the last reader
+	 * to create a new config group
 	 *
 	 * @test
 	 * @covers Config::load
 	 */
-	public function test_load_reuses_config_groups()
+	public function test_load_returns_new_config_group_if_one_dnx()
 	{
-		$reader = $this->getMock('Kohana_Config_Reader', array('load'));
-		$reader
-			->expects($this->once())
-			->method('load')
-			->with('something')
-			->will($this->returnValue(array()));
+		$config  = new Config;
+		$group   = 'my_group';
 
-		$config = new Kohana_Config;
+		$reader1 = $this->getMock('Config_Reader');
+		$reader2 = $this->getMock('Config_Reader', array('load'), array(), 'Config_Waffles');
 
-		$config->attach($reader);
-
-		$group = $config->load('something');
-
-		$this->assertSame($group, $config->load('something'));
-	}
-
-	/**
-	 * When we call copy() we expect it to copy the merged config to all writers
-	 *
-	 * @TODO This test sucks due to limitations in the phpunit mock generator.  MAKE THIS AWESOME AGAIN!
-	 * @test
-	 * @covers Kohana_Config::copy
-	 */
-	public function test_copy_copies_merged_config_to_all_writers()
-	{
-		$config = new Kohana_Config;
-
-		$reader1 = $this->getMock('Kohana_Config_Reader', array('load'));
-		$reader2 = $this->getMock('Kohana_Config_Reader', array('load'));
-
-		$reader1
-			->expects($this->once())
-			->method('load')
-			->with('something')
-			->will($this->returnValue(array('pie' => 'good', 'kohana' => 'awesome')));
-
+		// This is a slightly hacky way of doing it, but it works
 		$reader2
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('load')
-			->with('something')
-			->will($this->returnValue(array('kohana' => 'good')));
+			->with($group)
+			->will($this->onConsecutiveCalls(
+				$this->returnValue(FALSE),
+				$this->returnValue(clone $reader2)
+			));
 
-		$writer1 = $this->getMock('Kohana_Config_Writer', array('write'));
-		$writer2 = $this->getMock('Kohana_Config_Writer', array('write'));
+		$config->attach($reader1)->attach($reader2);
 
-		// Due to crazy limitations in phpunit's mocking engine we have to be fairly
-		// liberal here as to what order we receive the config items
-		// Good news is that order shouldn't matter *yay*
-		//
-		// Now save your eyes and skip the next... 13 lines!
-		$key = $this->logicalOr('pie', 'kohana');
-		$val = $this->logicalOr('good', 'awesome');
+		$new_config = $config->load('my_group');
 
-		$writer1
-			->expects($this->exactly(2))
-			->method('write')
-			->with('something', clone $key, clone $val);
-
-		$writer2
-			->expects($this->exactly(2))
-			->method('write')
-			->with('something', clone $key, clone $val);
-
-		$config
-			->attach($reader1)->attach($reader2, FALSE)
-			->attach($writer1)->attach($writer2);
-
-		// Now let's get this thing going!
-		$config->copy('something');
+		$this->assertInstanceOf('Config_Waffles', $new_config);
+		// Slightly taboo, testing a different api!!
+		$this->assertSame(array(), $new_config->as_array());
 	}
 }

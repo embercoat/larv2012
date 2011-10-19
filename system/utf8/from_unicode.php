@@ -36,10 +36,8 @@ function _from_unicode($arr)
 		elseif ($arr[$k] >= 0xD800 AND $arr[$k] <= 0xDFFF)
 		{
 			// Found a surrogate
-			throw new UTF8_Exception("UTF8::from_unicode: Illegal surrogate at index: ':index', value: ':value'", array(
-				':index' => $k,
-				':value' => $arr[$k],
-			));
+			trigger_error('UTF8::from_unicode: Illegal surrogate at index: '.$k.', value: '.$arr[$k], E_USER_WARNING);
+			return FALSE;
 		}
 		// 3 byte sequence
 		elseif ($arr[$k] <= 0xffff)
@@ -59,10 +57,8 @@ function _from_unicode($arr)
 		// Out of range
 		else
 		{
-			throw new UTF8_Exception("UTF8::from_unicode: Codepoint out of Unicode range at index: ':index', value: ':value'", array(
-				':index' => $k,
-				':value' => $arr[$k],
-			));
+			trigger_error('UTF8::from_unicode: Codepoint out of Unicode range at index: '.$k.', value: '.$arr[$k], E_USER_WARNING);
+			return FALSE;
 		}
 	}
 

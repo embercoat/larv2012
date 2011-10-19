@@ -176,16 +176,6 @@ class Kohana_Session_Database extends Session {
 		return TRUE;
 	}
 
-	/**
-	 * @return  bool
-	 */
-	protected function _restart()
-	{
-		$this->_regenerate();
-
-		return TRUE;
-	}
-
 	protected function _destroy()
 	{
 		if ($this->_update_id === NULL)

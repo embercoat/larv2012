@@ -16,14 +16,14 @@
 class Kohana_Core {
 
 	// Release version and codename
-	const VERSION  = '3.2.0';
-	const CODENAME = 'Kolibri';
+	const VERSION  = '3.1.3.1';
+	const CODENAME = 'araea';
 
 	// Common environment type constants for consistency and convenience
-	const PRODUCTION  = 10;
-	const STAGING     = 20;
-	const TESTING     = 30;
-	const DEVELOPMENT = 40;
+	const PRODUCTION  = 1;
+	const STAGING     = 2;
+	const TESTING     = 3;
+	const DEVELOPMENT = 4;
 
 	// Security check that is added to all generated PHP files
 	const FILE_SECURITY = '<?php defined(\'SYSPATH\') or die(\'No direct script access.\');';
@@ -336,7 +336,7 @@ class Kohana_Core {
 		Kohana::$log = Log::instance();
 
 		// Load the config
-		Kohana::$config = new Kohana_Config;
+		Kohana::$config = Config::instance();
 	}
 
 	/**
@@ -539,10 +539,7 @@ class Kohana_Core {
 			else
 			{
 				// This module is invalid, remove it
-				throw new Kohana_Exception('Attempted to load an invalid or missing module \':module\' at \':path\'', array(
-					':module' => $name,
-					':path'   => Debug::path($path),
-				));
+				unset($modules[$name]);
 			}
 		}
 
@@ -790,6 +787,48 @@ class Kohana_Core {
 	public static function load($file)
 	{
 		return include $file;
+	}
+
+	/**
+	 * Returns the configuration array for the requested group.  See
+	 * [configuration files](kohana/files/config) for more information.
+	 *
+	 *     // Get all the configuration in config/database.php
+	 *     $config = Kohana::config('database');
+	 *
+	 *     // Get only the default connection configuration
+	 *     $default = Kohana::config('database.default')
+	 *
+	 *     // Get only the hostname of the default connection
+	 *     $host = Kohana::config('database.default.connection.hostname')
+	 *
+	 * @param   string   group name
+	 * @return  Config
+	 */
+	public static function config($group)
+	{
+		static $config;
+
+		if (strpos($group, '.') !== FALSE)
+		{
+			// Split the config group and path
+			list ($group, $path) = explode('.', $group, 2);
+		}
+
+		if ( ! isset($config[$group]))
+		{
+			// Load the config group into the cache
+			$config[$group] = Kohana::$config->load($group);
+		}
+
+		if (isset($path))
+		{
+			return Arr::path($config[$group], $path, NULL, '.');
+		}
+		else
+		{
+			return $config[$group];
+		}
 	}
 
 	/**

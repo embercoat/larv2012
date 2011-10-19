@@ -65,7 +65,7 @@ class Kohana_Log_File extends Log_Writer {
 
 		if ( ! is_dir($directory))
 		{
-			// Create the monthly directory
+			// Create the yearly directory
 			mkdir($directory, 02777);
 
 			// Set permissions (must be manually set to fix umask issues)

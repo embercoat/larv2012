@@ -45,12 +45,11 @@ class Kohana_Debug {
 	 *
 	 * @param   mixed    variable to dump
 	 * @param   integer  maximum length of strings
-	 * @param   integer  recursion limit
 	 * @return  string
 	 */
-	public static function dump($value, $length = 128, $level_recursion = 10)
+	public static function dump($value, $length = 128)
 	{
-		return Debug::_dump($value, $length, $level_recursion);
+		return Debug::_dump($value, $length);
 	}
 
 	/**
@@ -58,11 +57,10 @@ class Kohana_Debug {
 	 *
 	 * @param   mixed    variable to dump
 	 * @param   integer  maximum length of strings
-	 * @param   integer  recursion limit
-	 * @param   integer  current recursion level (internal usage only!)
+	 * @param   integer  recursion level (internal)
 	 * @return  string
 	 */
-	protected static function _dump( & $var, $length = 128, $limit = 10, $level = 0)
+	protected static function _dump( & $var, $length = 128, $level = 0)
 	{
 		if ($var === NULL)
 		{
@@ -146,7 +144,7 @@ class Kohana_Debug {
 			{
 				$output[] = "(\n$space$s*RECURSION*\n$space)";
 			}
-			elseif ($level < $limit)
+			elseif ($level < 5)
 			{
 				$output[] = "<span>(";
 
@@ -159,7 +157,7 @@ class Kohana_Debug {
 						$key = '"'.htmlspecialchars($key, ENT_NOQUOTES, Kohana::$charset).'"';
 					}
 
-					$output[] = "$space$s$key => ".Debug::_dump($val, $length, $limit, $level + 1);
+					$output[] = "$space$s$key => ".Debug::_dump($val, $length, $level + 1);
 				}
 				unset($var[$marker]);
 
@@ -196,7 +194,7 @@ class Kohana_Debug {
 			{
 				$output[] = "{\n$space$s*RECURSION*\n$space}";
 			}
-			elseif ($level < $limit)
+			elseif ($level < 10)
 			{
 				$output[] = "<code>{";
 
@@ -216,7 +214,7 @@ class Kohana_Debug {
 						$access = '<small>public</small>';
 					}
 
-					$output[] = "$space$s$access $key => ".Debug::_dump($val, $length, $limit, $level + 1);
+					$output[] = "$space$s$access $key => ".Debug::_dump($val, $length, $level + 1);
 				}
 				unset($objects[$hash]);
 

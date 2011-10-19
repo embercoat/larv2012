@@ -340,19 +340,12 @@ class Kohana_Route {
 	 *         'controller' => 'welcome',
 	 *         'action'     => 'index'
 	 *     ));
-	 * 
-	 * If no parameter is passed, this method will act as a getter.
 	 *
 	 * @param   array  key values
-	 * @return  $this or array
+	 * @return  $this
 	 */
 	public function defaults(array $defaults = NULL)
 	{
-		if ($defaults === NULL)
-		{
-			return $this->_defaults;
-		}
-
 		$this->_defaults = $defaults;
 
 		return $this;

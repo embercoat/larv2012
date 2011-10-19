@@ -67,6 +67,5 @@ return array(
 		'verse' => 'verses',
 		'hero' => 'heroes',
 		'purchase' => 'purchases',
-		'expense' => 'expenses',
 	),
 );

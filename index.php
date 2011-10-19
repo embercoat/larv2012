@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The directory in which your application specific resources are located.
  * The application directory must contain the bootstrap.php file.
@@ -100,6 +99,7 @@ if ( ! defined('KOHANA_START_MEMORY'))
 
 // Bootstrap the application
 require APPPATH.'bootstrap'.EXT;
+session_start();
 
 /**
  * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].

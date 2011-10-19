@@ -1,79 +1,49 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * [Request_Client_External] provides a wrapper for all external request
- * processing. This class should be extended by all drivers handling external
- * requests.
- * 
- * Supported out of the box:
- *  - Curl (default)
- *  - PECL HTTP
- *  - Streams
- * 
- * To select a specific external driver to use as the default driver, set the
- * following property within the Application bootstrap. Alternatively, the
- * client can be injected into the request object.
- * 
- * @example
- * 
- *       // In application bootstrap
- *       Request_Client_External::$client = 'Request_Client_Stream';
- * 
- *       // Add client to request
- *       $request = Request::factory('http://some.host.tld/foo/bar')
- *           ->client(Request_Client_External::factory('Request_Client_HTTP));
- * 
+ *
  * @package    Kohana
  * @category   Base
  * @author     Kohana Team
  * @copyright  (c) 2008-2011 Kohana Team
  * @license    http://kohanaframework.org/license
- * @uses       [PECL HTTP](http://php.net/manual/en/book.http.php)
  */
-abstract class Kohana_Request_Client_External extends Request_Client {
+class Kohana_Request_Client_External extends Request_Client {
 
 	/**
-	 * Use:
-	 *  - Request_Client_Curl (default)
-	 *  - Request_Client_HTTP
-	 *  - Request_Client_Stream
-	 * 
-	 * @var     string    defines the external client to use by default
+	 * @var     array     internal header cache for curl processing
+	 * @todo    remove in PHP 5.3, use Lambda instead
 	 */
-	public static $client = 'Request_Client_Curl';
+	protected static $_processed_headers = array();
 
 	/**
-	 * Factory method to create a new Request_Client_External object based on
-	 * the client name passed, or defaulting to Request_Client_External::$client
-	 * by default.
-	 * 
-	 * Request_Client_External::$client can be set in the application bootstrap.
+	 * Parses the returned headers from the remote
+	 * request
 	 *
-	 * @param   array     parameters to pass to the client
-	 * @param   string    external client to use
-	 * @return  Request_Client_External
-	 * @throws  Request_Exception
+	 * @param   resource $remote  The curl resource
+	 * @param   string   $header  The full header string
+	 * @return  int
 	 */
-	public static function factory(array $params = array(), $client = NULL)
+	protected static function _parse_headers($remote, $header)
 	{
-		if ($client === NULL)
+		$headers = array();
+
+		if (preg_match_all('/(\w[^\s:]*):[ ]*([^\r\n]*(?:\r\n[ \t][^\r\n]*)*)/', $header, $matches))
 		{
-			$client = Request_Client_External::$client;
+			foreach ($matches[0] as $key => $value)
+				$headers[$matches[1][$key]] = $matches[2][$key];
 		}
 
-		$client = new $client($params);
-
-		if ( ! $client instanceof Request_Client_External)
+		// If there are headers to apply
+		if ($headers)
 		{
-			throw new Request_Exception('Selected client is not a Request_Client_External object.');
+			Request_Client_External::$_processed_headers += $headers;
 		}
 
-		return $client;
+		return strlen($header);
 	}
 
 	/**
-	 * @var     array     curl options
-	 * @see     [http://www.php.net/manual/en/function.curl-setopt.php]
-	 * @see     [http://www.php.net/manual/en/http.request.options.php]
+	 * @var     array     additional curl options to use on execution
 	 */
 	protected $_options = array();
 
@@ -98,8 +68,12 @@ abstract class Kohana_Request_Client_External extends Request_Client {
 	 * @uses    [Kohana::$profiling]
 	 * @uses    [Profiler]
 	 */
-	public function execute_request(Request $request)
+	public function execute(Request $request)
 	{
+		// Check for cache existance
+		if ($this->_cache instanceof Cache AND ($response = $this->cache_response($request)) instanceof Response)
+			return $response;
+
 		if (Kohana::$profiling)
 		{
 			// Set the benchmark name
@@ -126,15 +100,23 @@ abstract class Kohana_Request_Client_External extends Request_Client {
 				->headers('content-type', 'application/x-www-form-urlencoded');
 		}
 
-		// If Kohana expose, set the user-agent
-		if (Kohana::$expose)
-		{
-			$request->headers('user-agent', 'Kohana Framework '.Kohana::VERSION.' ('.Kohana::CODENAME.')');
-		}
-
 		try
 		{
-			$response = $this->_send_message($request);
+			// If PECL_HTTP is present, use extension to complete request
+			if (extension_loaded('http'))
+			{
+				$this->_http_execute($request);
+			}
+			// Else if CURL is present, use extension to complete request
+			elseif (extension_loaded('curl'))
+			{
+				$this->_curl_execute($request);
+			}
+			// Else use the sloooow method
+			else
+			{
+				$this->_native_execute($request);
+			}
 		}
 		catch (Exception $e)
 		{
@@ -160,8 +142,14 @@ abstract class Kohana_Request_Client_External extends Request_Client {
 			Profiler::stop($benchmark);
 		}
 
+		// Cache the response if cache is available
+		if ($this->_cache instanceof Cache)
+		{
+			$this->cache_response($request, $request->response());
+		}
+
 		// Return the response
-		return $response;
+		return $request->response();
 	}
 
 	/**
@@ -181,7 +169,7 @@ abstract class Kohana_Request_Client_External extends Request_Client {
 		{
 			$this->_options = $key;
 		}
-		elseif ($value === NULL)
+		elseif ( ! $value)
 		{
 			return Arr::get($this->_options, $key);
 		}
@@ -194,12 +182,246 @@ abstract class Kohana_Request_Client_External extends Request_Client {
 	}
 
 	/**
-	 * Sends the HTTP message [Request] to a remote server and processes
-	 * the response.
+	 * Execute the request using the PECL HTTP extension. (recommended)
 	 *
-	 * @param   Request   request to send
+	 * @param   Request   $request Request to execute
 	 * @return  Response
 	 */
-	abstract protected function _send_message(Request $request);
+	protected function _http_execute(Request $request)
+	{
+		$http_method_mapping = array(
+			HTTP_Request::GET     => HTTPRequest::METH_GET,
+			HTTP_Request::HEAD    => HTTPRequest::METH_HEAD,
+			HTTP_Request::POST    => HTTPRequest::METH_POST,
+			HTTP_Request::PUT     => HTTPRequest::METH_PUT,
+			HTTP_Request::DELETE  => HTTPRequest::METH_DELETE,
+			HTTP_Request::OPTIONS => HTTPRequest::METH_OPTIONS,
+			HTTP_Request::TRACE   => HTTPRequest::METH_TRACE,
+			HTTP_Request::CONNECT => HTTPRequest::METH_CONNECT,
+		);
 
+		// Create an http request object
+		$http_request = new HTTPRequest($request->uri(), $http_method_mapping[$request->method()]);
+
+		if ($this->_options)
+		{
+			// Set custom options
+			$http_request->setOptions($this->_options);
+		}
+
+		// Set headers
+		$http_request->setHeaders($request->headers()->getArrayCopy());
+
+		// Set cookies
+		$http_request->setCookies($request->cookie());
+
+		// Set the body
+		$http_request->setBody($request->body());
+
+		// Set the query
+		$http_request->setQueryData($request->query());
+
+		try
+		{
+			$http_request->send();
+		}
+		catch (HTTPRequestException $e)
+		{
+			throw new Kohana_Request_Exception($e->getMessage());
+		}
+		catch (HTTPMalformedHeaderException $e)
+		{
+			throw new Kohana_Request_Exception($e->getMessage());
+		}
+		catch (HTTPEncodingException $e)
+		{
+			throw new Kohana_Request_Exception($e->getMessage());
+		}
+
+		// Create the response
+		$response = $request->create_response();
+
+		// Build the response
+		$response->status($http_request->getResponseCode())
+			->headers($http_request->getResponseHeader())
+			->cookie($http_request->getResponseCookies())
+			->body($http_request->getResponseBody());
+
+		return $response;
+	}
+
+	/**
+	 * Execute the request using the CURL extension. (recommended)
+	 *
+	 * @param   Request   $request  Request to execute
+	 * @return  Response
+	 */
+	protected function _curl_execute(Request $request)
+	{
+		// Reset the headers
+		Request_Client_External::$_processed_headers = array();
+
+		// Set the request method
+		$options[CURLOPT_CUSTOMREQUEST] = $request->method();
+
+		// Set the request body. This is perfectly legal in CURL even
+		// if using a request other than POST. PUT does support this method
+		// and DOES NOT require writing data to disk before putting it, if
+		// reading the PHP docs you may have got that impression. SdF
+		$options[CURLOPT_POSTFIELDS] = $request->body();
+
+		// Process headers
+		if ($headers = $request->headers())
+		{
+			$http_headers = array();
+
+			foreach ($headers as $key => $value)
+			{
+				$http_headers[] = $key.': '.$value;
+			}
+
+			$options[CURLOPT_HTTPHEADER] = $http_headers;
+		}
+
+		// Process cookies
+		if ($cookies = $request->cookie())
+		{
+			$options[CURLOPT_COOKIE] = http_build_query($cookies, NULL, '; ');
+		}
+
+		// The transfer must always be returned
+		$options[CURLOPT_RETURNTRANSFER] = TRUE;
+
+		// Apply any additional options set to Request_Client_External::$_options
+		$options += $this->_options;
+
+		$uri = $request->uri();
+
+		if ($query = $request->query())
+		{
+			$uri .= '?'.http_build_query($query, NULL, '&');
+		}
+
+		// Open a new remote connection
+		$curl = curl_init($uri);
+
+		// Set connection options
+		if ( ! curl_setopt_array($curl, $options))
+		{
+			throw new Kohana_Request_Exception('Failed to set CURL options, check CURL documentation: :url',
+				array(':url' => 'http://php.net/curl_setopt_array'));
+		}
+
+		// Get the response body
+		$body = curl_exec($curl);
+
+		// Get the response information
+		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+		if ($body === FALSE)
+		{
+			$error = curl_error($curl);
+		}
+
+		// Close the connection
+		curl_close($curl);
+
+		if (isset($error))
+		{
+			throw new Kohana_Request_Exception('Error fetching remote :url [ status :code ] :error',
+				array(':url' => $request->url(), ':code' => $code, ':error' => $error));
+		}
+
+		// Create response
+		$response = $request->create_response();
+
+		$response->status($code)
+			->headers(Request_Client_External::$_processed_headers)
+			->body($body);
+
+		return $response;
+	}
+
+	/**
+	 * Execute the request using PHP stream. (not recommended)
+	 *
+	 * @param   Request   $request  Request to execute
+	 * @return  Response
+	 */
+	protected function _native_execute(Request $request)
+	{
+		// Reset the headers
+		Request_Client_External::$_processed_headers = array();
+
+		// Calculate stream mode
+		$mode = ($request->method() === HTTP_Request::GET) ? 'r' : 'r+';
+
+		// Process cookies
+		if ($cookies = $request->cookie())
+		{
+			$request->headers('cookie', http_build_query($cookies, NULL, '; '));
+		}
+
+		// Get the message body
+		$body = $request->body();
+
+		// Set the content length
+		$request->headers('content-length', strlen($body));
+
+		// Create the context
+		$options = array(
+			$request->protocol() => array(
+				'method'     => $request->method(),
+				'header'     => (string) $request->headers(),
+				'content'    => $body,
+				'user-agent' => 'Kohana Framework '.Kohana::VERSION.' ('.Kohana::CODENAME.')'
+			)
+		);
+
+		// Create the context stream
+		$context = stream_context_create($options);
+
+		stream_context_set_option($context, $this->_options);
+
+		$uri = $request->uri();
+
+		if ($query = $request->query())
+		{
+			$uri .= '?'.http_build_query($query, NULL, '&');
+		}
+
+		$stream = fopen($uri, $mode, FALSE, $context);
+
+		$meta_data = stream_get_meta_data($stream);
+
+		// Get the HTTP response code
+		$http_response = array_shift($meta_data['wrapper_data']);
+
+		if (preg_match_all('/(\w+\/\d\.\d) (\d{3})/', $http_response, $matches) !== FALSE)
+		{
+			$protocol = $matches[1][0];
+			$status   = (int) $matches[2][0];
+		}
+		else
+		{
+			$protocol = NULL;
+			$status   = NULL;
+		}
+
+		// Process headers
+		array_map(array('Request_Client_External', '_parse_headers'), array(), $meta_data['wrapper_data']);
+
+		// Create a response
+		$response = $request->create_response();
+
+		$response->status($status)
+			->protocol($protocol)
+			->headers(Request_Client_External::$_processed_headers)
+			->body(stream_get_contents($stream));
+
+		// Close the stream after use
+		fclose($stream);
+
+		return $response;
+	}
 } // End Kohana_Request_Client_External

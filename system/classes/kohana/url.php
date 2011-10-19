@@ -45,7 +45,7 @@ class Kohana_URL {
 		if ($protocol instanceof Request)
 		{
 			// Use the current protocol
-			list($protocol) = explode('/', strtolower($protocol->protocol()));
+			$protocol = $protocol->protocol();
 		}
 
 		if ( ! $protocol)

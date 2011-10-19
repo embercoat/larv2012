@@ -11,7 +11,7 @@
  * @copyright  (c) 2008-2011 Kohana Team
  * @license    http://kohanaphp.com/license
  */
-interface Kohana_HTTP_Request extends HTTP_Message {
+interface Kohana_HTTP_Request extends HTTP_Interaction {
 
 	// HTTP Methods
 	const GET       = 'GET';
@@ -41,7 +41,7 @@ interface Kohana_HTTP_Request extends HTTP_Message {
 	 * @param   array    $params  Optional parameters to include in uri generation
 	 * @return  string
 	 */
-	public function uri();
+	public function uri(array $params = array());
 
 	/**
 	 * Gets or sets HTTP query string.
