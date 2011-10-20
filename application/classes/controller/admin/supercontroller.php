@@ -39,7 +39,6 @@ class Controller_Admin_SuperController extends Kohana_Controller {
         $this->mainView = View::factory('admin/main');
     	$this->mainView->content = $this->content;
 		
-    	$this->css[] = '/css/adminstyle.css';
         $this->mainView->css = $this->css;
         $this->mainView->js = $this->js;
         

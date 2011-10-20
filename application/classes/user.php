@@ -68,18 +68,22 @@ class User{
 	 * @param string password
 	 * @return int
 	 */
-    public static function create_user($fname, $lname, $username, $password){
-        return DB::insert('user', array('fname', 'lname', 'username', 'password', 'accesskey', 'acceptTos'))
+    public static function create_user($fname, $lname, $username, $password, $email,$program, $telephone){
+        $query = DB::insert('user', array('fname', 'lname', 'username', 'password', 'phone', 'email', 'programId', 'acceptTos'))
                             ->values(
                                 array(
-                                    'fname' => $fname,
-                                    'lname' => $lname,
-                                    'username' => $username,
-                                    'password' => self::encrypt_password($password),
-                                    'acceptTos' => 1
+                                    $fname,
+                                    $lname,
+                                    $username,
+                                	self::encrypt_password($password),
+                                	$telephone,
+                                	$email,
+                                	$program,
+                                    1
                                 )
-                             )
-                            ->execute();
+                             );
+//		var_dump((string)$query);
+		return $query->execute();
     }
     
     /**
@@ -213,9 +217,9 @@ class User{
 	 * @return bool
 	 */
     function isAdmin(){
-        if($this->logged_in()) {
+        if($this->logged_in() && $this->user_data['usertype'] == 3)
             return true;
-        } else 
+        else 
             return false;
     }
     

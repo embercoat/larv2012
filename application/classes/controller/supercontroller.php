@@ -21,6 +21,10 @@ class Controller_SuperController extends Kohana_Controller {
 	 * 
 	 */
     public function before(){
+        $this->session = Session::instance();
+    	if($this->session->get('user') === NULL){
+    		$this->session->set('user', user::instance());
+    	}
         Session::instance();
     }
     /**

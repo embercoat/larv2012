@@ -7,7 +7,7 @@ html, body{
 	height: 20px;
 }
 #container {
-	min-height: 600px;
+	height: 99%
 }
 #menu {
 	border: 1px solid black;
@@ -21,4 +21,7 @@ html, body{
 	/*float: left;*/
 	width: 100%;
 	height: 100%;
+}
+.preHidden {
+	display: none;
 }

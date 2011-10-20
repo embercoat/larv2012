@@ -28,7 +28,7 @@
                     echo '<script type="text/javascript" src="'.$j.'">1;</script>'."\r\n";
         ?>
         <script type="text/javascript" src="/js/main.js">1;</script>
-        <? if(!isset($_SESSION['user']) || !$_SESSION['user']->logged_in()) { ?>
+        <? if((!isset($_SESSION['user']) || !$_SESSION['user']->logged_in()) and false) { ?>
         <script type="text/javascript">
             $(document).ready(function(){
     	        document.loginform.textbox_username.focus();
@@ -46,9 +46,10 @@
 			<?=View::factory('menu'); ?>
 		</div>
 		<div id="mainContent">
-		 <?=$content; ?>
+	 		<?=$content; ?>
 		</div>
 	</div>
 </div>
+<?=View::Factory('stats'); ?>
 </body>
 </html>

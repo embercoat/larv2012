@@ -5,7 +5,7 @@
 		<title>LARV</title> 
 		<style type="text/css">
 			@import url('/css/resethtml5.css');
-			@import url('/css/style.css');
+			@import url('/css/adminstyle.css');
 			@import url('/css/form.css');
 <?php
 	if(isset($css))
@@ -28,7 +28,15 @@
 	</div>
 	<div id="container">
 		<div id="menu">
-			Menyn!
+			<ul>
+				<li><a href="/admin/news/">Nyheter</a></li>
+				<li><a href="/admin/news/edit">Skriv</a></li>
+			</ul>
+			<ul>
+				<li><a href="/admin/data/">Data</a></li>
+				<li><a href="/admin/data/program">Program</a></li>
+			</ul>
+			
 		</div>
 		<div id="content">
 			<?=$content; ?>

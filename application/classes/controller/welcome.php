@@ -4,7 +4,7 @@ class Controller_Welcome extends Controller_SuperController {
 
 	public function action_index()
 	{
-		$this->content = "maincontent";
+		$this->content = View::factory('news');
 	}
 
 } // End Welcome
