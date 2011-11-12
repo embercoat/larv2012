@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Info extends Controller_SuperController {
-	private $name = 'info';
+class Controller_OmLarv extends Controller_SuperController {
+	private $name = 'omlarv';
 
 	public function action_index()
 	{

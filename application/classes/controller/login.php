@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Admin_Login extends Kohana_Controller{
+class Controller_Login extends Kohana_Controller{
 
 	public function before(){
 		$this->session = Session::instance();
@@ -16,12 +16,16 @@ class Controller_Admin_Login extends Kohana_Controller{
 				$this->request->redirect(str_replace('_', '/', $_POST['redirect']));
 			} else {
 				if(!empty($_POST['redirect'])){
-					$this->request->redirect('/admin/login/redirect/'.$_POST['redirect']);
+					$this->request->redirect('/login/redirect/'.$_POST['redirect']);
 				} else {
-					$this->request->redirect('/admin/login/');
+					$this->request->redirect('/login/');
 				}
 			}
 		}
+	}
+	public function action_logout(){
+		Session::instance()->destroy();
+		$this->request->redirect('/');
 	}
 	public function action_index()
 	{

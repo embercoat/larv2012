@@ -45,16 +45,25 @@ body {
 	border: 1px solid black;
 	height: 75px;
 }
+#sidemenu {
+	float: left;
+	width: 175px;
+	border: 1px solid black;
+	height: 100%;
+}
 #menu {
 	height: 20px;
 	border: 1px solid black;
 }
 #mainContent {
+	float: right;
 	border: 1px solid black;
+	width: 720px;
+	height: 100%;
 }
 #main {
 	width:900px;
-	height: 100px;
+	height: 100%;
 	margin:0px auto;
 }
 #body {

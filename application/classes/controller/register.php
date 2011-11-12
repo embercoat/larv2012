@@ -9,10 +9,11 @@ class Controller_Register extends Controller_SuperController {
 	}
 	public function action_index()
 	{
+		$this->css[] = '/css/form.css';
 		$this->content = View::factory('register');
-		$this->content->register_success = false;
 		if(isset($_POST) && !empty($_POST))
 		{
+			$this->content->register_success = false;
 			$error = array();
 			if($_POST['password'] != $_POST['password2'])
 			{

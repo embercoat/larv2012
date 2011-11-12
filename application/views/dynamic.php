@@ -11,7 +11,7 @@ $content = Model::factory('dynamic')->get_content_by_name($dynamic);
 		window.onload = function(){
 		    CKEDITOR.replace( 'ckedit' );
 		    CKEDITOR.config.height = 600;
-		}
+		};
 	</script>
 	<script type="text/javascript">
 	

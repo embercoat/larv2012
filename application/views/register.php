@@ -1,13 +1,19 @@
 <?php
-	if(!$register_success)
+	if(isset($register_success))
 	{
-		?>Det har uppstått fel.<ul><?
-		foreach($error as $e){
-		?>
-			<li><?=$e; ?></li>
-		<?
-		?></ul><?
-		}
+		 if(!$register_success){
+			?>Det har uppstått fel.<ul><?
+			foreach($error as $e){
+			?>
+				<li><?=$e; ?></li>
+			<?
+			?></ul><?
+			}
+		 } else { ?>
+		 	Grattis <?=$name; ?>. Du är nu registrerad och inloggad på Larv 2.0. Nu kan du göra samma saker som de coola kidsen.
+		 <? } 
+	}
+	if(!isset($register_success) || !$register_success){
 		
 		echo Form::open('/register/', array('method' => 'post'))
 			
@@ -37,7 +43,5 @@
 			
 			.Form::submit('submit', 'Registrera')
 			.Form::close();
-	} else { ?>
-		Grattis <?=$name; ?>. Du är nu registrerad och inloggad på Larv 2.0. Nu kan du göra samma saker som de coola kidsen.
-	<? } ?>
-			
+	}
+?>

@@ -13,7 +13,6 @@
 <html lang="en">
 <head>
 
-	<meta charset="utf-8" />
 	<title><?php if ($class !== ''): ?>
 			<?php echo $class, ' · ' ?>
 		<?php endif; ?>Codebench</title>
