@@ -60,4 +60,12 @@ Class Model_Dynamic extends Model
 			))
 			->execute();
 	}
+	public function exists($name){
+		list($result) = DB::select(DB::expr('count(1) as count'))
+						->from('dynamic')
+						->where('name', '=', $name)
+						->execute()
+						->as_array();
+		return (($result['count'] == 0) ? false : true);
+	}
 }

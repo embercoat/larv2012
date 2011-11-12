@@ -43,18 +43,7 @@
 		<div id="content">
 			<div id="content-inner">
 				<div id="nav-local">
-					<ul>
-						<li>
-							<a class="active" href="index.htm" title="Aktiviteter">
-								<span>Aktiviteter</span>
-							</a>
-						</li>
-						<li>
-							<a href="index.htm" title="Mässan">
-								<span>Mässan</span>
-							</a>
-						</li>
-					</ul>
+					<?=(isset($sideContent)?$sideContent : '');?>
 				</div>
 				<div id="content-master">
 					<?=$content; ?>

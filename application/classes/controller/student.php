@@ -1,22 +1,23 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class Controller_Student extends Controller_SuperController {
-	private $name = 'student';
 
-	public function action_index()
-	{
-		$this->content = View::factory('dynamic');
-		$this->content->dynamic = $this->name;
-		$this->content->edit = false;
+	public function before(){
+		$sidemenu = array(
+			array(
+				'content' => 'LARV Crew',
+				'attributes' => array(
+					'href' => '/student/crew/',
+				)
+			),
+			array(
+				'content' => 'Sida 2',
+				'attributes' => array(
+					'href' => '/student/page2/'
+				)
+			)
+			);
+		$this->sideContent = View::factory('sidemenu')->set('alternatives', $sidemenu);
+		parent::before();
 	}
-	public function action_edit(){
-		if(isset($_POST) && !empty($_POST)){
-			Model::factory('dynamic')->update_by_name($this->name, $_POST['ckedit']);
-		}
-		
-		$this->content = View::factory('dynamic');
-		$this->content->edit = true;
-		$this->content->dynamic = $this->name;
-	}
-
 } // End Welcome

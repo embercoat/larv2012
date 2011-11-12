@@ -2,7 +2,7 @@
 $content = Model::factory('dynamic')->get_content_by_name($dynamic);
 ?>
 <? if($edit){ ?>
-	<?=Form::open('/'.Request::current()->controller().'/edit/', array('method' => 'post')); ?>
+	<?=Form::open('/'.Request::current()->uri(), array('method' => 'post')); ?>
 	<?=Form::textarea('ckedit', $content['content']); ?>
 	<?=Form::submit('submit', 'Skicka'); ?>
 	<?=Form::close(); ?>
@@ -19,7 +19,7 @@ $content = Model::factory('dynamic')->get_content_by_name($dynamic);
 <? } else { ?>
 	<? if(Session::instance()->get('user')->isAdmin()){ ?> 
 	<div style="float: right;">
-		<a href="/<?=Request::current()->controller(); ?>/edit/">Edit</a>
+		<a href="/<?=Request::current()->uri(); ?>/edit/">Edit</a>
 	</div>
 	<? } ?>
 	<?=$content['content'];?>

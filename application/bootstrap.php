@@ -104,7 +104,7 @@ Kohana::modules(array(
 	// 'image'      => MODPATH.'image',      // Image manipulation
 	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
-	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+    // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	'editor'  => MODPATH.'editor',  // User guide and API documentation
 	));
 
@@ -118,7 +118,7 @@ Route::set('admin', 'admin(/<controller>(/<action>(/<a2>(/<id>))))')
         'controller' => 'admin',
         'action'     => 'index'
     ));
-Route::set('default', '(<controller>(/<action>(/<a2>(/<id>))))')
+Route::set('default', '(<controller>(/<a2>(/<id>)))')
 	->defaults(array(
 		'controller' => 'welcome',
 		'action'     => 'index',

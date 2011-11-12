@@ -7,7 +7,7 @@ class Controller_Register extends Controller_SuperController {
 		parent::after();
 //		Session::instance()->destroy();
 	}
-	public function action_index()
+	public function action_index($arg1 = false, $arg2 = false)
 	{
 		$this->css[] = '/css/form.css';
 		$this->content = View::factory('register');

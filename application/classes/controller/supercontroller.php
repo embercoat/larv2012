@@ -34,12 +34,50 @@ class Controller_SuperController extends Kohana_Controller {
     public function after(){
     	$this->mainView = View::factory('main');
         $this->mainView->content = $this->content;
+        $this->mainView->sideContent = ((isset($this->sideContent)) ? $this->sideContent: '');
 
         $this->mainView->css = $this->css;
         $this->mainView->js = $this->js;
         
         $this->response->body($this->mainView);
     }
+	public function action_index($arg1 = false, $arg2 = false)
+	{
+		$dynamic = $this->request->controller().(($arg1 && $arg1 != 'edit')?'.'.$arg1.(($arg2 && $arg2 != 'edit')?'.'.$arg2:''):'');
+		$method = 'action_'.$arg1;
+//		var_dump($method, $dynamic);
+		if($arg1){
+			if($arg2 == 'edit'){
+				$this->action_edit($dynamic);
+			} else {
+				if(method_exists($this, $method) && $method != 'action_edit'){
+					if($arg2){
+						$this->$method($arg2);
+					} else {
+						$this->$method();
+					}
+				} elseif(Model::factory('dynamic')->exists($dynamic)) {
+					$this->content = View::factory('dynamic');
+					$this->content->dynamic = $dynamic;
+					$this->content->edit = false;
+				} else {
+					$this->content = 'There is nothing with that name';
+				}
+			}
+		} else {
+			$this->content = View::factory('dynamic');
+			$this->content->dynamic = $dynamic;
+			$this->content->edit = false;
+		} 
+	}
+	public function action_edit($dynamic){
+		if(isset($_POST) && !empty($_POST)){
+			Model::factory('dynamic')->update_by_name($dynamic, $_POST['ckedit']);
+		}
+		$this->content = View::factory('dynamic');
+		$this->content->edit = true;
+		$this->content->dynamic = $dynamic;
+	}
 
 }
 
