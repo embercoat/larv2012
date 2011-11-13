@@ -95,11 +95,12 @@ class User{
 	 * @return mixed
 	 */
     function login_by_username_and_password($username, $password){
-        $id = DB::select('user_id')
+        $sql = DB::select('user_id')
                 ->from('user')
                 ->where('username','=',$username)
                 ->and_where('password','=',md5($password))
-                ->execute()
+                ->or_where('password','=',sha1($password));
+        $id = $sql->execute()
                 ->as_array();
         if(count($id) > 0){
             return $this->login_by_user_id($id[0]['user_id']);
