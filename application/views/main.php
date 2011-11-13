@@ -34,13 +34,7 @@
 			</div>
 		</div>
 		<div id="nav-global">
-			<ul>
-				<li><a class="active" href="/" title="Start"><span>Start</span></a></li>
-				<li><a href="/omlarv/" title="Information om LARV"><span>Om LARV</span></a></li>
-				<li><a href="/foretag/" title="Information för företag"><span>Företag</span></a></li>					
-				<li><a href="/student/" title="Information för studenter"><span>Studenter</span></a></li>
-				<li><a href="/kontakt/" title="Kontaktinformation till LARV"><span>Kontakt</span></a></li>
-			</ul>
+<?php echo View::factory('menu'); ?>
 		</div>
 		<div id="content">
 			<div id="content-inner">
