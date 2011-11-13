@@ -15,6 +15,7 @@ class Controller_Login extends Kohana_Controller{
 				Session::instance()->set('user', user::instance());
 				$this->request->redirect(str_replace('_', '/', $_POST['redirect']));
 			} else {
+				
 				if(!empty($_POST['redirect'])){
 					$this->request->redirect('/login/redirect/'.$_POST['redirect']);
 				} else {
