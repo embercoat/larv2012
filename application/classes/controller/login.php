@@ -25,16 +25,17 @@ class Controller_Login extends Kohana_Controller{
 	}
 	public function action_logout(){
 		Session::instance()->destroy();
-		$this->request->redirect('/');
+		$this->request->redirect($_SERVER['HTTP_REFERER']);
 	}
 	public function action_index($arg1 = false, $arg2 = false)
 	{
 		if($arg1){
 			if(method_exists($this, 'action_'.$arg1)){
 				$method = 'action_'.$arg1;
-				
-				$this->$method();
-				//call_user_method('action_'.$arg1, $this, $arg2);
+				if($arg2)
+					$this->$method($arg2);
+				else
+					$this->$method();
 			}
 		}
 	}

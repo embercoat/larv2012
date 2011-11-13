@@ -24,13 +24,18 @@
     </head>
 <body>
 	<div id="topBanner">
-		LARV 2.0
+		<img style="float: left;" src="/images/logo.png" />
+		<h1 style="display:inline; float: left; margin-top: 10px; margin-left:70px;">Adminpanel</h1>
 	</div>
 	<div id="container">
-		<div id="menu">
+		<div id="nav-local">
 			<ul>
 				<li><a href="/admin/news/">Nyheter</a></li>
 				<li><a href="/admin/news/edit">Skriv</a></li>
+			</ul>
+			<ul>
+				<li><a href="/admin/user/">Användare</a></li>
+				<li><a href="/admin/user/crew">Crew</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/data/">Data</a></li>

@@ -13,12 +13,14 @@
                        echo '@import url('.$c.');'."\r\n";
          ?>
 	</style>
+	<script type="text/javascript" src="/js/main.js">1;</script>
+	<script type="text/javascript" src="/js/jquery.js">1;</script>
 	<?php
              if(isset($js))
                    foreach($js as $j)
                        echo '<script type="text/javascript" src="'.$j.'">1;</script>'."\r\n";
 ?>
-	<script type="text/javascript" src="/js/main.js">1;</script>
+
 </head>
 
 <body>
@@ -63,7 +65,10 @@
 							<?
 						}
 					} else { ?>
-						<a href="/login/">Logga in</a> | <a href="/register/">Registrera </a>
+						<a href="/login/<?php 
+							$redirect = 'redirect/'.str_replace('/', '_', Request::$current->uri());
+							echo (!empty($redirect) ? $redirect : '');
+						?>	">Logga in</a> | <a href="/register/">Registrera </a>
 					<? } ?>
 			</div>
 			<p><b>Teknologkåren</b><br /> Lulea tekniska universitet <br /> 971 87 Luleå </p> 
