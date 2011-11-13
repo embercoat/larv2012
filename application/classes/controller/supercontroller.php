@@ -47,7 +47,7 @@ class Controller_SuperController extends Kohana_Controller {
 		$method = 'action_'.$arg1;
 //		var_dump($method, $dynamic);
 		if($arg1){
-			if($arg2 == 'edit'){
+			if($arg1 == 'edit' || $arg2 == 'edit'){
 				$this->action_edit($dynamic);
 			} else {
 				if(method_exists($this, $method) && $method != 'action_edit'){
@@ -65,9 +65,13 @@ class Controller_SuperController extends Kohana_Controller {
 				}
 			}
 		} else {
-			$this->content = View::factory('dynamic');
-			$this->content->dynamic = $dynamic;
-			$this->content->edit = false;
+			if(Model::factory('dynamic')->exists($dynamic)){
+				$this->content = View::factory('dynamic');
+				$this->content->dynamic = $dynamic;
+				$this->content->edit = false;
+			} else {
+				$this->content = View::factory('404')->set(array('arg1' => $arg1, 'arg2' => $arg2));
+			}
 		} 
 	}
 	public function action_edit($dynamic){

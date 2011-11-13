@@ -2,6 +2,17 @@
 
 Class Model_Dynamic extends Model
 {
+	public function delete_by_name($name){
+		$name = str_replace('_', '.', $name);
+		DB::delete('dynamic')
+			->where('name', '=', $name)
+			->execute();
+	}
+	public function delete_by_id($id){
+		DB::delete('dynamic')
+			->where('id', '=', $id)
+			->execute();
+	}
 	public function get_content_by_id($id)
 	{
 		$content = DB::select('*')

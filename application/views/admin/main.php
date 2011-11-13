@@ -35,6 +35,7 @@
 			<ul>
 				<li><a href="/admin/data/">Data</a></li>
 				<li><a href="/admin/data/program">Program</a></li>
+				<li><a href="/admin/dynamic/">Dynamiska Sidor</a></li>
 			</ul>
 			
 		</div>
