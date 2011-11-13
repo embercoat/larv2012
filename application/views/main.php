@@ -69,6 +69,6 @@
 			<p><b>Teknologkåren</b><br /> Lulea tekniska universitet <br /> 971 87 Luleå </p> 
 		</div>
 	</div>	
-	<?=View::Factory('stats'); ?>
+	<? View::Factory('stats'); ?>
 </body>
 </html>

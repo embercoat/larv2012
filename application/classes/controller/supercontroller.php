@@ -61,7 +61,7 @@ class Controller_SuperController extends Kohana_Controller {
 					$this->content->dynamic = $dynamic;
 					$this->content->edit = false;
 				} else {
-					$this->content = 'There is nothing with that name';
+					$this->content = View::factory('404')->set(array('arg1' => $arg1, 'arg2' => $arg2));
 				}
 			}
 		} else {
