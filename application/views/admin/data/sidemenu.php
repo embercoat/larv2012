@@ -4,7 +4,7 @@
 	<td><b>Id</b></td>
 	<td><b>Flik</b></td>
 	<td><b>Text</b></td>
-	<td><b>Sida</b></td>
+	<td><b>Målsida</b></td>
 </tr>
 <?php
 $alternator = 0;
@@ -29,7 +29,7 @@ echo Form::hidden('oldid')."\n";
 echo Form::input('id', '', array('placeholder' => 'Id'))."\n";
 echo Form::input('controller', '', array('placeholder' => 'Flik'))."\n";
 echo Form::input('text', '', array('placeholder' => 'Text'))."\n";
-echo Form::input('action', '', array('placeholder' => 'Sida'))."\n";
+echo Form::input('action', '', array('placeholder' => 'Målsida'))."\n";
 
 echo Form::submit('save', 'Spara')."\n";
 ?>

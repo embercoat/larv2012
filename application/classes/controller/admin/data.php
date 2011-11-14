@@ -63,7 +63,7 @@ class Controller_Admin_data extends Controller_Admin_SuperController{
 	}
 	
 	public function action_editSidemenu() {
-		if (empty($_POST['oldid'])) {
+		if (!empty($_POST['oldid'])) {
 			DB::update('sidemenu')
 				->set(array(
 					'id' => $_POST['id'],
