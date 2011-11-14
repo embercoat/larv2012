@@ -68,8 +68,8 @@ class User{
 	 * @param string password
 	 * @return int
 	 */
-    public static function create_user($fname, $lname, $username, $password, $email,$program, $telephone){
-        $query = DB::insert('user', array('fname', 'lname', 'username', 'password', 'phone', 'email', 'programId', 'acceptTos'))
+    public static function create_user($fname, $lname, $username, $password, $email,$program, $program_ovrig, $telephone){
+        $query = DB::insert('user', array('fname', 'lname', 'username', 'password', 'phone', 'email', 'programId', 'program_ovrig', 'acceptTos'))
                             ->values(
                                 array(
                                     $fname,
@@ -79,6 +79,7 @@ class User{
                                 	$telephone,
                                 	$email,
                                 	$program,
+                                	$program_ovrig,
                                     1
                                 )
                              );

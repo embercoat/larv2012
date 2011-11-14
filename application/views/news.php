@@ -3,6 +3,5 @@
 	<h1><?=$news['title']; ?></h1>
 	<p class="date"><?=date('Y-m-d h:i', $news['published']); ?></p>
 	<?=$news['text']; ?>
-	<p>Skriven av: <?=$news['fname'].' '.$news['lname']; ?></p>
 </div>
 <? } ?>

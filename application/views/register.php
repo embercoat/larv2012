@@ -40,6 +40,10 @@
 			
 			.Form::label('program', 'Program')
 			.Form::select('program', user::get_program(false, true))
+
+			.Form::label('program_ovrig', 'Övrigt Program')
+			.Form::input('program_ovrig')
+			
 			
 			.Form::submit('submit', 'Registrera')
 			.Form::close();

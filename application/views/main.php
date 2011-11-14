@@ -6,6 +6,7 @@
 	<title>LARV</title>
 	<style type="text/css">
 		@import url(/css/master.css);
+		@import url(/css/form.css);
 		@import url(http://fonts.googleapis.com/css?family=Questrial);
 		<?php
                if(isset($css))
@@ -27,10 +28,11 @@
 	<div id="wrap">
 		<div id="header">
 			<div id="logo">
-				<a href="/" title=""><img src="/images/logo.png" alt="LARV" /></a>
+				<a href="/" title=""><img src="/images/LARV_Logo.png" alt="LARV" /></a>
 			</div>
 			<div id="logo-teknolog">
 				<a href="/" title=""><img src="/images/logo_teknologkaren.png" alt="logo_teknologkaren" /></a>
+				<img src="/images/lkab.png" alt="logo_lkab" />
 			</div>
 		</div>
 		<div id="nav-global">

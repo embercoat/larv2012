@@ -31,6 +31,7 @@ class Controller_Register extends Controller_SuperController {
 					$_POST['password'],
 					$_POST['email'],
 					$_POST['program'],
+					$_POST['program_ovrig'],
 					$_POST['telephone']
 				);
 				Session::instance()->set('user' ,Session::instance()->get('user')->login_by_user_id(array_shift($userid)));

@@ -9,6 +9,9 @@ $menu = array(
 	array("controller" => "student", "url" => "/student/", "title" => "Kontaktinformation till LARV", "text" => "Studenter"),
 	array("controller" => "kontakt", "url" => "/kontakt/", "title" => "Information för studenter",    "text" => "Kontakt"),
 );
+if(isset($_SESSION['user']) && $_SESSION['user']->logged_in()){
+	$menu[] = array("controller" => "user", "url" => "/user/", "title" => "Användarsidor",    "text" => "Min Sida");
+}
 
 echo "<ul>\n";
 foreach($menu as $m) {
