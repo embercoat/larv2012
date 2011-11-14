@@ -14,3 +14,14 @@ function addProgram(){
 function hideEditBox(){
 	$('#editBox').hide();
 }
+
+function editSidemenu(id){
+	$('#editBox').show();
+	document.getElementById('oldid').value = id;
+	if (id) {
+		document.getElementById('id').value = id;
+		document.getElementById('controller').value = $('#controller_'+id).html();
+		document.getElementById('action').value = $('#action_'+id).html();
+		document.getElementById('text').value = $('#text_'+id).html();
+	}
+}

@@ -2,11 +2,13 @@
 
 Class Model_Sidemenu extends Model
 {
-	public function get_sidemenu($controller){
+	public function get_sidemenu($controller = false){
 		$query = DB::select_array(array('sidemenu.*'))
-			->from('sidemenu')
-			->where('controller','=',$controller)
-			->order_by('id', 'asc');
+			->from('sidemenu');
+		
+		if ($controller) $query->where('controller','=',$controller);
+		
+		$query->order_by('id', 'asc');
 			
 		return $query->execute()
 			->as_array();

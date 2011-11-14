@@ -23,6 +23,7 @@ a{
 	color: #4b1625;
 	text-decoration: underline;
 	font-size: 1.2em;
+	cursor: pointer;
 }
 a:link,a:visited{
 	color: #4b1625;

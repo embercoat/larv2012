@@ -2,17 +2,21 @@
 /**
  * 
  * @author Kristian Nordman <kristian.nordman@scripter.se>
- *
+ * @author Stefan Sundin <stefan@stefansundin.com>
+ * @author Alexandra Tsampikakis <alexandra.tsampikakis@gmail.com>
  */
+
 class Controller_Admin_data extends Controller_Admin_SuperController{
 	function before(){
+		$this->js[] = '/js/admin/data.js';
         parent::before();
 	}
+	
 	public function action_index(){
 		$this->content = 'data';
 	}
+	
 	public function action_program(){
-		$this->js[] = '/js/admin/data.js';
 	    $programs = DB::select('*')
                         ->from('program')
                         ->order_by('name', 'asc')
@@ -20,8 +24,8 @@ class Controller_Admin_data extends Controller_Admin_SuperController{
                         ->as_array();
         $this->content = View::Factory('admin/data/programs');
         $this->content->programs = $programs;
-                        
 	}
+	
 	public function action_delProgram($pid){
 	    DB::delete('program')
 	        ->where('id', '=', $pid)
@@ -34,6 +38,7 @@ class Controller_Admin_data extends Controller_Admin_SuperController{
 
 	    $this->request->redirect('/admin/data/program');
 	}
+	
 	public function action_editProgram(){
 	    if($_POST['program_id'] !== 'new'){
 	        if($_POST['oldname'] == $_POST['newname']){
@@ -49,8 +54,42 @@ class Controller_Admin_data extends Controller_Admin_SuperController{
 	            ->execute();
 	    }
         $this->request->redirect('/admin/data/program');
-	        
-	}	
+	}
+	
+	
+	/* Sidemenu */
+	public function action_sidemenu(){
+		$this->content = View::Factory('admin/data/sidemenu');
+	}
+	
+	public function action_editSidemenu() {
+		if (empty($_POST['oldid'])) {
+			DB::update('sidemenu')
+				->set(array(
+					'id' => $_POST['id'],
+					'controller' => $_POST['controller'],
+					'text' => $_POST['text'],
+					'action' => $_POST['action']))
+				->where('id', '=', $_POST['oldid'])
+				->execute();
+	    }
+	    else {
+			DB::insert('sidemenu')
+				->values(array($_POST['id'], $_POST['controller'], $_POST['text'], $_POST['action']))
+	            ->execute();
+		}
+   	 	$this->request->redirect('/admin/data/sidemenu');
+	}
+	
+	public function action_delSidemenu($id){
+	    DB::delete('sidemenu')
+	        ->where('id', '=', $id)
+	        ->limit(1)
+	        ->execute();
+
+	    $this->request->redirect('/admin/data/sidemenu');
+	}
+
 }
 			
 
