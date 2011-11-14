@@ -10,8 +10,9 @@ $menu = array(
 	array("controller" => "kontakt", "url" => "/kontakt/", "title" => "Information för studenter",    "text" => "Kontakt"),
 );
 
+echo "<ul>\n";
 foreach($menu as $m) {
 	$class = ($curPage == $m["controller"]) ? ' class="active"' : '';
-	echo "<li><a{$class} href=\"{$m["url"]}\" title=\"{$m["title"]}\"><span>{$m["text"]}</span></a></li>\n";
+	echo "	<li><a{$class} href=\"{$m["url"]}\" title=\"{$m["title"]}\"><span>{$m["text"]}</span></a></li>\n";
 }
-
+echo "</ul>\n";

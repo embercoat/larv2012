@@ -34,7 +34,6 @@ class Controller_SuperController extends Kohana_Controller {
     public function after(){
     	$this->mainView = View::factory('main');
         $this->mainView->content = $this->content;
-        $this->mainView->sideContent = ((isset($this->sideContent)) ? $this->sideContent: '');
 
         $this->mainView->css = $this->css;
         $this->mainView->js = $this->js;

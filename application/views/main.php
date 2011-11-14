@@ -39,7 +39,7 @@
 		<div id="content">
 			<div id="content-inner">
 				<div id="nav-local">
-					<?=(isset($sideContent)?$sideContent : '');?>
+<?php echo View::factory('sidemenu'); ?>
 				</div>
 				<div id="content-master">
 					<?=$content; ?>
