@@ -17,11 +17,9 @@ function hideEditBox(){
 
 function editSidemenu(id){
 	$('#editBox').show();
-	document.getElementById('oldid').value = id;
-	if (id) {
-		document.getElementById('id').value = id;
-		document.getElementById('controller').value = $('#controller_'+id).html();
-		document.getElementById('action').value = $('#action_'+id).html();
-		document.getElementById('text').value = $('#text_'+id).html();
-	}
+	document.getElementById('oldid').value = (id?id:'');
+	document.getElementById('id').value = (id?id:'');
+	document.getElementById('controller').value = (id?$('#controller_'+id).html():'');
+	document.getElementById('action').value = (id?$('#action_'+id).html():'');
+	document.getElementById('text').value = (id?$('#text_'+id).html():'');
 }
