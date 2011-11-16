@@ -6,6 +6,7 @@ Roll: <?php echo $crew['role']; ?><br />
 Motivation: <?php echo $crew['motivation']; ?><br />
 Extrainfo:<br />
 <?php
+if(is_array(unserialize($crew['extradata'])))
 foreach(unserialize($crew['extradata']) as $key => $data){
 	echo $key.': '.$data.'<br />';
 }
