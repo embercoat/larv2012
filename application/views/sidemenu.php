@@ -18,7 +18,7 @@ echo "<ul>\n";
 foreach ($sidemenu as $alt) {
 	echo "	<li><a ";
 	foreach($alt['attributes'] as $att => $value) {
-		echo $att.'="'.$value;
+		echo $att.'="'.$value.'"';
 	}
 	if ($alt['attributes']['href'] == "/".Request::$current->uri()."/") {
 		echo ' class="active"';

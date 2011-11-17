@@ -59,7 +59,13 @@ class Controller_Admin_data extends Controller_Admin_SuperController{
 	
 	/* Sidemenu */
 	public function action_sidemenu(){
+		$controllers = array();
+		foreach(scandir(APPPATH.'classes/controller/') as $file){
+			if(substr($file, -4) == '.php')
+				$controllers[substr($file, 0, -4)] = substr($file, 0, -4);
+		}
 		$this->content = View::Factory('admin/data/sidemenu');
+		$this->content->controllers = $controllers;
 	}
 	
 	public function action_editSidemenu() {

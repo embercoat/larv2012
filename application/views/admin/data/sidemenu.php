@@ -27,7 +27,7 @@ foreach (Model::factory('sidemenu')->get_sidemenu() as $item) {
 <?php
 echo Form::hidden('oldid')."\n";
 echo Form::input('id', '', array('placeholder' => 'Id'))."\n";
-echo Form::input('controller', '', array('placeholder' => 'Flik'))."\n";
+echo Form::select('controller', $controllers)."\n";
 echo Form::input('text', '', array('placeholder' => 'Text'))."\n";
 echo Form::input('action', '', array('placeholder' => 'Målsida'))."\n";
 
