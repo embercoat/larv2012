@@ -26,6 +26,7 @@
 			</div>
 			<div id="logo-teknolog">
 				<a href="index.htm" title=""><img src="/images/logo_teknologkaren.png" alt="logo_teknologkaren" /></a>
+				<img src="/images/lkab.png" alt="logo_lkab" />
 			</div>
 		</div>
 		<div id="loginform">
