@@ -15,7 +15,7 @@ class Controller_Admin_Export extends Controller {
 	}
 	public function action_crew(){
         $crew = 
-			DB::select_array(array('crew.*', 'user.fname', 'user.lname', 'user.phone', 'user.email'))
+			DB::select_array(array('crew.*', 'user.fname', 'user.lname', 'user.phone', 'user.email', 'user.username'))
 				->from('crew')
 				->join('user')
 				->on('crew.userid', '=', 'user.user_id')

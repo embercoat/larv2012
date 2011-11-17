@@ -23,7 +23,7 @@ foreach ($sidemenu as $alt) {
 	if ($alt['attributes']['href'] == "/".Request::$current->uri()."/") {
 		echo ' class="active"';
 	}
-	echo '><span>'.$alt['content'].'</span></a></li>'."\n"';
+	echo '><span>'.$alt['content'].'</span></a></li>'."\n";
 }
 echo "</ul>\n";
 
