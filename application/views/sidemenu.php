@@ -4,10 +4,16 @@ $controller = Request::$current->controller();
 
 $sidemenu = array();
 foreach (Model::factory('sidemenu')->get_sidemenu($controller) as $item) {
+	$url = "/$controller/".($item['action']=='index'?'':$item['action'].'/');
+	// if action contains /, simply use it as the url
+	if (strpos($item['action'],'/') !== false) {
+		$url = $item['action'];
+	}
+	
 	$sidemenu[] = array(
 		'content' => $item['text'],
 		'attributes' => array(
-			'href' => "/$controller/".($item['action']=='index'?'':$item['action'].'/')
+			'href' => $url
 		)
 	);
 }

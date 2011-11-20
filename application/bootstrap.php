@@ -48,6 +48,11 @@ spl_autoload_register(array('Kohana', 'auto_load'));
  */
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
+/**
+ * Whether the site is live or not. Set to true to disable detailed error messages.
+ */
+define('SITE_LIVE', false);
+
 // -- Configuration and initialization -----------------------------------------
 
 /**
@@ -80,7 +85,8 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  caching     enable or disable internal caching                 FALSE
  */
 Kohana::init(array(
-	'base_url'   => '/',
+	'base_url' => '/',
+	'errors' => (SITE_LIVE?false:true),
 ));
 
 /**
@@ -122,4 +128,9 @@ Route::set('default', '(<controller>(/<a2>(/<id>)))')
 	->defaults(array(
 		'controller' => 'welcome',
 		'action'     => 'index',
+	));
+Route::set('feed', 'feed')
+	->defaults(array(
+		'controller' => 'feed',
+		'action' => 'index'
 	));

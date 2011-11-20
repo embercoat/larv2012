@@ -1,46 +1,56 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<style type="text/css">
-			@import url('/css/master.css');
-			@import url('/css/form.css');
-			@import url(http://fonts.googleapis.com/css?family=Questrial);
-			#loginform {
-			  height: 150px;
-			  width: 400px;
-			  color: white;
-			  position: absolute;
-			  top: 120px;
-			  left: 300px;
-			}
-			#loginform label {
-			  font-size: 20px;
-			}
-		</style>
-		<title>LARV Login</title>
-	</head>
-	<body>
-	<div id="wrap">
-		<div id="header">
-			<div id="logo">
-				<a href="index.htm" title=""><img src="/images/logo.png" alt="LARV" /></a>
-			</div>
-			<div id="logo-teknolog">
-				<a href="index.htm" title=""><img src="/images/logo_teknologkaren.png" alt="logo_teknologkaren" /></a>
-				<img src="/images/lkab.png" alt="logo_lkab" />
-			</div>
+<head>
+	<title>LARV Login</title>
+	<style type="text/css">
+		@import url('/css/master.css');
+		@import url('/css/form.css');
+		@import url(http://fonts.googleapis.com/css?family=Questrial);
+		#loginform {
+		  height: 150px;
+		  width: 400px;
+		  color: white;
+		  position: absolute;
+		  top: 120px;
+		  left: 300px;
+		}
+		#loginform label {
+		  font-size: 20px;
+		}
+		#loginform .error {
+		  color: red;
+		  clear: both;
+		}
+	</style>
+</head>
+<body>
+<div id="wrap">
+	<div id="header">
+		<div id="logo">
+			<a href="/"><img src="/images/logo.png" alt="LARV" /></a>
 		</div>
-		<div id="loginform">
-			<?=Form::open('/login/login/', array('method' => 'post')); ?>
-				<p>
-					<?=Form::hidden('redirect', (isset($redirect)?$redirect:'')); ?>
-					<?=Form::label('username', 'Användarnamn');?>
-					<?=Form::input('username'); ?>
-					<?=Form::label('password', 'Lösenord'); ?>
-					<?=Form::password('password'); ?>
-					<?=Form::submit('submit', 'Logga In'); ?>
-				</p>
-			<?=Form::close(); ?>
+		<div id="logo-teknolog">
+			<a href="http://teknologkaren.se/"><img src="/images/logo_teknologkaren.png" alt="logo_teknologkaren" /></a>
+			<img src="/images/lkab.png" alt="logo_lkab" />
 		</div>
 	</div>
-	</body>
+	<div id="loginform">
+		<?=Form::open('/login/login/', array('method' => 'post'))."\n"; ?>
+			<p>
+				<?=Form::hidden('redirect', (isset($redirect)?$redirect:''))."\n"; ?>
+				<?=Form::label('username', 'Användarnamn')."\n"; ?>
+				<?=Form::input('username', (isset($username)?$username:''))."\n"; ?>
+				<?=Form::label('password', 'Lösenord')."\n"; ?>
+				<?=Form::password('password')."\n"; ?>
+				<?=Form::submit('submit', 'Logga In')."\n"; ?>
+			</p>
+		<?=Form::close()."\n"; ?>
+		<?php
+		if ($attempt) {
+			echo "<p class=\"error\">Felaktigt användarnamn eller lösenord!</p>\n";
+		}
+		?>
+	</div>
+</div>
+</body>
 </html>
