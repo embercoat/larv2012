@@ -17,7 +17,7 @@ function hideEditBox(){
 
 function editSidemenu(id){
 	$('#editBox').show();
-	document.getElementById('oldid').value = (id?id:'');
+	document.getElementById('oldid').value = ((id != undefined)?id:'');
 	document.getElementById('id').value = (id?id:'');
 	document.getElementById('controller').value = (id?$('#controller_'+id).html():'');
 	document.getElementById('action').value = (id?$('#action_'+id).html():'');

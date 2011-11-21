@@ -10,7 +10,7 @@
 			?></ul><?
 			}
 		 } else { ?>
-		 	Grattis <?=$name; ?>. Du är nu registrerad och inloggad på Larv 2.0. Nu kan du göra samma saker som de coola kidsen.
+		 	Grattis <?=$name; ?>. Du är nu registrerad och inloggad på Larv.org.
 		 <? } 
 	}
 	if(!isset($register_success) || !$register_success){

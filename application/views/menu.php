@@ -8,6 +8,7 @@ $menu = array(
 	array("controller" => "foretag", "url" => "/foretag/", "title" => "Information för företag",      "text" => "Företag"),
 	array("controller" => "student", "url" => "/student/", "title" => "Kontaktinformation till LARV", "text" => "Studenter"),
 	array("controller" => "kontakt", "url" => "/kontakt/", "title" => "Information för studenter",    "text" => "Kontakt"),
+	array("controller" => "katalog", "url" => "/katalog/", "title" => "Katalogen",    				  "text" => "Katalog"),
 );
 if(isset($_SESSION['user']) && $_SESSION['user']->logged_in()){
 	$menu[] = array("controller" => "user", "url" => "/user/", "title" => "Användarsidor",    "text" => "Min Sida");
