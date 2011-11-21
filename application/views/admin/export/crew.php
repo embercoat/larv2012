@@ -7,7 +7,7 @@ $keys = array_keys($crew[0]);
 		<tr>
 		<?php
 			foreach($keys as $key){
-				echo '<th>'.$key.'</th>';
+				echo '<th style="width: 150px;">'.$key.'</th>';
 			} 
 		?>
 		</tr>
