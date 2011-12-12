@@ -57,6 +57,19 @@ class User{
     public static function encrypt_password($password){
         return md5($password);
     }
+    /**
+	 * Change user password
+	 * encrypts and returns the string
+	 *
+	 * @param int userid
+	 * @param string password
+	 */
+    public static function change_password($userid, $password){
+        $query = DB::update('user')
+        			->set(array('password' => self::encrypt_password($password)))
+        			->where('user_id', '= ', $userid)
+        			->execute();
+    }
     
     /**
 	 * Create User

@@ -3,17 +3,36 @@
 </style>
 <script type="text/javascript">
 function showhide(select){
-		if(select == 'chauffor'){
-			$("#licenses").show();
-		} else {
-			$("#licenses").hide();
+	if(select == 'chauffor'){
+		$("#licenses").show();
+	} else {
+		$("#licenses").hide();
+	}
+	switch(select){
+		case 'ftv': {
+		    $('#motivation').html('Anmälan till företagsvärd har stängt. Maila massvard@larv.org för att anmäla ditt intresse.\n\nMVH\nLisa Flemström, Mässvärd LARV 2012');
+			$('#motivation').attr('disabled','');
+			$('#submit').attr('disabled','');
+			break;
+		} 
+		case 'funktionar': {
+		    $('#motivation').html('Anmälan för funktionär har stängt för i år. Välkommen nästa år.');
+			$('#motivation').attr('disabled','');
+			$('#submit').attr('disabled','');
+		break;
 		}
+		default: {
+			$('#motivation').html('');
+			$('#motivation').removeAttr('disabled');
+			$('#submit').removeAttr('disabled','');
+		}
+	}
 }
 </script>
-
-<?php
+<?
 if(isset($_SESSION['user']) && $_SESSION['user']->logged_in()){ 
 	$roles = array(
+		''				=> 'Välj en roll',
 		'ftv'			=> 'Företagsvärd',
 		'chauffor'		=> 'Chaufför',
 		'massvard'		=> 'Mässvärd',
@@ -35,8 +54,8 @@ if(isset($_SESSION['user']) && $_SESSION['user']->logged_in()){
 		
 		.Form::label('extradata[korkort_d]', 'Buss')
 		.Form::checkbox('extradata[korkort_d]', 'Ja')
-		.'</span>'
-		
+		.'</span>'	
+	
 
 		.Form::label('motivation', 'Motivering')
 		.Form::textarea('motivation')

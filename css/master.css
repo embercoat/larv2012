@@ -20,6 +20,11 @@ body {
 	border-top: 1px solid #959595;
 	padding: 10px 0 5px 5px;
 }
+#sponsors {
+	height: 50px;
+	border-top: 1px solid #959595;
+	padding: 10px 0 5px 5px;
+}
 
 #logo a {
 	border: none;
@@ -42,7 +47,11 @@ a:hover, a:active {
 	text-decoration: none;
 	font-size: 1.2em;
 }
-
+#socialButtons {
+	position: absolute;
+	top: 100px;
+	right: 10px;
+}
 
 #wrap { 
 	width: 820px; 

@@ -42,6 +42,7 @@ class Controller_SuperController extends Kohana_Controller {
     }
 	public function action_index($arg1 = false, $arg2 = false)
 	{
+		$this->request->action($arg1);
 		$dynamic = $this->request->controller().(($arg1 && $arg1 != 'edit')?'.'.$arg1.(($arg2 && $arg2 != 'edit')?'.'.$arg2:''):'');
 		$method = 'action_'.$arg1;
 //		var_dump($method, $dynamic);
@@ -76,6 +77,7 @@ class Controller_SuperController extends Kohana_Controller {
 	public function action_edit($dynamic){
 		if(isset($_POST) && !empty($_POST)){
 			Model::factory('dynamic')->update_by_name($dynamic, $_POST['ckedit']);
+			$this->request->redirect('/'.str_replace('.','/',$dynamic));
 		}
 		$this->content = View::factory('dynamic');
 		$this->content->edit = true;

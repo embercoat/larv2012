@@ -24,7 +24,7 @@
     </head>
 <body>
 	<div id="topBanner">
-		<img style="float: left;" src="/images/logo.png" />
+		<a href="/"><img style="float: left;" src="/images/logo.png" /></a>
 		<h1 style="display:inline; float: left; margin-top: 10px; margin-left:70px;">Adminpanel</h1>
 	</div>
 	<div id="container">
@@ -43,9 +43,23 @@
 				<li><a href="/admin/dynamic/">Dynamiska Sidor</a></li>
 				<li><a href="/admin/data/sidemenu">Sidmeny</a></li>
 			</ul>
+			<ul>
+				<li><a href="/admin/import/">Import</a></li>
+			</ul>
+			
 			
 		</div>
 		<div id="content">
+		<?php
+			if(isset($_SESSION['message'])){
+				echo "<ul>\r\n";
+			    foreach($_SESSION['message'] as $class => $cont)
+			    	foreach($cont as $m)
+			      		echo '<li class="'.$class.'">'.$m.'</li>';
+			     echo "</ul>";
+			}
+			unset($_SESSION['message']);
+			?>
 			<?=$content; ?>
 		</div>
 	</div>

@@ -39,9 +39,11 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 				->as_array();
 	}
 	public function action_detail($id){
+		$this->css[] = '/css/admin/user.css';
 		if(isset($_POST) && !empty($_POST)){
 			unset($_POST['submit']);
 			user::change_user_details($id, $_POST);
+			$_SESSION['message']['success'][] = 'Uppgifterna har uppdaterats.';
 		}
 		$this->content = View::factory('admin/user/details');
 		list($this->content->user) = 
@@ -50,6 +52,24 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 				->where('user_id', '=', $id)
 				->execute()
 				->as_array();
+		$this->content->crew = DB::select('*')
+								->from('crew')
+								->where('userid', '=', $_SESSION['user']->getId())
+								->execute()
+								->as_array();
+	}
+	public function action_changePassword(){
+		if($_POST['newPassword'] == $_POST['newPassword2']) {
+			if(strlen($_POST['newPassword']) > 6){
+				user::change_password($_POST['userid'], $_POST['newPassword']);
+				$_SESSION['message']['success'][] = 'Lösenordet har uppdaterats.';
+			} else {
+				$_SESSION['message']['fail'][] = 'Lösenordet är för kort. Minst 6 tecken.';
+			}
+		} else {
+			$_SESSION['message']['fail'][] = 'Lösenorden matchar inte. Försök igen.';
+		}
+		$this->request->redirect('/admin/user/detail/'.$_POST['userid']);
 	}
 
 } // End Welcome

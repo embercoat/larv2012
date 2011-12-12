@@ -1,4 +1,6 @@
 <div style="float: left";">
+<h1>Användare: <?php echo $user['username']; ?></h1>
+<br />
 <?php 
 //var_dump($user);
 
@@ -33,6 +35,50 @@ echo Form::open('/admin/user/detail/'.$user['user_id'], array('method' => 'post'
 			)
 			
 			.Form::submit('submit', 'Uppdatera')
-			.Form::close();
+			.Form::close()
+			.Form::button('pwd', 'Byt Lösenord', array('onclick' => 'showPasswordBox()'));
+?>
+<div style="float: left; clear: both;">
+<h1>Intresseanmälan</h1>
+<table>
+	<thead>
+		<tr>
+			<th style="width: 100px;">Roll</th>
+			<th style="width: 400px;">Motivation</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+	$roles = array(
+		'ftv'			=> 'Företagsvärd',
+		'chauffor'		=> 'Chaufför',
+		'massvard'		=> 'Mässvärd',
+		'gods'			=> 'Gods',
+		'funktionar'	=> 'Funktionär',
+		'inredning'		=> 'Inredning'
+	);
+	foreach($crew as $c){
+?>
+		<tr>
+			<td><?php echo $roles[$c['role']];?></td>
+			<td><?php echo $c['motivation'];?></td>
+		</tr>
+<?php 
+	} 
+?>
+	</tbody>
+</table>
+</div>
+</div>
+<div class="preHidden" id="changeUserPassword">
+<?php
+echo Form::open('/admin/user/changePassword')
+	.Form::hidden('userid', $user['user_id'])
+	.Form::label('newPassword', 'Nytt Lösenord')
+	.Form::input('newPassword')
+	.Form::label('newPassword2', 'Igen')
+	.Form::input('newPassword2')
+	.Form::submit('submit', 'Byt Lösenord')
+	.Form::close();
 ?>
 </div>

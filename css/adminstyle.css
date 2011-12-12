@@ -2,6 +2,22 @@
 html, body{
 	height: 99%;
 }
+.success {
+	list-style:none outside none;
+	background-color:lightGreen;
+	margin:9px;
+	padding:5px;
+	margin-left: 250px;
+	width: 600px;
+}
+.fail {
+	list-style:none outside none;
+	background-color:lightCoral;
+	margin:9px;
+	padding:5px;
+	margin-left: 250px;
+	width: 600px;
+}
 #topBanner {
 	border: 1px solid black;
 	height: 50px;

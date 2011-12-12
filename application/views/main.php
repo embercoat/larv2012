@@ -22,14 +22,17 @@ if (isset($js))
 	<link rel="alternate" type="application/rss+xml" href="/feed" title="RSS flöde">
 </head>
 <body>
+<div id="socialButtons">
+	<a href="http://www.facebook.com/pages/LARV/174894662596010" target="_blank" ><img src="/images/f_logo.png" height="40" width="40"/></a>
+</div>
 <div id="wrap">
 	<div id="header">
 		<div id="logo">
 			<a href="/"><img src="/images/LARV_Logo.png" alt="LARV" /></a>
 		</div>
 		<div id="logo-teknolog">
-			<a href="http://teknologkaren.se/"><img src="/images/logo_teknologkaren.png" alt="Teknologkåren" /></a>
-			<img src="/images/lkab.png" alt="LKAB" />
+			<a href="http://teknologkaren.se/" target="_blank" ><img src="/images/logo_teknologkaren.png" alt="Teknologkåren" /></a>
+				<img src="/images/lkab.png" alt="LKAB" />
 		</div>
 	</div>
 	<div id="nav-global">
@@ -41,9 +44,22 @@ if (isset($js))
 <?php echo View::factory('sidemenu'); ?>
 			</div>
 			<div id="content-master">
+			<?php
+			if(isset($_SESSION['message'])){
+				echo "<ul>\r\n";
+			    foreach($_SESSION['message'] as $class => $cont)
+			    	foreach($cont as $m)
+			      		echo '<li class="'.$class.'">'.$m.'</li>';
+			     echo "</ul>";
+			}
+			unset($_SESSION['message']);
+			?>
 				<?=$content; ?>
 			</div>
 		</div>
+	</div>
+	<div id="sponsors">
+		<p>sponsorloggor</p>
 	</div>
 	<div id="footer">
 		<div id="login"><?php
