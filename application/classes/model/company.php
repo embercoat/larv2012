@@ -8,6 +8,60 @@ Class Model_Company extends Model
 					->execute();
 		return $id[0];
 	}
+	function get_companies(){
+		return DB::select('*')
+				->from('company')
+				->order_by('name', 'ASC')
+				->execute()
+				->as_array();
+	}
+	function get_company_details($id){
+		$fields = DB::select_array(array('field', 'data'))
+					->from('company_data')
+					->where('company_id', '=', $id)
+					->execute()
+					->as_array();
+		$return = array();
+		$return['company_id'] = $id;
+		foreach($fields as $f)
+			$return[$f['field']] = $f['data'];
+			
+		return $return;
+	}
+	function get_company_branches($id){
+		$branches = DB::select_array(array('branch.branch', 'branch.branch_id'))
+						->from('branch')
+						->join('company_branch')
+						->on('branch.branch_id', '=', 'company_branch.branch_id')
+						->where('company_branch.company_id', '=', $id)
+						->order_by('branch.branch', 'ASC')
+						->execute()
+						->as_array();
+		return $branches;
+	}
+	function get_company_programs($id){
+		$programs = DB::select_array(array('program.name', 'program.id'))
+						->from('program')
+						->join('company_program')
+						->on('program.id', '=', 'company_program.program_id')
+						->where('company_program.company_id', '=', $id)
+						->order_by('program.name', 'ASC')
+						->execute()
+						->as_array();
+		return $programs;
+	}
+	function get_company_offers($id){
+		$offers = DB::select_array(array('offer.name', 'offer.offer_id'))
+						->from('offer')
+						->join('company_offer')
+						->on('company_offer.offer_id', '=', 'offer.offer_id')
+						->where('company_offer.company_id', '=', $id)
+						->order_by('offer.name', 'ASC')
+						->execute()
+						->as_array();
+		return $offers;
+		
+	}
 	function set_programs($company_id, $programs){
 		DB::delete('company_program')
 			->where('company_id', '=', $company_id)
@@ -39,8 +93,9 @@ Class Model_Company extends Model
 		$insert->execute();
 	}
 	function set_data($company_id, $data){
-		DB::delete('company_data')
+		$del = DB::delete('company_data')
 			->where('company_id', '=', $company_id)
+			->and_where('field', 'in', DB::expr('('.implode(',', array_map(array(Model::factory('data'), 'quote'), array_keys($data))).')'))
 			->execute();
 		$insert = DB::insert('company_data', array('company_id', 'field', 'data'));
 		foreach($data as $field => $d){
@@ -48,7 +103,6 @@ Class Model_Company extends Model
 		}
 		$insert->execute();
 	}
-	
 	
 	function create_branch($branch){
 		$exists = DB::select('branch_id')

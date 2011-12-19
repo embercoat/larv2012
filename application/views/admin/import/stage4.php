@@ -17,7 +17,7 @@ echo Form::open('/admin/import/stage5')
     16 => 'contact_email',
     17 => 'contact_alt_email',
     18 => 'contact_cell',
-    19 => 'contact_phone ',
+    19 => 'contact_phone',
     20 => 'org_name',
     21 => 'org_number',
     22 => 'org_type',
@@ -109,7 +109,7 @@ echo Form::open('/admin/import/stage5')
     194 => 'catalogue_link_positions',
     195 => 'catalogue_link_facebook',
     196 => 'catalogue_link_twitter',
-    197 => 'catalogue_link_youtube ',
+    197 => 'catalogue_link_youtube',
   );
 ?>
 <h1>Fält</h1>

@@ -2,6 +2,9 @@
 
 Class Model_Data extends Model
 {
+	function quote($data){
+		return "'".$data."'";
+	}
 	function get_program($id = false){
 		$sql = DB::select_array(array('id', 'name'))
 				->from('program')

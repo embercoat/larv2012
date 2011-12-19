@@ -11,8 +11,8 @@
 	<? foreach(Model::factory('news')->get_news() as $news){ ?>
 	<tr>
 		<td><?=$news['title']; ?></td>
-		<td><?=$news['published']; ?></td>
-		<td><?=$news['author']; ?></td>
+		<td><?=date('Y m d H:i:s', $news['published']); ?></td>
+		<td><?=user::get_username_by_id($news['author']); ?></td>
 		<td>
 			<a href="/admin/news/edit/<?=$news['id']; ?>">Edit</a>
 			<a href="/admin/news/delete/<?=$news['id']; ?>">Radera</a>

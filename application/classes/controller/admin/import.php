@@ -13,6 +13,63 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 	{
 		$this->content = View::factory('/admin/import/uploadform');
 	}
+	
+	public function action_fetchBooths(){
+		$this->content = View::factory('/admin/import/fbStage0');
+	}
+	public function action_fbStage1(){
+		$data = file_get_contents('http://larvinfo.scripter.se/monterWs.php');
+		
+		$xml = simplexml_load_string($data);
+
+		/* For each <movie> node, we echo a separate <plot>. */
+		$booths = array();
+		foreach ($xml->booth as $b) {
+			$attributes = (array)$b;
+			$booths[$attributes['@attributes']['id']] = $attributes['@attributes'];
+		}
+		$this->content = View::factory('/admin/import/fbStage1');
+		$this->content->booths = $booths;
+		$this->content->companies = array();
+		$this->content->companies['0'] = 'Inget Företag';
+		foreach(Model::factory('data')->format_for_select(Model::factory('company')->get_companies()) as $key => $value){
+			$this->content->companies[$key] = $value;
+		}
+		$this->content->companiesLower = array_map('strtolower', $this->content->companies);
+	}
+	public function action_fbStage2(){
+		$data = file_get_contents('http://larvinfo.scripter.se/monterWs.php');
+		
+		$xml = simplexml_load_string($data);
+
+		/* For each <movie> node, we echo a separate <plot>. */
+		$booths = array();
+/*		booth_id         int(11) PK
+		company_id       int(11)
+		place            int(11)
+		x                int(11)
+		y                int(11)
+		rotation         int(11)
+		house            int(11)*/
+		$sql = DB::insert('booth', array('company_id', 'place', 'x', 'y', 'rotation', 'house'));
+		foreach ($xml->booth as $b) {
+			$attributes = (array)$b;
+			$attributes = $attributes['@attributes'];
+			$sql->values(array(
+				$_POST['company'][$attributes['id']],
+				$attributes['place'],
+				$attributes['x'],
+				$attributes['y'],
+				$attributes['rotation'],
+				$attributes['house']
+			));
+		}
+		$sql->execute();
+		
+		$this->content = View::factory('/admin/import/fbStage2');
+	}
+	
+	
 	public function action_stage2(){
 		$import = utf8_encode(file_get_contents($_FILES['file']['tmp_name'])); //Import into utf-8
 		$import = str_replace(chr(0), '', $import); // Get rid of all the useless NULLS that exist EVERYWHERE in these exports

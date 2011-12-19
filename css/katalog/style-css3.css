@@ -1,0 +1,253 @@
+/*
+Name: CSS3 egenskaper, s�k meny och @media anpassning
+Author: Henrik Norberg
+*/
+
+@media handheld and (orientation:landscape) {
+.list {width: 45%; vertical-align: top; display:inline-table; float: inherit;  }
+}
+
+
+@media handheld and (max-width: 480px), screen and (max-device-width: 480px), screen and (max-width: 600px) {
+	body { background: url("/images/katalog/bg-m2.png")  repeat-x #eaeaea; width: 98%;}
+   .pizza, .sidebar, #sidebar-1,  #toppanel, #logo .larv, #logo .tkl, #logo .lkab{ display:none; }
+   #wrapper { max-width: 100%; margin: 0;}
+   #wrapper-cont { width: 100%; margin: 0;}
+   #list-container, #map-cont, #content { width: 100%; margin-top: 100px;}
+   #foretag-list { width: 100%; padding: 0; }
+   .sok { display: inline;}
+   .list{ width: 90%; }
+	#logo .lkab-m { position: absolute; right: 5px; top: 62px;}
+   .tomat {position: absolute; top: 60px; left: 4px;	}
+   #nav-global {
+    left: -10px;
+    margin: 0;
+    position: absolute;
+    top: 11px;
+	width: 100%;
+	}
+	.map-m, #press-cont {width: 100%; }
+	.video,
+	.video embed,
+	.video object,
+	.video iframe {width: 95%; height: auto;}
+	#template-cont{float: none; margin-top: 90px; width: 95%;}
+	.fakta , .press-menu, .foretagab, .ad, .karta { float: none; }
+	.fakta, .press-menu { width: 100%; }
+	.monter { width: 60%; }
+	.annons { width: 150%; }
+}
+
+
+
+
+
+@font-face {
+    font-family: "Questrial";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Questrial"), local("Questrial-Regular"), url("http://themes.googleusercontent.com/static/fonts/questrial/v2/MYWJ4lYm5dbZ1UBuYox79D8E0i7KZn-EPnyo3HZu7kw.woff") format("woff");
+}
+
+
+/*Sökämnes fälten*/
+.horizontal{
+margin: 0;
+clear: both;
+}
+
+ul.horizontal{
+	font-size: 0.75em;
+}
+ 
+ul.horizontal li{
+    list-style:none;
+    display:inline;
+    float:left;
+	margin: 0px 1px 11px 0;
+	height:10px;
+}
+ 
+ul.horizontal li a{
+    display:block;
+	padding: 1px 3px 1px 3px;
+    color:#000;
+    text-decoration:none;
+
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -khtml-border-radius: 1px;
+    border-radius: 1px;
+	
+    box-shadow: inset 0px -4px 2px rgba(0,0,0,0.25);
+    -moz-box-shadow: inset 0px -4px 2px rgba(0,0,0,0.25);
+    -webkit-box-shadow: inset 0px -4px 2px rgba(0,0,0,0.25);
+}
+
+
+ 
+ul.horizontal li a:hover {
+	color: #B30838;
+	background: #fcfcfc;
+ 
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -khtml-border-radius: 1px;
+    border-radius: 1px;
+ 
+    box-shadow: inset 0px 4px 2px rgba(0,0,0,0.25);
+    -moz-box-shadow: inset 0px 4px 2px rgba(0,0,0,0.25);
+    -webkit-box-shadow: inset 0px 4px 2px rgba(0,0,0,0.25);
+
+}
+
+ul.land li a{
+	background: #27CB2D;
+}
+
+ul.land li a:hover{
+	background: #08B10E;
+	color: #000000;
+}
+
+ul.ort li a{
+	background: #18C8FE;
+}
+
+ul.ort li a:hover{
+	background: #1296BF;
+	color: #000000;
+}
+
+ul.industri li a{
+	background: #B15900;
+	color: #FFFFFF;
+}
+
+ul.industri li a:hover{
+	background: #3F3B09;
+	color: #FFFFFF;
+}
+
+ul.erb li a{
+	color: #FFFFFF;
+	background: #650F27;
+}
+
+ul.erb li a:hover{
+	background: #4B0B1D;
+	color: #FFFFFF;
+}
+
+ul.intress li a{
+	background: #B20933;
+	color: #FFFFFF;
+}
+
+ul.intress li a:hover{
+	background: #3F0314;
+	color: #FFFFFF;
+}
+
+ul.anst-s li a{
+	color: #FFFFFF;
+	background: #12657F;
+}
+
+ul.anst-s li a:hover{
+	background: #09323F;
+	color: #FFFFFF;
+}
+
+ul.anst-t li a{
+	color: #FFFFFF;
+	background: #607A8C;
+}
+
+ul.anst-t li a:hover{
+	background: #25353F;
+	color: #FFFFFF;
+}
+
+/* Radier Stora */
+
+.topleft{
+    -moz-border-radius-topleft: 20px;
+    -webkit-border-top-left-radius: 20px;
+    -khtml-border-radius-topleft: 20px;
+    border-top-left-radius: 20px;
+}
+
+.topright{
+    -moz-border-radius-topright: 20px;
+    -webkit-border-top-right-radius: 20px;
+    -khtml-border-radius-topright: 20px;
+    border-top-right-radius: 20px;
+}
+
+.bottomright{
+    -moz-border-radius-bottomright: 20px;
+    -webkit-border-bottom-right-radius: 20px;
+    -khtml-border-radius-bottomright: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.bottomleft{
+    -moz-border-radius-bottomleft: 20px;
+    -webkit-border-bottom-left-radius: 20px;
+    -khtml-border-radius-bottomleft: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+/* Radier Sm� */
+
+.topleft-small{
+    -moz-border-radius-topleft: 2px;
+    -webkit-border-top-left-radius: 2px;
+    -khtml-border-radius-topleft: 2px;
+    border-top-left-radius: 2px;
+}
+
+.topright-small{
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -khtml-border-radius-topright: 5px;
+    border-top-right-radius: 5px;
+}
+
+.bottomright-small{
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -khtml-border-radius-bottomright: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.bottomleft-small{
+    -moz-border-radius-bottomleft: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -khtml-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+/* Gradienter */
+
+.box1{
+    background-image:-moz-linear-gradient(top, #eeeeef, #FFFeee);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eeeeef), to(#FFFeee), color-stop(1,#FFFeee));
+}
+
+.box2{
+    background-image:-moz-linear-gradient(top, #FFF, #eee);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFF), to(#eee), color-stop(1,#eee));
+}
+.larv-grad{
+    background-image:-moz-linear-gradient(top, #4b1625, #29050f);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4b1625), to(#29050f), color-stop(1,#29050f));
+}
+/*Skuggor*/
+
+.dropshadow {
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.26);
+    -moz-box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.26);
+    -webkit-box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.26);
+}

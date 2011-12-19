@@ -124,6 +124,18 @@ Route::set('admin', 'admin(/<controller>(/<action>(/<a1>(/<a2>))))')
         'controller' => 'admin',
         'action'     => 'index'
     ));
+Route::set('katalog_foretag', 'katalog/foretag/<id>(/)')
+    ->defaults(array(
+        'directory' => 'katalog',
+        'controller' => 'foretag',
+        'action'     => 'index'
+    ));
+Route::set('katalog', 'katalog(/<controller>(/<action>(/<a1>(/<a2>))))')
+    ->defaults(array(
+        'directory' => 'katalog',
+        'controller' => 'welcome',
+        'action'     => 'index'
+    ));
 Route::set('default', '(<controller>(/<a2>(/<id>)))')
 	->defaults(array(
 		'controller' => 'welcome',

@@ -14,16 +14,19 @@ body {
  	width: 820px;
 	overflow: hidden;
 }
-	
+img {
+	border: none;
+}
 #footer {
 	height: 50px;
 	border-top: 1px solid #959595;
 	padding: 10px 0 5px 5px;
 }
 #sponsors {
-	height: 50px;
+	height: 225px;
 	border-top: 1px solid #959595;
 	padding: 10px 0 5px 5px;
+	text-align:center;
 }
 
 #logo a {

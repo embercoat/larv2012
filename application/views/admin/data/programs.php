@@ -5,6 +5,7 @@ $alternator = 0; ?>
 	<thead>
 		<tr>
 			<td>Program</td>
+			<td style="width: 150px;">Programshort</td>
 			<td>Actions</td>
 		</tr>
 	</thead>
@@ -12,6 +13,7 @@ $alternator = 0; ?>
 <?  foreach($programs as $p){  ?>
 		<tr <?=(++$alternator%2 == 0) ? 'style="background-color: silver"' : '' ?>>
 			<td id="program_<?=$p['id'] ?>"><?=$p['name'] ?></td>
+			<td id="programshort_<?=$p['id'] ?>"><?=$p['shortname'] ?></td>
 			<td id="url_<?=$p['id'] ?>"><?=$p['url'] ?></td>
 			<td>
 				<a href="/admin/data/delProgram/<?=$p['id'].'/'; ?>">
@@ -27,13 +29,15 @@ $alternator = 0; ?>
 </table>
 <div style="position: fixed; top: 200px; left: 600px; background: lightGreen; padding: 10px;" id="editBox" class="preHidden">
 	<form action="/admin/data/editProgram/" method="post">
-		<?= Form::hidden('program_id', '', array('id' => 'program_id')); ?>
-		<?= Form::hidden('oldname', '', array('id' => 'oldname')); ?>
-		<?= Form::hidden('oldurl', '', array('id' => 'oldurl')); ?>
+		<?= Form::hidden('program_id', ''); ?>
+		<?= Form::hidden('oldname', ''); ?>
+		<?= Form::hidden('oldurl', ''); ?>
 		<?= Form::label('newname', 'Namn'); ?>
-		<?= Form::input('newname', '', array('id' => 'newname')); ?>
+		<?= Form::input('newname', ''); ?>
+		<?= Form::label('shortname', 'Namn'); ?>
+		<?= Form::input('shortname', ''); ?>
 		<?= Form::label('newurl', 'URL'); ?>
-		<?= Form::input('newurl', '', array('id' => 'newurl')); ?>
+		<?= Form::input('newurl', ''); ?>
 		
 		<?= Form::submit('save', 'Spara'); ?>
 	</form>

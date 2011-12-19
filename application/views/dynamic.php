@@ -1,7 +1,7 @@
 <?
 $content = Model::factory('dynamic')->get_content_by_name($dynamic);
 ?>
-<? if($edit){ ?>
+<? if(isset($edit) && $edit){ ?>
 	<?=Form::open('/'.Request::current()->uri(), array('method' => 'post')); ?>
 	<?=Form::textarea('ckedit', $content['content']); ?>
 	<?=Form::submit('submit', 'Skicka'); ?>

@@ -41,13 +41,14 @@ class Controller_Admin_data extends Controller_Admin_SuperController{
 	
 	public function action_editProgram(){
 	    if($_POST['program_id'] !== 'new'){
-	        if($_POST['oldname'] == $_POST['newname']){
-	        } else {
-		        DB::update('program')
-			        ->set(array('name' => $_POST['newname'], 'url' => $_POST['newurl']))
-			        ->where('id', '=', $_POST['program_id'])
-			        ->execute();
-	        }
+            $sql = DB::update('program')
+		        ->set(array(
+		        	'name' => $_POST['newname'],
+		        	'url' => $_POST['newurl'],
+		        	'shortname' => $_POST['shortname']
+		        ))
+		        ->where('id', '=', $_POST['program_id']);
+		        $sql->execute();
 	    } else {
 	        DB::insert('program', array('name', 'url'))
 	            ->values(array('name' => $_POST['newname'], 'url' => $_POST['newurl']))

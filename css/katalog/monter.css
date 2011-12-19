@@ -1,0 +1,197 @@
+
+#monter {
+	width: 701px;
+	height: 800px;
+	background: url(../images/karta-c-med.png) no-repeat;
+}
+
+#monter .l {
+	height: 10px;
+	width: 31px;
+}
+
+#monter .m {
+
+}
+
+#monter .s {
+	height: 10px;
+	width: 18px;
+}
+
+#monter .s-v {
+	height: 18px;
+	width: 10px;
+}
+#monter a{
+	padding: 0px;
+	line-height: 10px;
+	display: block;
+	float: left;
+	margin: 0px;
+}
+
+#monter a:hover {
+	background-color: #B30838;
+	-moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    border-radius: 2px;
+}
+
+#monter a.c31 {
+
+	position: inherit;
+	top: 377px;
+	left: 255px;
+}
+
+#monter a.c32 {
+	position: relative;
+	top: 377px;
+	left: 250px;
+}
+
+#monter a.c33 {
+	position: relative;
+	top: 377px;
+	left: 243px;
+}
+
+#monter a.c34 {
+	position: relative;
+	top: 416px;
+	left: 403px;
+}
+
+#monter a.c35 {
+	position: relative;
+	top: 430px;
+	left: 385px;
+}
+
+#monter a.c36 {
+	position: relative;
+	top: 416px;
+	left: 419px;
+}
+
+#monter a.c37 {
+	position: relative;
+	top: 430px;
+	left: 401px;
+}
+
+#monter a.c38 {
+	position: relative;
+	top: 416px;
+	left: 434px;
+}
+
+#monter a.c39 {
+	position: relative;
+	top: 430px;
+	left: 416px;
+}
+
+#monter a.c40 {
+	position: relative;
+	top: 430px;
+	left: 416px;
+}
+
+#monter a.c41 {
+	position: relative;
+	top: 377px;
+	left: 195px;
+}
+
+#monter a.c42 {
+	position: relative;
+	top: 377px;
+	left: 192px;
+}
+
+#monter a.c43 {
+	position: relative;
+	top: 377px;
+	left: 189px;
+}
+
+#monter a.c44 {
+	position: relative;
+	top: 377px;
+	left: 186px;
+}
+
+#monter a.c61 {
+	position: relative;
+	top: 237px;
+	left: -1px;
+}
+
+#monter a.c62 {
+	position: relative;
+	top: 210px;
+	left: 11px;
+}
+
+#monter a.c63 {
+	position: relative;
+	top: 195px;
+	left: 29px;
+}
+
+#monter a.c64 {
+	position: relative;
+	top: 167px;
+	left: 53px;
+}
+
+#monter a.c65 {
+	position: relative;
+	top: 153px;
+	left: 81px;
+}
+
+#monter a.c66 {
+	position: relative;
+	top: 124px;
+	left: 103px;
+}
+
+#monter a.c67 {
+	position: relative;
+	top: 111px;
+	left: 121px;
+}
+
+#monter a.c68 {
+	position: relative;
+	top: 82px;
+	left: 145px;
+}
+
+#monter a.c69 {
+	position: relative;
+	top: 145px;
+	left: 71px;
+}
+
+#monter a.c70 {
+	position: relative;
+	top: 166px;
+	left: 43px;
+}
+
+#monter a.c71 {
+	position: relative;
+	top: 315px;
+	left: -39px;
+}
+
+#monter a.c72 {
+	position: relative;
+	top: 315px;
+	left: -22px;
+}

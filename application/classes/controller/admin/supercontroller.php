@@ -28,7 +28,7 @@ class Controller_Admin_SuperController extends Kohana_Controller {
     	}
         if(!$this->session->get('user')->isAdmin() && $this->request->controller() != 'login') {
 //			var_dump(urlencode(serialize(explode('/', $this->request->uri()))));
-    		$this->request->redirect('/admin/login/redirect/'.str_replace('/', '_', $this->request->uri()));
+    		$this->request->redirect('/login/redirect/'.str_replace('/', '_', $this->request->uri()));
     	}
     }
     /**

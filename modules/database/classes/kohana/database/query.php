@@ -14,7 +14,7 @@ class Kohana_Database_Query {
 	protected $_type;
 
 	// Cache lifetime
-	protected $_lifetime = 10;
+	protected $_lifetime = 1;
 
 	// SQL statement
 	protected $_sql;

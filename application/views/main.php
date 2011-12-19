@@ -59,7 +59,7 @@ if (isset($js))
 		</div>
 	</div>
 	<div id="sponsors">
-		<p>sponsorloggor</p>
+		<?=View::factory('sponsors'); ?>
 	</div>
 	<div id="footer">
 		<div id="login"><?php

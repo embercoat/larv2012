@@ -44,7 +44,11 @@
 				<li><a href="/admin/data/sidemenu">Sidmeny</a></li>
 			</ul>
 			<ul>
+				<li><a href="/admin/company/">Företag</a></li>
+			</ul>
+			<ul>
 				<li><a href="/admin/import/">Import</a></li>
+				<li><a href="/admin/import/fetchBooths/">Hämta monterplaceringar</a></li>
 			</ul>
 			
 			

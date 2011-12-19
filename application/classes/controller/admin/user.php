@@ -54,7 +54,7 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 				->as_array();
 		$this->content->crew = DB::select('*')
 								->from('crew')
-								->where('userid', '=', $_SESSION['user']->getId())
+								->where('userid', '=', $id)
 								->execute()
 								->as_array();
 	}
