@@ -10,7 +10,7 @@
 			<p>ABB AB</p>
 		</td>
 		<td class="x">
-			<img src="/images/katalog/minus-circle.png" title="Ta bort från min katalog" alt="remove"> <!-- Klicka för att ta bort från min katalog-knapp -->
+			<img src="/images/katalog/minus-circle.png" title="Ta bort från min katalog" alt="remove" /> <!-- Klicka för att ta bort från min katalog-knapp -->
 		</td>
 	</tr>
 	<tr>
@@ -18,7 +18,7 @@
 			<p>LKAB</p>
 		</td>
 		<td class="x">
-			<img src="/images/katalog/minus-circle.png" title="Ta bort från min katalog" alt="remove"> 
+			<img src="/images/katalog/minus-circle.png" title="Ta bort från min katalog" alt="remove" /> 
 		</td>
 	</tr>
 	<tr>
@@ -26,7 +26,7 @@
 			<p>Boliden</p>
 		</td>
 		<td class="x">
-			<img src="/images/katalog/minus-circle.png" title="Ta bort från min katalog" alt="remove"> 
+			<img src="/images/katalog/minus-circle.png" title="Ta bort från min katalog" alt="remove" /> 
 		</td>
 	</tr>
 	</table>

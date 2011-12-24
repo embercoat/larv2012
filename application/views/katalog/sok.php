@@ -3,7 +3,7 @@
 		<div id="panel" class="dropshadow bottomright-small bottomleft-small">
 			<div class="content clearfix">
 				<div class="left" id="sok">
-				<form>
+				<form action="#">
 				<table class="pizza">
 					<tr>
 						<td colspan="2"> 
@@ -24,7 +24,7 @@
 					</tr>	
 					<tr>
 						<td>
-						<p>Brancher: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Dom brancher företaget arbetar i."></p>
+						<p>Brancher: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Dom brancher företaget arbetar i." /></p>
 						</td>
 						<td>
 							  <ul class="horizontal industri">
@@ -44,7 +44,7 @@
 					</tr>					
 					<tr>
 						<td  width="110px">
-						<p>Städer: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="I vilka Svenska städer företaget har kontor."> </p>
+						<p>Städer: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="I vilka Svenska städer företaget har kontor." /> </p>
 						</td>
 						<td>
 							  <ul class="horizontal ort">
@@ -62,7 +62,7 @@
 					</tr>					
 					<tr>
 						<td>
-						<p>Länder: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="I vilka länder företaget har kontor."> </p>
+						<p>Länder: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="I vilka länder företaget har kontor." /> </p>
 						</td>
 						<td>
 							  <ul class="horizontal land">
@@ -77,7 +77,7 @@
 					</tr>
 					<tr>
 						<td>
-						<p>Antal anställda i Sverige: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Antalet anställda i företaget i Sverige."></p>
+						<p>Antal anställda i Sverige: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Antalet anställda i företaget i Sverige." /></p>
 						</td>
 						<td>
 							  <ul class="horizontal anst-s">
@@ -93,7 +93,7 @@
 					</tr>
 					<tr>
 						<td>
-						<p>Antal anställda i världen: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Det totala antalet anställda i företaget."></p>
+						<p>Antal anställda i världen: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Det totala antalet anställda i företaget." /></p>
 						</td>
 						<td>
 							  <ul class="horizontal anst-t">
@@ -109,7 +109,7 @@
 					</tr>
 					<tr>
 						<td>
-						<p>Utbildningar: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Vilken sorts utbildning som företaget är intresserad av."></p>
+						<p>Utbildningar: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Vilken sorts utbildning som företaget är intresserad av." /></p>
 						</td>
 						<td>
 							  <ul class="horizontal intress">
@@ -122,12 +122,12 @@
 					</tr>
 					<tr>
 						<td>
-						<p>Program: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Vilka program som företaget är intresserad av."></p>
+						<p>Program: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Vilka program som företaget är intresserad av." /></p>
 						</td>
 						<td>
 							  <ul class="horizontal intress">
 								<li><a href="#" title="Arena Jordens Resurser" class="vtip">Jorre</a></li>
-								<li><a href="#" title="Arena Media, Musik & Teknik" class="vtip">MMT</a></li>
+								<li><a href="#" title="Arena Media, Musik &amp; Teknik" class="vtip">MMT</a></li>
 								<li><a href="#" title="Civil/högskoleingenjör Datateknik" class="vtip">Data</a></li>
 								<li><a href="#" title="Civiningenjör Rymdteknik" class="vtip">Rymd</a></li>
 								<li><a href="#" title="Civilingenjör Teknisk fysik och elektroteknik" class="vtip">F</a></li>
@@ -162,7 +162,7 @@
 					</tr>
 					<tr>
 						<td>
-						<p>Erbjuder: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Vad företaget kan erbjuda dig som student."></p>
+						<p>Erbjuder: <img src="/images/katalog/info16x16.png" alt="Info" class="vtip" title="Vad företaget kan erbjuda dig som student." /></p>
 						</td>
 						<td>
 							  <ul class="horizontal erb">
@@ -183,7 +183,7 @@
 					<tr>
 					<td colspan="2">
 
-						<input type="button" class="button" value="Sök">
+						<input type="button" class="button" value="Sök" />
 						
 					</td>
 					</tr>
@@ -206,9 +206,9 @@
 		
 	</div> <!--panel -->
 	<div id="list-container">
-	<p class="sok"><input type="text" name="frisok" size="32" /> <input type="button" class="button" value="Sök">	</p>
+	<p class="sok"><input type="text" name="frisok" size="32" /> <input type="button" class="button" value="Sök" />	</p>
 	<div id="foretag-list">
-		<form>
+		<form action="#">
 		<h1>Företag A-Ö</h1>
 		<div class="right"><input type="checkbox" name="foretag" value="total" class="pizza" /> <a href="#" title="Välj alla företag" class="vtip pizza">Alla företag</a></div>
 		<div class="list">
@@ -219,6 +219,7 @@
 		foreach($companies as $c){
 			if($c['name'][0] != $firstLetter){
 			$firstLetter = $c['name'][0];
+			$firstLetter = (ord($firstLetter) == 195 ? $firstLetter.$c['name'][1] : $firstLetter);
 				?>
 			</ul>
 			</div>
@@ -235,115 +236,6 @@
 		<?php } ?>
 		</ul>
 		</div>
-		<!-- <div class="list">
-			<h2>A</h2>
-			<ul>
-				<li><input type="checkbox" name="foretag[]" value="abb" class="pizza"/><a href="lm.php"> ABB AB</a></li>
-				<li><input type="checkbox" name="foretag" value="aw" class="pizza"/><a href="#"> Academic Work</a></li>
-				<li><input type="checkbox" name="foretag" value="acc" class="pizza"/><a href="#"> Accenture</a></li>
-				<li><input type="checkbox" name="foretag" value="aka" class="pizza"/><a href="#"> Akademikerförbundet SSR</a></li>
-				<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="press.php?id=1"> ABB AB</a></li>
-				<li><input type="checkbox" name="foretag" value="aw" class="pizza"/><a href="#"> Academic Work</a></li>
-				<li><input type="checkbox" name="foretag" value="acc" class="pizza"/><a href="#"> Accenture</a></li>
-				<li><input type="checkbox" name="foretag" value="aka" class="pizza"/><a href="#"> Akademikerförbundet SSR</a></li>
-			</ul>	
-		</div>
-		<div class="list">
-			<h2>B</h2>
-					<ul>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">BAE Systems</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza" /><a href="#">Billerud</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Bodens Kommun</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Boliden</a></li>
-					</ul>	
-		</div>
-		<div class="list">
-			<h2>C</h2>			
-					<ul>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Civilekonomerna</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Combitech AB</a></li>
-					</ul>
-		</div>
-		<div class="list">
-			<h2>D</h2>
-					<ul>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Civilekonomerna</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Combitech AB</a></li>
-					</ul>
-		</div>			
-		<div class="list">
-			<h2>A</h2>
-			<ul>
-				<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="press.php?id=1"> ABB AB</a></li>
-				<li><input type="checkbox" name="foretag" value="aw" class="pizza"/><a href="#"> Academic Work</a></li>
-				<li><input type="checkbox" name="foretag" value="acc" class="pizza"/><a href="#"> Accenture</a></li>
-				<li><input type="checkbox" name="foretag" value="aka" class="pizza"/><a href="#"> Akademikerförbundet SSR</a></li>
-			</ul>	
-		</div>
-		<div class="list">
-			<h2>B</h2>
-					<ul>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">BAE Systems</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza" /><a href="#">Billerud</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Bodens Kommun</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Boliden</a></li>
-					</ul>	
-		</div>
-		<div class="list">
-			<h2>C</h2>			
-					<ul>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Civilekonomerna</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Combitech AB</a></li>
-					</ul>
-		</div>
-		<div class="list">
-			<h2>D</h2>
-					<ul>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Civilekonomerna</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Combitech AB</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="press.php?id=1"> ABB AB</a></li>
-				<li><input type="checkbox" name="foretag" value="aw" class="pizza"/><a href="#"> Academic Work</a></li>
-				<li><input type="checkbox" name="foretag" value="acc" class="pizza"/><a href="#"> Accenture</a></li>
-				<li><input type="checkbox" name="foretag" value="aka" class="pizza"/><a href="#"> Akademikerförbundet SSR</a></li>
-				<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="press.php?id=1"> ABB AB</a></li>
-				<li><input type="checkbox" name="foretag" value="aw" class="pizza"/><a href="#"> Academic Work</a></li>
-				<li><input type="checkbox" name="foretag" value="acc" class="pizza"/><a href="#"> Accenture</a></li>
-				<li><input type="checkbox" name="foretag" value="aka" class="pizza"/><a href="#"> Akademikerförbundet SSR</a></li>
-					</ul>
-		</div>		
-		<div class="list">
-			<h2>A</h2>
-			<ul>
-				<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="press.php?id=1"> ABB AB</a></li>
-				<li><input type="checkbox" name="foretag" value="aw" class="pizza"/><a href="#"> Academic Work</a></li>
-				<li><input type="checkbox" name="foretag" value="acc" class="pizza"/><a href="#"> Accenture</a></li>
-				<li><input type="checkbox" name="foretag" value="aka" class="pizza"/><a href="#"> Akademikerförbundet SSR</a></li>
-			</ul>	
-		</div>
-		<div class="list">
-			<h2>B</h2>
-					<ul>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">BAE Systems</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza" /><a href="#">Billerud</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Bodens Kommun</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Boliden</a></li>
-					</ul>	
-		</div>
-		<div class="list">
-			<h2>C</h2>			
-					<ul>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Civilekonomerna</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Combitech AB</a></li>
-					</ul>
-		</div>
-		<div class="list">
-			<h2>D</h2>
-					<ul>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Civilekonomerna</a></li>
-						<li><input type="checkbox" name="foretag" value="abb" class="pizza"/><a href="#">Combitech AB</a></li>
-					</ul>
-		</div>		
-		 -->
-		</form>
+	</form>
 	</div> <!-- foretag-list -->
 	</div> <!-- list-container -->

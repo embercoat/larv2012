@@ -11,7 +11,7 @@
 	<head>
 
 		<title>LARV 2012 - Katalog ***BETA***</title>
-		<meta http-equiv="content-type" content="text/html; charset=charset=ISO-8859-1" />
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<meta content="width=device-width; initial-scale=1.0" name="viewport" /> <!-- Ta bort och mobilgudarna skall bajsa på ditt huvud! -->
 		
 		<!-- stylesheets -->
@@ -45,7 +45,7 @@
 			konami.load();
 		</script>
 		<script type="text/javascript">
-		
+		<!--
 		$(document).ready(function() {
 			/*
 			*   Examples - images
@@ -124,6 +124,7 @@
 				'transitionOut'		: 'none'
 			});
 		});
+		-->
 		</script>
 		<!-- <script type="text/javascript">
 			$(function() {

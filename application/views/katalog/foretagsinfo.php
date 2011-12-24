@@ -42,7 +42,7 @@
 
 			<div class="ad">
 				<a href="/<?=(isset($company['catalogue_file_ad_big'])?$company['catalogue_file_ad_big']:'upload/ads/missing_big.jpg'); ?>" id="example1">
-					<img src="/<?=(isset($company['catalogue_file_ad_small'])?$company['catalogue_file_ad_small']:'upload/ads/missing.jpg'); ?>" alt="Bild annons" class="annons">
+					<img src="/<?=(isset($company['catalogue_file_ad_big'])?$company['catalogue_file_ad_big']:'upload/ads/missing_big.jpg'); ?>" alt="Bild annons" class="annons">
 				</a>
 			</div>
 			<div class="fakta">

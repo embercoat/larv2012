@@ -4,7 +4,14 @@ class User{
     private $user_data = array();
     private static $instance;
     protected $user_id;
-    
+    static $upload = array(
+    		'cv' => 'upload/user/cv/',
+    		'image' => 'upload/user/image/'
+    	);
+    static $imagetypes = array(
+    	'jpg' => 'image/jpeg',
+    	'png' => 'image/png'
+    );
 	/**
 	 * Constructor
 	 *
@@ -277,7 +284,22 @@ class User{
 	            ->where('user_id','=', $id)
 	            ->execute();
     }
-
+    static function find_user_cv($id = NULL){
+    	if(is_file(self::$upload['cv'].$id.'.pdf')){
+    		return self::$upload['cv'].$id.'.pdf';
+    	} else {
+    		return false;
+    	}
+    }
+    static function find_user_image($id = NULL){
+    	foreach(self::$imagetypes as $ext => $it){
+	    	if(is_file(self::$upload['image'].$id.'.'.$ext)){
+    			return self::$upload['image'].$id.'.'.$ext;
+    		}
+    	}
+    	return false;
+    }
+    
 }
 
 

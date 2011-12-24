@@ -18,7 +18,19 @@
 	
 	.Form::label('program_ovrig', 'Program Övrigt')
 	.Form::input('program_ovrig', $user['program_ovrig'])
-		
+	
+	.Form::label('year', 'År')
+	.Form::input('year', $user['year'])
+	
+	.Form::label('age', 'Ålder')
+	.Form::input('age', $user['age'])
+	
+	.Form::label('from', 'Från')
+	.Form::input('from', $user['from'])
+	
+	.Form::label('subjects', 'Att prata med mig om')
+	.Form::input('subjects', $user['subjects'])
+	
 	.Form::submit('submit', 'Uppdatera')
 	.Form::close();
 
