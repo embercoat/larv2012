@@ -42,13 +42,21 @@
 				<li><a href="/admin/data/program">Program</a></li>
 				<li><a href="/admin/dynamic/">Dynamiska Sidor</a></li>
 				<li><a href="/admin/data/sidemenu">Sidmeny</a></li>
+				<li><a href="/admin/data/cities">Städer</a></li>
+				<li><a href="/admin/data/countries">Länder</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/company/">Företag</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/import/">Import</a></li>
-				<li><a href="/admin/import/fetchBooths/">Hämta monterplaceringar</a></li>
+				<li><a href="/admin/import/fetchBooths/">Hämta monterplaceringar</a></li>				
+			</ul>
+			<ul>
+				<li><a href="#">Rätta till DB</a></li>
+				<li><a href="/admin/fixdb/locations/">Platser</a></li>
+				<li><a href="/admin/fixdb/countries/">Länder</a></li>
+				<li><a href="/admin/fixdb/fixInterestedIn/">Utbildningstyper</a></li>
 			</ul>
 			
 			
@@ -67,6 +75,6 @@
 			<?=$content; ?>
 		</div>
 	</div>
-	<?=View::factory('stats'); ?>
+	<? View::factory('stats'); ?>
 </body>
 </html>

@@ -15,6 +15,17 @@ Class Model_Company extends Model
 				->execute()
 				->as_array();
 	}
+	function get_companies_catalogue_name(){
+		return DB::select('*')
+				->from('company')
+				->order_by('name', 'ASC')
+				->join('company_data')
+				->on('company.company_id', '=', 'company_data.company_id')
+				->where('company_data.field', '=', 'catalogue_company_name')
+				->execute()
+				->as_array();
+	}
+	
 	function get_company_details($id){
 		$fields = DB::select_array(array('field', 'data'))
 					->from('company_data')
@@ -39,6 +50,18 @@ Class Model_Company extends Model
 						->as_array();
 		return $branches;
 	}
+	function get_company_educationtypes($id){
+		$educationtypes = DB::select_array(array('educationType.shortname', 'educationType.id'))
+						->from('educationType')
+						->join('company_educationType')
+						->on('educationType.id', '=', 'company_educationType.educationtype_id')
+						->where('company_educationType.company_id', '=', $id)
+						->order_by('educationType.shortname', 'ASC')
+						->execute()
+						->as_array();
+		return $educationtypes;
+	}
+	
 	function get_company_programs($id){
 		$programs = DB::select_array(array('program.name', 'program.id'))
 						->from('program')
@@ -62,6 +85,31 @@ Class Model_Company extends Model
 		return $offers;
 		
 	}
+	function get_company_cities($id){
+		$cities = DB::select_array(array('city.name', 'city.id'))
+						->from('company_city')
+						->join('city')
+						->on('company_city.city_id', '=', 'city.id')
+						->where('company_city.company_id', '=', $id)
+						->order_by('city.name', 'ASC')
+						->execute()
+						->as_array();
+		return $cities;
+		
+	}
+	function get_company_countries($id){
+		$cities = DB::select_array(array('country.name', 'country.id'))
+						->from('company_countries')
+						->join('country')
+						->on('company_countries.country_id', '=', 'country.id')
+						->where('company_countries.company_id', '=', $id)
+						->order_by('country.name', 'ASC')
+						->execute()
+						->as_array();
+		return $cities;
+		
+	}
+	
 	function set_programs($company_id, $programs){
 		DB::delete('company_program')
 			->where('company_id', '=', $company_id)

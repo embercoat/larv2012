@@ -15,7 +15,7 @@
 		</tr>
 		<tr>
 			<td>Företagsvärd</td>
-			<td><?=$hosts[$company['company_host']];?></td>
+			<td><?=(isset($company['company_host']) ? $hosts[$company['company_host']] : '<i>Ingen Företagsvärd</i>');?></td>
 		</tr>
 		
 		<tr>

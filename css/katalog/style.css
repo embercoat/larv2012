@@ -101,7 +101,7 @@ hr{
 #wrapper-cont {
 	width: 100%;
 	position:relative;
-	top: 85px;
+	top: 66px;
 }
 
 #content {
@@ -317,12 +317,11 @@ hr{
 
 .sok { display: none; }
 
-/* F�retagsannons template */
+/* Företagsannons template */
 
 #template-cont {
 	width: 1060px;
-	margin-top: 65px;
-    padding: 15px 0;
+    padding: 10px 0;
 }
 
 #press-cont {
@@ -344,9 +343,13 @@ hr{
 	border-bottom: 1px solid #959595;
 	text-align: center;
 }
+
+.press-menu  li{
+	font-size: 1.1em;
+}
+
 .foretagab {
-	height: 50px;
-	width: 68%;
+	width: 78%;
 	float: left;
 	padding-top: 0px;
 }
@@ -366,7 +369,7 @@ hr{
 
 .social {
 	float: left;
-	width: 30%;
+	width: 20%;
 	height: 40px;
 	margin-top: 5px;
 }
@@ -435,6 +438,10 @@ hr{
 .press {
 	float: left;
 	width: 98%;
+}
+
+.press li{
+	font-size: 1.1em;
 }
 
 .kont li{

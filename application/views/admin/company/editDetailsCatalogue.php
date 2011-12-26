@@ -14,7 +14,7 @@
 	<tbody>
 		<tr>
 			<td>Samma kontakt som profil?</td>
-			<td><?=Form::checkbox('catalogue_contact_different', 'Ja, Yes', ($company['catalogue_contact_different'] == 'Ja, Yes' ?true:false));?><?=$company['catalogue_contact_different']; ?></td>
+			<td><?=Form::checkbox('catalogue_contact_same', 'Ja, Yes', ($company['catalogue_contact_same'] == 'Ja, Yes' ?true:false));?><?=$company['catalogue_contact_same']; ?></td>
 		</tr>
 		<tr>
 			<td>Kontakt Förnamn</td>

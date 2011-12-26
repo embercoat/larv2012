@@ -216,10 +216,10 @@
 			<ul>		
 		<?php 
 		$firstLetter = 'A';
-		foreach($companies as $c){
-			if($c['name'][0] != $firstLetter){
-			$firstLetter = $c['name'][0];
-			$firstLetter = (ord($firstLetter) == 195 ? $firstLetter.$c['name'][1] : $firstLetter);
+		foreach($companies as $id => $c){
+			if(substr($c, 0, 1) != $firstLetter){
+			$firstLetter = substr($c, 0, 1);
+			$firstLetter = (ord($firstLetter) == 195 ? $firstLetter.substr($c, 1, 1) : $firstLetter);
 				?>
 			</ul>
 			</div>
@@ -231,7 +231,7 @@
 			}	
 		?>
 			<li>
-				<input type="checkbox" name="foretag[]" value="<?=$c['company_id']; ?>" class="pizza" /><a href="/katalog/foretag/<?=$c['company_id']; ?>"><?=$c['name']; ?></a>
+				<input type="checkbox" name="foretag[]" value="<?=$id; ?>" class="pizza" /><a href="/katalog/foretag/<?=$id; ?>"><?=$c; ?></a>
 			</li>
 		<?php } ?>
 		</ul>

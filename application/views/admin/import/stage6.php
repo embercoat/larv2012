@@ -10,10 +10,25 @@ echo Form::open('/admin/import/stage7')
 	.Form::submit('submit', 'Jag är säker')
 	.Form::close();
 	extract(unserialize($carryOn));
-	$larvPrograms = Model::factory('data')->format_for_select(Model::factory('data')->get_program()); 
+	$larvPrograms = Model::factory('data')->format_for_select(Model::factory('data')->get_program());
 ?>
 <br /><br />
 <h1>Det här är som det kommer se ut</h1><br />
+<h2>Företag</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Företag</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($import as $fid){ ?>
+		<tr>
+			<td><?php echo $lines[$fid][20];?></td>
+		</tr>
+	<?php } ?>
+	</tbody>
+</table>
 <h2>Program</h2>
 <table>
 	<thead>

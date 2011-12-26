@@ -9,7 +9,7 @@
 	<tbody>
 		<tr>
 			<td>Samma kontakt som profil?</td>
-			<td><?=$company['booth_contact_different'];?></td>
+			<td><?=$company['booth_contact_same'];?></td>
 		</tr>
 		<tr>
 			<td>Kontakt Förnamn</td>

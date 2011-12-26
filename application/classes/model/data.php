@@ -22,4 +22,88 @@ Class Model_Data extends Model
 		}
 		return $return;
 	}
+	function get_city($id = false){
+	    $cities = DB::select('*')
+	                ->from('city')
+	                ->order_by('name');
+	    if($id !== false)
+	            $cities->where('id', '=', $id);
+	    $cities = $cities
+	                ->execute()
+	                ->as_array();
+	    $return = array();
+	    foreach($cities as $c){
+	        $return[$c['id']] = $c['name'];
+	    }
+	    return $return;
+	}
+	function get_country($id = false){
+	    $countries = DB::select('*')
+	                ->from('country')
+	                ->order_by('name');
+	    if($id !== false)
+	            $countries->where('id', '=', $id);
+	    $countries = $countries
+	                ->execute()
+	                ->as_array();
+	    $return = array();
+	    foreach($countries as $c){
+	        $return[$c['id']] = $c['name'];
+	    }
+	    return $return;
+	}
+	function get_branch($id = false){
+	    $branch = DB::select('*')
+	                ->from('branch')
+	                ->order_by('branch');
+	    if($id !== false)
+	            $branch->where('id', '=', $id);
+	    $branch = $branch
+	                ->execute()
+	                ->as_array();
+	    $return = array();
+	    foreach($branch as $c){
+	        $return[$c['branch_id']] = $c['branch'];
+	    }
+	    return $return;
+	}
+	function get_educationtype($id = false){
+	    $branch = DB::select('*')
+	                ->from('educationType')
+	                ->order_by('name');
+	    if($id !== false)
+	            $branch->where('id', '=', $id);
+	    $branch = $branch
+	                ->execute()
+	                ->as_array();
+	    $return = array();
+	    foreach($branch as $c){
+	        $return[$c['id']] = $c['name'];
+	    }
+	    return $return;
+	}
+	function get_offer($id = false){
+	    $offer = DB::select('*')
+	                ->from('offer')
+	                ->order_by('name');
+	    if($id !== false)
+	            $offer->where('offer_id', '=', $id);
+	    $offer = $offer
+	                ->execute()
+	                ->as_array();
+	    $return = array();
+	    foreach($offer as $o){
+	        $return[$o['offer_id']] = $o['name'];
+	    }
+	    return $return;
+	}
+	function get_random_profilepicture(){
+		$rand = scandir('upload/random_profiles');
+		$clean = array();
+		foreach($rand as $r)
+			if($r[0] !== '.')
+				$clean[] = $r;
+		
+		return $clean[rand(0, count($clean)-1)];
+	}
 }

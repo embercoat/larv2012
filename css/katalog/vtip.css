@@ -7,3 +7,9 @@ p#vtip {
 	background-color: #fcfcfc; 
 	border: 1px solid #B30838; -moz-border-radius: 1px; -webkit-border-radius: 1px; 
 	z-index: 9999 }
+	
+p#vtip 
+#vtipArrow { 
+	position: absolute; 
+	top: -10px; 
+	left: 5px }

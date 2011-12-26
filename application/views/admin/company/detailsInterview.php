@@ -17,7 +17,7 @@
 		</tr>
 		<tr>
 			<td>Samma kontakt som profil?</td>
-			<td><?=$company['interview_contact_different'];?></td>
+			<td><?=$company['interview_contact_same'];?></td>
 		</tr>
 		<tr>
 			<td>Kontakt Förnamn</td>

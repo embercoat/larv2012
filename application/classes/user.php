@@ -1,7 +1,7 @@
 <?php
 
 class User{
-    private $user_data = array();
+	private $user_data = array();
     private static $instance;
     protected $user_id;
     static $upload = array(
@@ -202,6 +202,14 @@ class User{
         return $return;
     }
     
+    static function get_data_by_user_id($field, $user_id){
+    	$data = DB::select($field)->from('user')->where('user_id','=',$user_id)->execute()->as_array();
+        if(count($data) > 0){
+            return $data[0][$field];
+        } else {
+            return false;
+        }
+    }
     /**
 	 * Get username by id
 	 * returns the username corresponding to the user_id
@@ -210,13 +218,17 @@ class User{
 	 * @return mixed string username if success else false
 	 */
     static function get_username_by_id($id){
-        $username = DB::select('username')->from('user')->where('user_id','=',$id)->execute()->as_array();
+    	return self::get_data_by_user_id('username', $id);
+    }
+    
+    static function get_name_by_id($id){
+        $username = DB::select_array(array('fname', 'lname'))->from('user')->where('user_id','=',$id)->execute()->as_array();
         if(count($username) > 0){
-            return $username[0]['username'];
+            return $username[0]['fname']. ' '. $username[0]['lname'];
         } else {
             return false;
         }
-    }
+    }    
     
     /**
 	 * Logged in
@@ -298,8 +310,7 @@ class User{
     		}
     	}
     	return false;
-    }
-    
+    }    
 }
 
 

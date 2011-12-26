@@ -8,6 +8,24 @@ function editProgram(id){
 	
 	document.getElementById('program_id').value = id; 
 }
+function editCity(id){
+	$('#editBox').show();
+	document.getElementById('newname').value = $('#city_'+id).html();
+	document.getElementById('city_id').value = id; 
+}
+function addCity(){
+	$('#editBox').show();
+	document.getElementById('city_id').value = 'new'; 
+}
+function editCountry(id){
+	$('#editBox').show();
+	document.getElementById('newname').value = $('#country_'+id).html();
+	document.getElementById('country_id').value = id; 
+}
+function addCountry(){
+	$('#editBox').show();
+	document.getElementById('country_id').value = 'new'; 
+}
 function addProgram(){
 	$('#editBox').show();
 	document.getElementById('program_id').value = 'new'; 

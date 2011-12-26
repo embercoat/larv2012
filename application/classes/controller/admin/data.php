@@ -96,7 +96,69 @@ class Controller_Admin_data extends Controller_Admin_SuperController{
 
 	    $this->request->redirect('/admin/data/sidemenu');
 	}
+	public function action_cities(){
+		$this->content = View::Factory('admin/data/cities');
+	    $this->content->cities = DB::select('*')
+	                ->from('city')
+	                ->order_by('name', 'asc')
+	                ->execute()
+	                ->as_array();
+	}
+	public function action_editCity(){
+	    if($_POST['city_id'] !== 'new'){
+            $sql = DB::update('city')
+		        ->set(array(
+		        	'name' => $_POST['newname']
+		        ))
+		        ->where('id', '=', $_POST['city_id']);
+		        $sql->execute();
+	    } else {
+	        DB::insert('city', array('name'))
+	            ->values(array('name' => $_POST['newname']))
+	            ->execute();
+	    }
+        $this->request->redirect('/admin/data/cities');
+	}
+	public function action_delCity($id){
+	    DB::delete('city')
+	        ->where('id', '=', $id)
+	        ->limit(1)
+	        ->execute();
 
+	    $this->request->redirect('/admin/data/cities');
+	}
+	public function action_countries(){
+		$this->content = View::Factory('admin/data/countries');
+	    $this->content->countries = DB::select('*')
+	                ->from('country')
+	                ->order_by('name', 'asc')
+	                ->execute()
+	                ->as_array();
+	}
+	public function action_editCountry(){
+	    if($_POST['country_id'] !== 'new'){
+            $sql = DB::update('country')
+		        ->set(array(
+		        	'name' => $_POST['newname']
+		        ))
+		        ->where('id', '=', $_POST['country_id']);
+		        $sql->execute();
+	    } else {
+	        DB::insert('country', array('name'))
+	            ->values(array('name' => $_POST['newname']))
+	            ->execute();
+	    }
+        $this->request->redirect('/admin/data/countries');
+	}
+	public function action_delCountry($id){
+	    DB::delete('country')
+	        ->where('id', '=', $id)
+	        ->limit(1)
+	        ->execute();
+
+	    $this->request->redirect('/admin/data/countries');
+	}
+	
 }
 			
 

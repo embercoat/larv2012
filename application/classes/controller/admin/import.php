@@ -151,6 +151,7 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 	public function action_stage5(){
 		$filename = $_POST['filename'];
 		$carryOn = unserialize($_POST['carryOn']);
+		
 		$import = file_get_contents($filename);
 		$lines = explode("\"\n", trim($import));
 		array_shift($lines); //remove empty line
@@ -161,28 +162,30 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		}
 		
 		$carryOn['keys'] = $_POST['key'];
-		
 		usort($lines, array($this, 'sort_company'));
 		$this->content = View::factory('/admin/import/stage5');
 		$this->content->lines = $lines;
 		$this->content->filename = $filename;
+		$this->content->existingCompanies = Model::factory('data')->format_for_select(Model::factory('company')->get_companies());
 		$this->content->carryOn = serialize($carryOn);
 	}
 	
 	public function action_stage6(){
 		$filename = $_POST['filename'];
-		$carryOn = unserialize($_POST['carryOn']);
+	    $carryOn = unserialize($_POST['carryOn']);
 		
-		$filename = $_POST['filename'];
-		$carryOn = unserialize($_POST['carryOn']);
 		$import = file_get_contents($filename);
 		$lines = explode("\"\n", trim($import));
 		array_shift($lines); //remove empty line
 		array_shift($lines); //remove empty line
 		$index = explode(chr(9), array_shift($lines)); //get the index
-		
+		foreach($lines as &$line){
+			$line = explode('"'.chr(9).'"', $line);
+		}
 		$carryOn['import'] = $_POST['import'];
+		usort($lines, array($this, 'sort_company'));
 		$this->content = View::factory('/admin/import/stage6');
+		$this->content->lines = $lines;
 		$this->content->filename = $filename;
 		$this->content->index = $index;
 		$this->content->carryOn = serialize($carryOn);

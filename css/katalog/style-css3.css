@@ -9,33 +9,36 @@ Author: Henrik Norberg
 
 
 @media handheld and (max-width: 480px), screen and (max-device-width: 480px), screen and (max-width: 600px) {
-	body { background: url("/images/katalog/bg-m2.png")  repeat-x #eaeaea; width: 98%;}
-   .pizza, .sidebar, #sidebar-1,  #toppanel, #logo .larv, #logo .tkl, #logo .lkab{ display:none; }
+	body { background: url("/images/katalog/bg-m2.png")  repeat-x #eaeaea; width: 95%;}
+   .pizza, .sidebar, #sidebar-1, #toppanel, #logo .larv, #logo .tkl, #logo .lkab{ display:none; }
    #wrapper { max-width: 100%; margin: 0;}
-   #wrapper-cont { width: 100%; margin: 0;}
-   #list-container, #map-cont, #content { width: 100%; margin-top: 100px;}
+   #wrapper-cont{float: none; width: 95%; margin-top: 0px;}
+   #content { margin-top: 20px; }
+   #list-container, #map-cont, #content, .foretagab { width: 100%;}
+   #list-container{margin-top: 20px; }
    #foretag-list { width: 100%; padding: 0; }
    .sok { display: inline;}
    .list{ width: 90%; }
 	#logo .lkab-m { position: absolute; right: 5px; top: 62px;}
    .tomat {position: absolute; top: 60px; left: 4px;	}
-   #nav-global {
-    left: -10px;
-    margin: 0;
-    position: absolute;
-    top: 11px;
-	width: 100%;
-	}
+   #nav-global { left: -10px; margin: 0; position: absolute; top: 11px; width: 100%;	}
+	.foretagab h1 { font-size: 2.5em; }
+	.press p { font-size: 1em; line-height: 150%;}
+	h2 { font-size: 1.6em;}
+	h3 { font-size: 1.4em;}
+	.press, .press-menu  li{font-size: 1em;}
 	.map-m, #press-cont {width: 100%; }
 	.video,
 	.video embed,
 	.video object,
 	.video iframe {width: 95%; height: auto;}
-	#template-cont{float: none; margin-top: 90px; width: 95%;}
-	.fakta , .press-menu, .foretagab, .ad, .karta { float: none; }
+	#template-cont{float: none; width: 95%; margin-top: 0px;}
+	.fakta , .press-menu, .foretagab, .ad, .karta{ float: none; }
 	.fakta, .press-menu { width: 100%; }
 	.monter { width: 60%; }
 	.annons { width: 150%; }
+	.kont img { width: 50%; }
+	.foretagab  { clear: both; }
 }
 
 

@@ -29,12 +29,12 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 				->order_by('user.lname', 'ASC')
 				->order_by('user.fname', 'ASC')
 				->order_by('crew.date', 'DESC');
+//		echo $sql;
 		$hosts = $sql->execute()->as_array();
 		$this->content->hosts = array();
 		foreach($hosts as $h){
 			$this->content->hosts[$h['userid']] = (empty($h['lname']) ? $h['fname'] : $h['fname'] .' '. $h['lname']);
 		}
-		var_dump($this->content->hosts);
 	}
 	
 	public function action_detailsEvent($id, $edit = false){
@@ -105,5 +105,98 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 		$this->content = View::factory('/admin/company/detailsFile');
 		$this->content->company = Model::factory('company')->get_company_details($id);
 	}
-	
+	public function action_cities($id){
+	    if(isset($_POST) && !empty($_POST)){
+	        DB::delete('company_city')->where('company_id', '=', $id)->execute();
+	        $insert = DB::insert('company_city', array('company_id', 'city_id'));
+	        foreach($_POST['city'] as $city){
+	            $insert->values(array($id, $city));
+	        }
+	        $insert->execute();
+	    }
+	    $this->content = View::factory('/admin/company/cities');
+	    $this->content->company_cities = Model::factory('company')->get_company_cities($id);
+	    $this->content->cities = Model::factory('data')->get_city();
+	    $this->content->company = Model::factory('company')->get_company_details($id);
+	}
+	public function action_countries($id){
+	    if(isset($_POST) && !empty($_POST)){
+	        DB::delete('company_countries')->where('company_id', '=', $id)->execute();
+	        if(!empty($_POST['country'])){
+    	        $insert = DB::insert('company_countries', array('company_id', 'country_id'));
+    	        foreach($_POST['country'] as $city){
+    	            $insert->values(array($id, $city));
+    	        }
+    	        $insert->execute();
+	        }
+	    }
+	    $this->content = View::factory('/admin/company/countries');
+	    $this->content->company_countries = Model::factory('company')->get_company_countries($id);
+	    $this->content->countries = Model::factory('data')->get_country();
+	    $this->content->company = Model::factory('company')->get_company_details($id);
+	}
+	public function action_branches($id){
+	    if(isset($_POST) && !empty($_POST)){
+	        DB::delete('company_branch')->where('company_id', '=', $id)->execute();
+	        if(!empty($_POST['branch'])){
+    	        $insert = DB::insert('company_branch', array('company_id', 'branch_id'));
+    	        foreach($_POST['branch'] as $branch){
+    	            $insert->values(array($id, $branch));
+    	        }
+    	        $insert->execute();
+	        }
+	    }
+	    $this->content = View::factory('/admin/company/branches');
+	    $this->content->company_branches = Model::factory('company')->get_company_branches($id);
+	    $this->content->branches = Model::factory('data')->get_branch();
+	    $this->content->company = Model::factory('company')->get_company_details($id);
+	}
+	public function action_educationtypes($id){
+	    if(isset($_POST) && !empty($_POST)){
+	        DB::delete('company_educationType')->where('company_id', '=', $id)->execute();
+	        if(!empty($_POST['educationtype'])){
+    	        $insert = DB::insert('company_educationType', array('company_id', 'educationtype_id'));
+    	        foreach($_POST['educationtype'] as $et){
+    	            $insert->values(array($id, $et));
+    	        }
+    	        $insert->execute();
+	        }
+	    }
+	    $this->content = View::factory('/admin/company/educationTypes');
+	    $this->content->company_educationtypes = Model::factory('company')->get_company_educationtypes($id);
+	    $this->content->educationtypes = Model::factory('data')->get_educationtype();
+	    $this->content->company = Model::factory('company')->get_company_details($id);
+	}
+	public function action_offers($id){
+	    if(isset($_POST) && !empty($_POST)){
+	        DB::delete('company_offer')->where('company_id', '=', $id)->execute();
+	        if(!empty($_POST['offer'])){
+    	        $insert = DB::insert('company_offer', array('company_id', 'offer_id'));
+    	        foreach($_POST['offer'] as $et){
+    	            $insert->values(array($id, $et));
+    	        }
+    	        $insert->execute();
+	        }
+	    }
+	    $this->content = View::factory('/admin/company/offer');
+	    $this->content->company_offers = Model::factory('company')->get_company_offers($id);
+	    $this->content->offers = Model::factory('data')->get_offer();
+	    $this->content->company = Model::factory('company')->get_company_details($id);
+	}
+	public function action_programs($id){
+	    if(isset($_POST) && !empty($_POST)){
+	        DB::delete('company_program')->where('company_id', '=', $id)->execute();
+	        if(!empty($_POST['program'])){
+    	        $insert = DB::insert('company_program', array('company_id', 'program_id'));
+    	        foreach($_POST['program'] as $et){
+    	            $insert->values(array($id, $et));
+    	        }
+    	        $insert->execute();
+	        }
+	    }
+	    $this->content = View::factory('/admin/company/programs');
+	    $this->content->company_programs = Model::factory('company')->get_company_programs($id);
+	    $this->content->programs = Model::factory('data')->format_for_select(Model::factory('data')->get_program());
+	    $this->content->company = Model::factory('company')->get_company_details($id);
+	}
 } // End Welcome
