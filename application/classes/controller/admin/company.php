@@ -47,6 +47,12 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 	}
 	
 	public function action_detailsInterview($id, $edit = false){
+	    if(isset($_POST) && !empty($_POST)){
+			unset($_POST['submit']);
+			$_POST['interview_offer'] = (isset($_POST['interview_offer']) ? $_POST['interview_offer'] : 'Nej, no');
+			$_POST['interview_contact_same'] = (isset($_POST['interview_contact_same']) ? $_POST['interview_contact_same'] : 'Nej, no');
+			Model::factory('company')->set_data($id, $_POST);
+		}
 		if(!$edit)
 			$this->content = View::factory('/admin/company/detailsInterview');
 		else 

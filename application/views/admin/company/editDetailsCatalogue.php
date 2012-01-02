@@ -1,6 +1,5 @@
 <h1>Katalog <?=$company['org_name']; ?></h1>
 <?=Form::open('/admin/company/detailsCatalogue/'.$company['company_id'].'/edit/'); ?>
-
 <table>
 	<thead>
 		<tr>
