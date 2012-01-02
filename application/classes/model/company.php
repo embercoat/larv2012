@@ -8,6 +8,13 @@ Class Model_Company extends Model
 					->execute();
 		return $id[0];
 	}
+	function get_company($id){
+	    return DB::select('*')
+	                ->from('company')
+	                ->where('company_id', '=', $id)
+	                ->execute()
+	                ->as_array();
+	}
 	function get_companies(){
 		return DB::select('*')
 				->from('company')
@@ -25,7 +32,20 @@ Class Model_Company extends Model
 				->execute()
 				->as_array();
 	}
-	
+	function get_company_booth($id = false, $house = false, $sort = false){
+	    $sql = DB::select('*')
+				->from('company')
+				->join('booth')
+				->on('company.company_id', '=', 'booth.company_id');
+		if($id !== false)
+				$sql->where('company.company_id', '=', $id);
+		if($house !== false)
+		        $sql->where('booth.house', '=', $house);
+		if($sort !== false)
+		$sql->order_by($sort, 'asc');
+		
+		return $sql->execute()->as_array();
+	}
 	function get_company_details($id){
 		$fields = DB::select_array(array('field', 'data'))
 					->from('company_data')
@@ -63,12 +83,12 @@ Class Model_Company extends Model
 	}
 	
 	function get_company_programs($id){
-		$programs = DB::select_array(array('program.name', 'program.id'))
+		$programs = DB::select_array(array('program.shortname', 'program.id'))
 						->from('program')
 						->join('company_program')
 						->on('program.id', '=', 'company_program.program_id')
 						->where('company_program.company_id', '=', $id)
-						->order_by('program.name', 'ASC')
+						->order_by('program.shortname', 'ASC')
 						->execute()
 						->as_array();
 		return $programs;

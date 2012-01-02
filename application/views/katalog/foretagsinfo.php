@@ -3,25 +3,25 @@
 <div id="template-cont">
     <div id="press-cont">
             <div class="back">
-                <a href="/katalog/sok"><img src="/images/katalog/arrow-180.png" alt="Arrow"> Tillbaka</a>
+                <a href="/katalog/sok"><img src="/images/katalog/arrow-180.png" alt="Arrow" /> Tillbaka</a>
             </div>
             <div class="sok social-m">
             <?php if(!empty($company['catalogue_link_facebook']) && $company['catalogue_link_facebook'] != 'http://') { ?>
-                <a href="<?=$company['catalogue_link_facebook']; ?>" class="fb" title="Besök oss på Facebook"><img src="/images/katalog/facebook.png" alt="fb"></a>
+                <a href="<?=$company['catalogue_link_facebook']; ?>" class="fb" title="Besök oss på Facebook"><img src="/images/katalog/facebook.png" alt="fb" /></a>
             <?php }?>
                 
             <?php if(!empty($company['catalogue_link_twitter']) && $company['catalogue_link_twitter'] != 'http://') { ?>
-                <a href="<?=$company['catalogue_link_twitter']; ?>" class="tw" title="Besök oss på Twitter"><img src="/images/katalog/twitter-2.png" alt="tw"></a>
+                <a href="<?=$company['catalogue_link_twitter']; ?>" class="tw" title="Besök oss på Twitter"><img src="/images/katalog/twitter-2.png" alt="tw" /></a>
             <?php }?>
                 
             <?php if(!empty($company['catalogue_link_youtube']) && $company['catalogue_link_youtube'] != 'http://') { ?>
-                <a href="<?=$company['catalogue_link_youtube']; ?>" title="Besök oss på Youtube"><img src="/images/katalog/youtube.png" alt="yt"></a>
+                <a href="<?=$company['catalogue_link_youtube']; ?>" title="Besök oss på Youtube"><img src="/images/katalog/youtube.png" alt="yt" /></a>
             <?php }?>
             </div>
             
             <div class="pluss float-r pizza">
-                <a href="#" title="Lägg till i din katalog">
-                    <img src="/images/katalog/plus.png" alt="Lägg till i din katalog"> Lägg till i din katalog</a>
+                <a href="#" onclick="catalogue.add(<?=$company['company_id']; ?>)" title="Lägg till i din katalog">
+                    <img src="/images/katalog/plus.png" alt="Lägg till i din katalog" /> Lägg till i din katalog</a>
             </div>
         
             <div class="foretagab"> <h1><?=$company['catalogue_company_name']; ?></h1></div>
@@ -47,13 +47,13 @@
             		$parts = explode('/', $company['catalogue_file_ad_big']);
             		$filename = array_pop($parts);
             	?>
-            	<a href="/upload/ads/<?=$filename; ?>" id="example1">
-                    <img src="/upload/ads/thumbs/<?=$filename; ?>" alt="Bild annons" class="annons">
+            	<a href="/upload/ads/<?=$filename; ?>" class="fancybox">
+                    <img src="/upload/ads/thumbs/<?=$filename; ?>" alt="Bild annons" class="annons" />
                 </a>
             		<?php 	
             	} else { ?>
-            	<a href="/upload/ads/missing_big.jpg" id="example1">
-                    <img src="/upload/ads/thumbs/missing.jpg" alt="Bild annons" class="annons">
+            	<a href="/upload/ads/missing_big.jpg" class="fancybox">
+                    <img src="/upload/ads/thumbs/missing.jpg" alt="Bild annons" class="annons" />
                 </a>
             	
             	<?php } ?>
@@ -72,37 +72,49 @@
                         </td>
                         <td class="info">
                             <ul class="horizontal industri">
-<?php foreach($branches as $b){ ?>
+<?php if(!empty($branches)){foreach($branches as $b){ ?>
                                 <li><a href="#"><?=$b['branch']; ?></a></li>
-<?php } ?>
+<?php }}else {?>
+    <li><em style="font-size: 12px">Inga brancher</em></li>
+    <? }
+    ?>
                             </ul>
                         </td>
                     </tr>
-                    <tr class="pizza">
+                    <tr>
                         <td class="fakta2">
                             <p>Verksamhetsorter: </p>
                         </td>
                         <td class="info">
                             <ul class="horizontal ort">
-<?php foreach($cities as $c){ ?>
+<?php if(!empty($cities)){foreach($cities as $c){ ?>
 								<li><a href="#"><?=$c['name']; ?></a></li>
-<?php } ?>
+<?php } }else {?>
+    <li><em style="font-size: 12px">Inga Verksamhetsorter</em></li>
+    <? }
+    ?>
                             </ul>
                         </td>
                     </tr>
-                    <tr class="pizza">
+                    <tr>
                         <td class="fakta2">
                             <p>Finns i länderna: </p>
                         </td>
                         <td class="info">
                             <ul class="horizontal land">
-<?php foreach($countries as $c){ ?>
+<?php 
+    if(!empty($countries)){
+        foreach($countries as $c){ ?>
 								<li><a href="#"><?=$c['name']; ?></a></li>
-<?php } ?>
+<?php }
+    } else {?>
+    <li><em style="font-size: 12px">Inga Länder</em></li>
+    <? }
+    ?>
                             </ul>
                         </td>
                     </tr>    
-                    <tr class="pizza">
+                    <tr>
                         <td class="fakta2">
                             <p>Anställda i Sverige: </p>
                         </td>
@@ -112,7 +124,7 @@
                             </ul>
                         </td>
                     </tr>
-                    <tr class="pizza">
+                    <tr>
                         <td class="fakta2">
                             <p>Anställda totalt: </p>
                         </td>
@@ -128,9 +140,12 @@
                         </td>
                         <td class="info">
                             <ul class="horizontal intress">
-<?php foreach($programs as $p) { ?>
-                                <li><a href="#"><?=$p['name']; ?></a></li>
-<?php } ?>
+<?php if(!empty($programs)){foreach($programs as $p) { ?>
+                                <li><a href="#"><?=$p['shortname']; ?></a></li>
+<?php } }else {?>
+    <li><em style="font-size: 12px">Inga Program</em></li>
+    <? }
+    ?>
                               </ul>
                         </td>
                     </tr>            
@@ -140,9 +155,12 @@
                         </td>
                         <td class="info">
                             <ul class="horizontal intress">
-<?php foreach($educationtypes as $e) { ?>
+<?php if(!empty($educationtypes)){foreach($educationtypes as $e) { ?>
                                 <li><a href="#"><?=$e['shortname']; ?></a></li>
-<?php } ?>
+<?php } }else {?>
+    <li><em style="font-size: 12px">Inga Intressen</em></li>
+    <? }
+    ?>
                             </ul>
                         </td>
                     </tr>    
@@ -152,21 +170,29 @@
                         </td>
                         <td class="info">
                             <ul class="horizontal erb">
-<?php foreach($offers as $o) { ?>
+<?php if(!empty($offers)){foreach($offers as $o) { ?>
                                   <li><a href="#"><?=$o['name']; ?></a></li>
-<?php } ?>
+<?php } }else {?>
+    <li><em style="font-size: 12px">Erbjuder Inget</em></li>
+    <? }
+    ?>
                             </ul>
                         </td>
                     </tr>
                 </table>
             </div>
             <div class="press">
+            	<?php if(!empty($company['catalogue_company_description']) && $company['interview_offer'] == 'Ja, Yes'){ ?>
+                    <h2 class="pizza"><?=((isset($company['catalogue_company_eng_head']) && $company['catalogue_company_eng_head'] == 1) ? 'Interview' :'Personligt samtal'); ?></h2>
+                    <p class="pizza"><?=$company['interview_info']; ?></p>
+                    <button onclick="ps.add(<?=$company['company_id']; ?>)" class="pizza">Anmäl Intresse</button>
+                <?php } ?>
                 <?php if(!empty($company['catalogue_company_description'])){ ?>
-                    <h2>Om Företaget</h2>
+                    <h2><?=((isset($company['catalogue_company_eng_head']) && $company['catalogue_company_eng_head'] == 1) ? 'About the Company' :'Om Företaget'); ?></h2>
                     <p><?=$company['catalogue_company_description']; ?></p>
                 <?php } ?>
                 <?php if(!empty($company['catalogue_students_dont_know'])) { ?>
-                    <h2>Visste du att?</h2>
+                    <h2><?=((isset($company['catalogue_company_eng_head']) && $company['catalogue_company_eng_head'] == 1) ? 'Did you know?' :'Visste du att?'); ?></h2>
                     <p><?=$company['catalogue_students_dont_know']; ?></p>
                 <?php } ?>
                 <?php if(!empty($company['catalogue_question'])){ ?>
@@ -174,15 +200,15 @@
                     <p><?=$company['catalogue_answer']; ?></p>
                 <?php } ?>
                 <?php if(!empty($company['catalogue_why_visit'])){ ?>
-                    <h2>Kom och prata med oss om..</h2>
+                    <h2><?=((isset($company['catalogue_company_eng_head']) && $company['catalogue_company_eng_head'] == 1) ? 'Come and talk to us about..' :'Kom och prata med oss om..'); ?></h2>
                     <p><?=$company['catalogue_why_visit']; ?></p>
                 <?php } ?>
                 
             </div>
 
             <div class="press-menu">
-                <h2>Monterplats</h2>
-                <a id="example1" href="/images/katalog/map/b26.png"><img src="/images/katalog/map/b26-s.png" alt="Monterplats b26" class="monter"></a>
+                <h2>Monterplats: <?php echo $booth['place']; ?></h2>
+                <a href="/katalog/booth/<?php echo $company['company_id']; ?>.jpg" class="fancybox"><img src="/katalog/booth/<?php echo $company['company_id']; ?>" alt="Monterplats <?php echo $booth['place']; ?>" class="monter" /></a>
             </div>
             <div class="press-menu">
                 <h2>Kontaktuppgifter och länkar</h2>
@@ -192,13 +218,13 @@
                     <li><?php echo $company['catalogue_contact_firstname'].' '.$company['catalogue_contact_lastname']; ?></li>
                     <li><em><?php echo $company['catalogue_contact_position']; ?></em></li>
                     <li><a href="mailto:<?php echo $company['catalogue_contact_email']; ?>" title="Maila <?php echo $company['catalogue_contact_firstname'].' '.$company['catalogue_contact_lastname']; ?>"><?php echo $company['catalogue_contact_email']; ?></a></li>
-                    <li><?php echo $company['catalogue_contact_cell']; ?></li>
+                    <? if(!empty($company['catalogue_contact_cell'])) { ?><li><?php echo $company['catalogue_contact_cell']; ?></li><? } ?>
                 </ul>
                 <?php } else { ?> 
                 <ul>
                     <li><?php echo $company['contact_firstname'].' '.$company['contact_lastname']; ?></li>
                     <li><a href="mailto:<?php echo $company['contact_email']; ?>" title="Maila <?php echo $company['contact_firstname'].' '.$company['contact_lastname']; ?>"><?php echo $company['contact_email']; ?></a></li>
-                    <li><?php echo $company['contact_cell']; ?></li>
+                    <? if(!empty($company['contact_cell'])) { ?><li><?php echo $company['contact_cell']; ?></li><? } ?>
                 </ul>
                 <?php } ?>
                 <h3>Länkar</h3>
@@ -224,9 +250,9 @@
                 </ul>
             </div>
             <div class="press-menu kont">
-                <h2>Årets företagsvärd</h2>
+                <h2>Företagsvärd</h2>
                 <?php if(isset($company['company_host'])){ ?>
-                <img src="/<?php echo (user::find_user_image($company['company_host']) ? user::find_user_image($company['company_host']) : 'upload/random_profiles/'.Model::factory('data')->get_random_profilepicture()); ?>" alt="Företagsvärden">
+                <img src="/<?php echo (user::find_user_image($company['company_host']) ? user::find_user_image($company['company_host']) : 'upload/random_profiles/'.Model::factory('data')->get_random_profilepicture()); ?>" alt="Företagsvärden" />
                 <ul>
                     <li><?php echo user::get_name_by_id($company['company_host']); ?></li>
                     <li><?php
@@ -236,7 +262,7 @@
                     ?></li>
                 </ul>
                 <?php } else { ?>
-                <img src="/<?php echo 'upload/random_profiles/'.Model::factory('data')->get_random_profilepicture(); ?>" alt="Företagsvärden">
+                <img src="/<?php echo 'upload/random_profiles/'.Model::factory('data')->get_random_profilepicture(); ?>" alt="Företagsvärden" />
                 <ul>
                     <li><i>Företagsvärd saknas</i></li>
                 </ul>

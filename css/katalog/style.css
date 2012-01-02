@@ -105,7 +105,7 @@ hr{
 }
 
 #content {
-  	width: 100%;
+  	width: 1060px;
 	margin-top: -14px;
     padding: 15px 0;
 }
@@ -130,25 +130,25 @@ hr{
     text-decoration: underline;
 }
 
-#nav-global {
+.nav-global {
     left: 233px;
     margin: 0;
     position: absolute;
     top: 49px;
     width: 584px;
 }
-#nav-global ul {
+.nav-global ul {
     float: left;
     margin: 0;
     padding: 0 0 0 20px;
 }
-#nav-global li {
+.nav-global li {
     float: left;
     list-style: none outside none;
     margin: 0;
     padding: 0;
 }
-#nav-global a {
+.nav-global a {
     -moz-border-bottom-colors: none;
     -moz-border-image: none;
     -moz-border-left-colors: none;
@@ -166,17 +166,17 @@ hr{
     padding: 6px 8px;
     text-decoration: none;
 }
-#nav-global ul li.active a {
+.nav-global ul li.active a {
     background: url("/images/katalog/Meny/menu_active.gif") repeat scroll 0 0 #000000;
     border-color: #000000;
     color: #FFFFFF;
 }
-#nav-global a:active {
+.nav-global a:active {
     background: url("/images/katalog/Meny/menu_active.gif") repeat scroll 0 0 #000000;
     border-color: #000000;
     color: #FFFFFF;
 }
-#nav-global a.active {
+.nav-global a.active {
     -moz-border-bottom-colors: none;
     -moz-border-image: none;
     -moz-border-left-colors: none;
@@ -194,7 +194,7 @@ hr{
     padding: 6px 8px;
     text-decoration: none;
 }
-#nav-global a:hover {
+.nav-global a:hover {
     -moz-border-bottom-colors: none;
     -moz-border-image: none;
     -moz-border-left-colors: none;
@@ -218,14 +218,15 @@ hr{
 
 .sidebar { 
 	float: right; 
-	width: 230px; 
+	width: 250px; 
 }
 
 #sidebar-1 { 
 	position: relative;
-	left: 250px;
-	overflow: visible;
-	height: 0px;
+	top: 18px;
+	overflow: auto;
+	max-height: 600px;
+
 }
 #sidebar-1 p{ 
 	margin-bottom: 0px;
@@ -235,8 +236,9 @@ hr{
 	text-align: center;
 	border-bottom: 1px solid #959595;
 }
-#sidebar-1 a {
-	margin-left: -20px;
+#minKat a, #minPs a {
+	margin-left: 0px;
+	font-size: 1.1em;
 }
 
 #sidebar-1 table {
@@ -325,6 +327,7 @@ hr{
 }
 
 #press-cont {
+	float: left;
 	width: 780px;
 	padding: 10px 10px;
 }
@@ -345,6 +348,10 @@ hr{
 }
 
 .press-menu  li{
+	font-size: 1.1em;
+}
+
+.press-menu  a{
 	font-size: 1.1em;
 }
 
@@ -444,6 +451,10 @@ hr{
 	font-size: 1.1em;
 }
 
+.press a{
+	font-size: 1.1em;
+}
+
 .kont li{
 	margin-left: -40px;
 	list-style: none;
@@ -463,19 +474,27 @@ hr{
 	padding-bottom: 20px;
 }
 
-#monter-lista  li {
-    float: left;
-	padding: 0 7px 0 7px;
+.monter-lista  li {
 	list-style: none;
-	border-right: 2px solid #959595;
+	margin-left: -38px;
+	margin-right: 20px;
+	font-weight: none;
 }
 
 #karta {
 	float: left;
 }
 
+.monter {
+	width: 95%;
+}
+
 .clear-both {
 	clear: both;
 }
 
+.press-menu label {
+	vertical-align: top;
+	font-size: 1.2em;
+}
 

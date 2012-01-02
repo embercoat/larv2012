@@ -39,6 +39,7 @@ class Controller_Register extends Controller_SuperController {
 				$this->content->name = $_POST['fname'].' '.$_POST['lname'];
 			} else {
 				$this->content->error = $error;
+				$this->content->preset = $_POST;
 			}
 		}
 	}

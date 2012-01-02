@@ -11,9 +11,10 @@ $menu = array(
 	array("controller" => "katalog", "url" => "/katalog/", "title" => "Katalogen",    				  "text" => "Katalog"),
 );
 if(isset($_SESSION['user']) && $_SESSION['user']->logged_in()){
-	$menu[] = array("controller" => "user", "url" => "/user/", "title" => "Användarsidor",    "text" => "Min Sida");
+	$menu[] = array("controller" => "user", "url" => "/user/", "title" => "Användarsidor",    "text" => "Mina Sidor");
+} else {
+    $menu[] = array("controller" => "login", "url" => '/login/redirect/'.str_replace('/', '_', Request::$current->uri()), "title" => "Logga In",    "text" => "Logga In");
 }
-
 echo "<ul>\n";
 foreach($menu as $m) {
 	$class = ($curPage == $m["controller"]) ? ' class="active"' : '';

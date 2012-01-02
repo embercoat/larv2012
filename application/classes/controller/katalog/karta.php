@@ -4,7 +4,7 @@ class Controller_Katalog_Karta extends Controller_Katalog_SuperController {
 
 	public function action_index()
 	{
-		$this->content = View::factory('katalog/foretagsinfo');
+		$this->content = View::factory('katalog/karta');
 	}
 
 } // End Welcome

@@ -79,6 +79,8 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 	public function action_detailsCatalogue($id, $edit = false){
 		if(isset($_POST) && !empty($_POST)){
 			unset($_POST['submit']);
+			$_POST['catalogue_company_eng_head'] = (isset($_POST['catalogue_company_eng_head']) ? $_POST['catalogue_company_eng_head'] : 0);
+			$_POST['catalogue_contact_same'] = (isset($_POST['catalogue_contact_same']) ? $_POST['catalogue_contact_same'] : 'Nej, no');
 			Model::factory('company')->set_data($id, $_POST);
 		}
 		if(!$edit)
@@ -198,5 +200,67 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 	    $this->content->company_programs = Model::factory('company')->get_company_programs($id);
 	    $this->content->programs = Model::factory('data')->format_for_select(Model::factory('data')->get_program());
 	    $this->content->company = Model::factory('company')->get_company_details($id);
+	}
+	public function action_boothMaps(){
+	    $houses = array(
+    			'b' => array(
+                    'base' => 'booth/karta-b',
+	                'house_id' => 1,
+	                'scale' => 0.094,
+	                'base_offset' => array('x' => -5, 'y' => 33),
+	                'out' => 'b_huset.jpg'
+                ),
+    			'c' => array(
+                    'base' => 'booth/karta-c',
+	                'house_id' => 2,
+	                'scale' => 0.0952,
+	                'base_offset' => array('x' => 61, 'y' => -27),
+	                'out' => 'c_huset.jpg'                
+                )
+            );
+        foreach($houses as $h){
+    	    $filename = Kohana::find_file('../images', $h['base'], 'jpg');
+    	    $base = imagecreatefromjpeg($filename);
+    	    $booths = DB::select_array(array('booth.*'))
+    	                ->from('booth')
+    	                ->where('house', '=', $h['house_id'])
+    	                ->execute()
+    	                ->as_array();
+    
+    	    $scale = $h['scale']; //10px/100cm
+    	    $base_offset = $h['base_offset'];
+    	    $black = imagecolorallocate($base, 0,0,0);
+    	    $grey = imagecolorallocate($base, 178,9,51);
+    	    $white = imagecolorallocate($base, 255,255,255);
+    	    $rotated = imagerotate($base, 90, $white);
+    	    foreach($booths as $b){
+    	        $mon_depth = (($b['depth'])*$scale)-2;
+    	        $mon_width = (($b['width'])*$scale)-2;
+    	        
+    	        $offset_y = -round($b['y']*$scale)+$base_offset['y'];
+    	        $offset_x = round($b['x']*$scale)+$base_offset['x'];
+    	        
+    	        if($b['rotation'] == 90){
+    	            $x2 = $offset_x + $mon_depth;
+    	            $y2 = $offset_y + $mon_width;
+    	            imagefilledrectangle($rotated, $offset_x, $offset_y, $x2, $y2, $grey);
+    	            imagettftext($rotated, 10, 90, $offset_x+14, $offset_y+25, $white, APPPATH.'../images/booth/Arial_Bold.ttf', $b['place']);
+    	        } else {
+    	            $x2 = $offset_x + $mon_width;
+    	            $y2 = $offset_y + $mon_depth;
+    	            imagefilledrectangle($rotated, $offset_x, $offset_y, $x2, $y2, $grey);
+    	            imagettftext($rotated, 10, 0, $offset_x+2, $offset_y+14, $white, APPPATH.'../images/booth/Arial_Bold.ttf', $b['place']);
+    	        }
+    	        
+    	    }
+    	    $output = APPPATH.'../images/booth/'.$h['out'];
+    	    imagejpeg(imagerotate($rotated, -90, $white), $output, 100);
+        }
+	    
+	    
+	    
+	    $this->content = View::factory('admin/company/boothmaps');
+	    
+	    
 	}
 } // End Welcome

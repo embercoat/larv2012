@@ -53,6 +53,11 @@
 			<td><?=$company['catalogue_employees_global'];?></td>
 		</tr>
 		<tr>
+			<td>Engelska rubriker?</td>
+			<td><?=((isset($company['catalogue_company_eng_head']) && $company['catalogue_company_eng_head'] == 1) ? 'Ja' : 'Nej'); ?></td>
+		</tr>
+		
+		<tr>
 			<td>Beskrivning av företaget</td>
 			<td><?=$company['catalogue_company_description'];?></td>
 		</tr>

@@ -158,6 +158,37 @@ class Controller_Admin_data extends Controller_Admin_SuperController{
 
 	    $this->request->redirect('/admin/data/countries');
 	}
+	public function action_branches(){
+		$this->content = View::Factory('admin/data/branches');
+	    $this->content->branches = DB::select('*')
+	                ->from('branch')
+	                ->order_by('branch', 'asc')
+	                ->execute()
+	                ->as_array();
+	}
+	public function action_editBranch(){
+	    if($_POST['branch_id'] !== 'new'){
+            $sql = DB::update('branch')
+		        ->set(array(
+		        	'branch' => $_POST['newname']
+		        ))
+		        ->where('branch_id', '=', $_POST['branch_id']);
+		        $sql->execute();
+	    } else {
+	        DB::insert('branch', array('branch'))
+	            ->values(array($_POST['newname']))
+	            ->execute();
+	    }
+        $this->request->redirect('/admin/data/branches');
+	}
+	public function action_delBranch($id){
+	    DB::delete('branch')
+	        ->where('branch_id', '=', $id)
+	        ->limit(1)
+	        ->execute();
+
+	    $this->request->redirect('/admin/data/branches');
+	}
 	
 }
 			

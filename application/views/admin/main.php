@@ -44,9 +44,14 @@
 				<li><a href="/admin/data/sidemenu">Sidmeny</a></li>
 				<li><a href="/admin/data/cities">Städer</a></li>
 				<li><a href="/admin/data/countries">Länder</a></li>
+				<li><a href="/admin/data/branches">Brancher</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/company/">Företag</a></li>
+				<li><a href="/admin/company/boothMaps/">Monterkartor</a></li>
+			</ul>
+			<ul>
+				<li><a href="/admin/ps/">Personliga Samtal</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/import/">Import</a></li>
@@ -75,6 +80,5 @@
 			<?=$content; ?>
 		</div>
 	</div>
-	<? View::factory('stats'); ?>
 </body>
 </html>

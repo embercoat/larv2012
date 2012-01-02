@@ -45,6 +45,9 @@
 				<?=Form::submit('submit', 'Logga In')."\n"; ?>
 			</p>
 		<?=Form::close()."\n"; ?>
+		<p style="float: left; clear: both;">
+			Ingen användare? <a href="/register" style="color: white;">Registrera dig!</a>
+		</p>
 		<?php
 		if ($attempt) {
 			echo "<p class=\"error\">Felaktigt användarnamn eller lösenord!</p>\n";

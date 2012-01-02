@@ -57,6 +57,10 @@
 			<td><?=Form::input('catalogue_employees_global', $company['catalogue_employees_global']); ?></td>
 		</tr>
 		<tr>
+			<td>Engelska rubriker?</td>
+			<td><?=Form::checkbox('catalogue_company_eng_head', 1, ((isset($company['catalogue_company_eng_head']) && $company['catalogue_company_eng_head'] == 1) ? true : false)); ?></td>
+		</tr>
+		<tr>
 			<td>Beskrivning av företaget</td>
 			<td><?=Form::textarea('catalogue_company_description', $company['catalogue_company_description']); ?></td>
 		</tr>

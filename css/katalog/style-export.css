@@ -1,0 +1,265 @@
+
+html, body {border: 0; margin: 0; padding: 0;}
+
+body {
+  	font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-size: 62.5%;
+    line-height: 120%;
+	/*background: url("/images/katalog/bg.png")  repeat-x scroll 0 0  #ffffff; */
+  	width: 100%;
+  	color: #141414;
+}
+
+a {
+    color: #4B1625;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+a:link, a:visited {
+    color: #4B1625;
+}
+a:hover, a:active {
+    color: #000000;
+    font-size: 1.2em;
+}
+
+
+a img {
+  border: none;
+}
+
+h1 {
+    color: #310F18;
+    font-family: 'Questrial',sans-serif,serif,arial,verdana,helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 24px;
+    padding: 0;
+    text-shadow: 2px 2px 2px #9D9D9D;
+}
+h2 {
+    color: #212121;
+    font-family: 'Questrial',sans-serif,serif,arial,verdana,helvetica;
+    font-size: 20px;
+    font-weight: 400;
+}
+h3 {
+    color: #212121;
+    font-family: 'Questrial',sans-serif,serif,arial,verdana,helvetica;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+p {
+    font-size: 1.2em;
+    margin: 0.5em 0;
+}
+	
+hr{
+	border: 1px solid #c0c0c0;
+}
+.right {
+	text-align: right;
+}
+
+.float-l {
+	float: left;
+}
+
+.float-r {
+	float: right;
+}
+
+/***** Main Layout ****/
+
+#logo .tkl{
+	position: relative;
+	top: 80px;
+	left: 620px;
+}
+
+#logo .lkab{
+	position: relative;
+	top: 80px;
+	left: 630px;
+	padding-left: 200px;
+}
+
+#logo .larv{
+	position: relative;
+	top: 80px;
+	right: 165px;
+	padding-left: 20px;
+}
+
+#wrapper {
+    margin: 10px auto;
+    padding: 5px 5px 0;
+    position: relative;
+    width: 820px;
+}
+
+#wrapper-cont {
+	width: 100%;
+	position:relative;
+	top: 66px;
+}
+
+#content {
+  	width: 100%;
+	margin-top: -14px;
+    padding: 15px 0;
+}
+#header {
+	padding-top: 95px;
+}
+
+#fotter {
+	width: 100%;
+	clear: left;
+    height: 50px;
+    padding: 10px 0 25px 5px;
+	border-top: 1px solid #959595;
+}
+
+#fotter a {
+  	color: #141414;
+}
+
+/* Företagsannons template */
+
+#template-cont {
+	width: 1060px;
+    padding: 10px 0;
+}
+
+#press-cont {
+	width: 100%;
+	padding: 10px 10px;
+}
+.back {
+	float: left;
+	width: 48%;
+	padding-bottom: 5px;
+}
+.press-menu {
+	float: left;
+	width: 48%;
+	padding-bottom: 5px;
+}
+
+.press-menu  h2{
+	border-bottom: 1px solid #959595;
+	text-align: center;
+}
+
+.press-menu  li{
+	font-size: 1.1em;
+}
+
+.foretagab {
+	width: 78%;
+	float: left;
+	padding-top: 0px;
+	clear: both;
+}
+
+.foretagab h1{
+	font-size: 2.5em;
+	font-weight: bold;
+	margin-top: 5px;
+	color: #B20933;
+}
+
+
+.ad {
+	float: left;
+	width: 43%;
+}
+.annons {
+	width: 100%;
+}
+
+.fakta {
+	float: left;
+	width: 56%;
+	vertical-align: top;
+	padding: 0px;
+}
+
+.info nav{
+	text-decoration: none;
+	margin-top: -2px;
+	margin-left: -27px;
+}
+
+.info {
+	width: 70%;
+}
+
+.fakta-t h2{
+	border-bottom: 1px solid #959595;
+	text-align: center;
+	margin-bottom: 3px;
+}
+
+.fakta2 {
+	width: 25%;
+	text-align: right;
+}
+
+.press {
+	float: left;
+	width: 70%;
+}
+
+.press li{
+	font-size: 1.1em;
+}
+
+.press a{
+	font-size: 1.1em;
+}
+
+.kont li{
+	margin-left: -40px;
+	list-style: none;
+	font-size: 1.2em;
+}
+
+
+/* Monterkarta */
+
+#map-cont {
+	margin-top: 65px;
+	padding-top: 30px;
+}
+
+#monter-lista {
+	float: left;
+	padding-bottom: 20px;
+}
+
+#monter-lista  li {
+    float: left;
+	padding: 0 7px 0 7px;
+	list-style: none;
+	border-right: 2px solid #959595;
+}
+
+.karta {
+	width: 29%;
+	float: left;
+	vertical-align: top;
+}
+
+.monter {
+	width: 100%;
+}
+
+.clear-both {
+	clear: both;
+}
+
+

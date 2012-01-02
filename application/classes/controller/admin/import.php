@@ -42,7 +42,6 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		
 		$xml = simplexml_load_string($data);
 
-		/* For each <movie> node, we echo a separate <plot>. */
 		$booths = array();
 /*		booth_id         int(11) PK
 		company_id       int(11)
@@ -51,7 +50,7 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		y                int(11)
 		rotation         int(11)
 		house            int(11)*/
-		$sql = DB::insert('booth', array('company_id', 'place', 'x', 'y', 'rotation', 'house'));
+		$sql = DB::insert('booth', array('company_id', 'place', 'x', 'y', 'rotation', 'house', 'width', 'depth', 'height'));
 		foreach ($xml->booth as $b) {
 			$attributes = (array)$b;
 			$attributes = $attributes['@attributes'];
@@ -61,7 +60,10 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 				$attributes['x'],
 				$attributes['y'],
 				$attributes['rotation'],
-				$attributes['house']
+				$attributes['house'],
+				$attributes['mwidth'],
+				$attributes['mdepth'],
+				$attributes['mheight']
 			));
 		}
 		$sql->execute();

@@ -21,6 +21,7 @@ class Controller_SuperController extends Kohana_Controller {
 	 * 
 	 */
     public function before(){
+        Model::Factory('counter')->record();
         $this->session = Session::instance();
     	if($this->session->get('user') === NULL){
     		$this->session->set('user', user::instance());

@@ -130,6 +130,13 @@ Route::set('katalog_foretag', 'katalog/foretag/<id>(/)')
         'controller' => 'foretag',
         'action'     => 'index'
     ));
+Route::set('katalog_booth', 'katalog/booth/<id>(.jpg)')
+    ->defaults(array(
+        'directory' => 'katalog',
+        'controller' => 'booth',
+        'action'     => 'index'
+    ));
+    
 Route::set('katalog', 'katalog(/<controller>(/<action>(/<a1>(/<a2>))))')
     ->defaults(array(
         'directory' => 'katalog',

@@ -9,7 +9,7 @@
 <?php
 if (isset($css))
 	foreach ($css as $c)
-		echo "	@import url($c);\n";
+		echo "	@import url('".$c."');\n";
 ?>
 	</style>
 	<script type="text/javascript" src="/js/main.js"></script>
@@ -78,6 +78,5 @@ if ($_SESSION['user']->logged_in()){
 		<p><b>Teknologkåren</b><br /> Luleå tekniska universitet <br /> 971 87 Luleå </p>
 	</div>
 </div>
-<?php View::Factory('stats'); ?>
 </body>
 </html>

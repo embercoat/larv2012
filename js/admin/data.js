@@ -1,12 +1,14 @@
 function editProgram(id){
-	$('#editBox').show();
 	document.getElementById('newname').value = $('#program_'+id).html();
 	document.getElementById('shortname').value = $('#programshort_'+id).html();
 	document.getElementById('oldname').value = $('#program_'+id).html();
 	document.getElementById('newurl').value = $('#url_'+id).html();
 	document.getElementById('oldurl').value = $('#url_'+id).html();
 	
-	document.getElementById('program_id').value = id; 
+	document.getElementById('program_id').value = id;
+	$('#editBox').show();
+	document.getElementById('newname').focus();
+	
 }
 function editCity(id){
 	$('#editBox').show();
@@ -22,6 +24,15 @@ function editCountry(id){
 	document.getElementById('newname').value = $('#country_'+id).html();
 	document.getElementById('country_id').value = id; 
 }
+function editBranch(id){
+	$('#editBox').show();
+	document.getElementById('newname').value = $('#branch_'+id).html();
+	document.getElementById('branch_id').value = id; 
+}
+function addBranch(){
+	$('#editBox').show();
+	document.getElementById('branch_id').value = 'new'; 
+}
 function addCountry(){
 	$('#editBox').show();
 	document.getElementById('country_id').value = 'new'; 
@@ -33,7 +44,6 @@ function addProgram(){
 function hideEditBox(){
 	$('#editBox').hide();
 }
-
 function editSidemenu(id){
 	$('#editBox').show();
 	document.getElementById('oldid').value = ((id != undefined)?id:'');

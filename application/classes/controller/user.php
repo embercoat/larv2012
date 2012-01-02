@@ -25,6 +25,16 @@ class Controller_User extends Controller_SuperController {
 								->execute()
 								->as_array();
 	}
+	public function action_ps(){
+		$this->content = View::factory('user/ps');
+		$this->content->interest = DB::select('*')
+								->from('interview_interest')
+								->where('user', '=', $_SESSION['user']->getId())
+								->join('company')
+								->on('interview_interest.company', '=', 'company.company_id')
+								->execute()
+								->as_array();
+	}
 	public function action_cv(){
 		if(isset($_POST) && !empty($_POST)){
 			if($_FILES['cv']['type'] == 'application/pdf') {
