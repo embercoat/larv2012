@@ -22,14 +22,17 @@ Class Model_Company extends Model
 				->execute()
 				->as_array();
 	}
-	function get_companies_catalogue_name(){
-		return DB::select('*')
+	function get_companies_catalogue_name($cid = false){
+		$sql = DB::select('*')
 				->from('company')
 				->order_by('name', 'ASC')
 				->join('company_data')
 				->on('company.company_id', '=', 'company_data.company_id')
-				->where('company_data.field', '=', 'catalogue_company_name')
-				->execute()
+				->where('company_data.field', '=', 'catalogue_company_name');
+		if($cid !== false)
+		    $sql->where('company.company_id', '=', $cid);
+		    
+		return $sql->execute()
 				->as_array();
 	}
 	function get_company_booth($id = false, $house = false, $sort = false){

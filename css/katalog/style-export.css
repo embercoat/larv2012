@@ -2,7 +2,7 @@
 html, body {border: 0; margin: 0; padding: 0;}
 
 body {
-  	font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+  	font-family: Geneva,Verdana,Arial,Helvetica,sans-serif;
 	font-size: 62.5%;
     line-height: 120%;
 	/*background: url("/images/katalog/bg.png")  repeat-x scroll 0 0  #ffffff; */
@@ -33,7 +33,7 @@ h1 {
     font-family: 'Questrial',sans-serif,serif,arial,verdana,helvetica;
     font-size: 24px;
     font-weight: 400;
-    line-height: 24px;
+    line-height: 20px;
     padding: 0;
     text-shadow: 2px 2px 2px #9D9D9D;
 }
@@ -52,14 +52,15 @@ h3 {
 }
 
 p {
-    font-size: 1.2em;
-    margin: 0.5em 0;
+    font-size: 1.1em;
+	font-weight: normal;
+	margin:0;
 }
 	
 hr{
-	border: 1px solid #c0c0c0;
+	width: 100%;
 }
-.right {
+.right  li{
 	text-align: right;
 }
 
@@ -71,7 +72,13 @@ hr{
 	float: right;
 }
 
+.line {
+	width: 100%;
+	border-bottom: 1px solid;
+}
+
 /***** Main Layout ****/
+
 
 #logo .tkl{
 	position: relative;
@@ -80,30 +87,26 @@ hr{
 }
 
 #logo .lkab{
-	position: relative;
-	top: 80px;
-	left: 630px;
-	padding-left: 200px;
+	position: absolute;
+	top: 12px;
+	left: 720px;
 }
 
 #logo .larv{
 	position: relative;
-	top: 80px;
-	right: 165px;
-	padding-left: 20px;
+	padding-left: 5px;
 }
 
 #wrapper {
-    margin: 10px auto;
-    padding: 5px 5px 0;
-    position: relative;
-    width: 820px;
+    margin: 0px auto;
+    padding: 0px 20px;
+    width: 100%;
 }
 
 #wrapper-cont {
 	width: 100%;
-	position:relative;
-	top: 66px;
+	height: 1020px;
+	padding-top:10px;
 }
 
 #content {
@@ -112,15 +115,17 @@ hr{
     padding: 15px 0;
 }
 #header {
-	padding-top: 95px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+	background: #650F27;
 }
 
 #fotter {
 	width: 100%;
 	clear: left;
-    height: 50px;
-    padding: 10px 0 25px 5px;
-	border-top: 1px solid #959595;
+	margin: auto 0;
+	padding-top: 400px;
+	text-align: center;
 }
 
 #fotter a {
@@ -130,8 +135,8 @@ hr{
 /* Företagsannons template */
 
 #template-cont {
-	width: 1060px;
-    padding: 10px 0;
+	height: 940px;
+	width: 100%;
 }
 
 #press-cont {
@@ -183,19 +188,40 @@ hr{
 
 .fakta {
 	float: left;
-	width: 56%;
+	width: 100%;
 	vertical-align: top;
 	padding: 0px;
 }
 
-.info nav{
-	text-decoration: none;
-	margin-top: -2px;
-	margin-left: -27px;
+td {
+border: 0px solid;
 }
 
-.info {
-	width: 70%;
+
+.info li {
+	margin: 0px 1px 5px 0;
+	list-style: none;
+	display: inline;
+	height:8px;
+}
+
+td.info {
+	margin: -15px;
+	padding: -5px;
+}
+
+.info li a{
+	padding: 1px 4px 1px 4px;
+    color:#000;
+    text-decoration:none;
+	background: #eaeaea;
+	font-size: 1em;
+	font-weight: normal;
+}
+
+table.fakta p{
+	margin-bottom: -5px;
+	font-weight: normal;
 }
 
 .fakta-t h2{
@@ -205,29 +231,48 @@ hr{
 }
 
 .fakta2 {
-	width: 25%;
+	width: 130px;
 	text-align: right;
 }
 
 .press {
 	float: left;
-	width: 70%;
+	width: 100%;
+	font-weight: normal;
+}
+
+table.press {
+	border-bottom: 0px solid;
 }
 
 .press li{
 	font-size: 1.1em;
+	font-weight: normal;
 }
 
 .press a{
-	font-size: 1.1em;
+	font-size: 1.0em;
+	font-weight: normal;
 }
 
 .kont li{
 	margin-left: -40px;
 	list-style: none;
-	font-size: 1.2em;
+	font-size: 1.1em;
+	font-weight: normal;
 }
 
+.kont a{
+	font-size: 1.0em;
+}
+
+.press th {
+	text-align: left;
+}
+
+.mumma {
+	width: 55%;
+}
 
 /* Monterkarta */
 
@@ -249,13 +294,14 @@ hr{
 }
 
 .karta {
-	width: 29%;
+	width: 40%;
 	float: left;
 	vertical-align: top;
 }
 
 .monter {
-	width: 100%;
+	width: 460px;
+	/* width: 100%; Relativ bredd fuckar första kartan*/
 }
 
 .clear-both {

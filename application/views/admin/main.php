@@ -54,6 +54,12 @@
 				<li><a href="/admin/ps/">Personliga Samtal</a></li>
 			</ul>
 			<ul>
+				<li><a href="/admin/visitor/">Besöksstatistik</a></li>
+				<li><a href="/admin/visitor/browsers/">Webbläsare</a></li>
+				<li><a href="/admin/visitor/pages/">Sidor</a></li>
+				<li><a href="/admin/visitor/mobile/">Mobil vs Dator</a></li>
+			</ul>
+			<ul>
 				<li><a href="/admin/import/">Import</a></li>
 				<li><a href="/admin/import/fetchBooths/">Hämta monterplaceringar</a></li>				
 			</ul>

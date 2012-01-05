@@ -114,23 +114,23 @@
 			<td><?=$company['catalogue_last_day_summerjob'];?></td>
 		</tr>
 		<tr>
-			<td>Monterplacering i Rum</td>
+			<td>Länk till Trainee</td>
 			<td><?=$company['catalogue_link_trainee'];?></td>
 		</tr>
 		<tr>
-			<td>Monterplacering Hus</td>
+			<td>Länk till Lediga platser</td>
 			<td><?=$company['catalogue_link_positions'];?></td>
 		</tr>
 		<tr>
-			<td>Hjälp att Bygga, Ja</td>
+			<td>Länk till Facebook</td>
 			<td><?=$company['catalogue_link_facebook'];?></td>
 		</tr>
 		<tr>
-			<td>Hjälp att Bygga, Nej</td>
+			<td>Länk till Twitter</td>
 			<td><?=$company['catalogue_link_twitter'];?></td>
 		</tr>
 		<tr>
-			<td>Barstolar</td>
+			<td>Länk till Youtube</td>
 			<td><?=$company['catalogue_link_youtube'];?></td>
 		</tr>
 </tbody>

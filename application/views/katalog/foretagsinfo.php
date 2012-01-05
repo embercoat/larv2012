@@ -207,8 +207,17 @@
             </div>
 
             <div class="press-menu">
-                <h2>Monterplats: <?php echo $booth['place']; ?></h2>
-                <a href="/katalog/booth/<?php echo $company['company_id']; ?>.jpg" class="fancybox"><img src="/katalog/booth/<?php echo $company['company_id']; ?>" alt="Monterplats <?php echo $booth['place']; ?>" class="monter" /></a>
+                <h2>Monterplats: <?php echo ($booth ? $booth['place'] : '<em>Saknas</em>'); ?></h2>
+                <?php if($booth) {?>
+                <a href="/katalog/booth/<?php echo $company['company_id']; ?>.jpg" class="fancybox">
+                	<img src="/katalog/booth/<?php echo $company['company_id']; ?>" alt="Monterplats <?php echo $booth['place']; ?>" class="monter" />
+                </a>
+                <?php } else { ?>
+                <a href="/images/katalog/monterplatskommer.jpg" class="fancybox">
+                	<img src="/images/katalog/monterplatskommer.jpg" alt="Monterplats" class="monter" />
+                </a>
+                
+                <?php } ?>
             </div>
             <div class="press-menu">
                 <h2>Kontaktuppgifter och länkar</h2>

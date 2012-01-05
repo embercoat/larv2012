@@ -12,7 +12,12 @@ class Controller_Katalog_Foretag extends Controller_Katalog_SuperController {
 		$this->content->cities         = Model::factory('company')->get_company_cities($id);
 		$this->content->countries      = Model::factory('company')->get_company_countries($id);
 		$this->content->educationtypes = Model::factory('company')->get_company_educationtypes($id);
-		list($this->content->booth)    = Model::factory('company')->get_company_booth($id);
+		$booth = Model::factory('company')->get_company_booth($id);
+		if(count($booth) > 0)
+		    list($this->content->booth)    = $booth;
+		else 
+		    $this->content->booth = false;
+		    
 		$this->js[] = '/js/katalog/personligasamtal.js';
 		
 	}
