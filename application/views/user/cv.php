@@ -1,5 +1,4 @@
 <?php
-
 echo Form::open('/user/cv',  array('enctype' => 'multipart/form-data'))
 	.Form::label('cv', 'CV')
 	.Form::file('cv')
@@ -18,4 +17,5 @@ if(user::find_user_cv($_SESSION['user']->getId())){
 	<?php 
 }
 ?>
+<p><strong>Begränsningar:</strong> Dokumentet måste vara pdf och får vara högst <?php echo ini_get('upload_max_filesize'); ?></p>
 </div>

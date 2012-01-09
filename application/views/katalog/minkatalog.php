@@ -10,8 +10,8 @@
     <body>
 	<div id="header">
 		<div id="logo">
-			<img class="larv" alt="LARV Katalogen" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/images/katalog/larv-kat2012.png" /> 
-			<img class="lkab" alt="LKAB" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/images/katalog/lkab.png" />
+			<img class="larv" alt="LARV Katalogen" src="images/katalog/larv-kat2012.png" /> 
+			<img class="lkab" alt="LKAB" src="images/katalog/lkab.png" />
 		</div>
 	</div>
 	<div id="wrapper">
@@ -22,11 +22,10 @@
 				<li><?=$c['catalogue_company_name']; ?></li>
 				<?php } ?>
 			</ul>
-			<!-- <img alt="Monterkarta-B" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/images/booth/b_huset.jpg" class="monter" />
-			<img alt="Monterkarta-c" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/images/booth/c_huset.jpg" class="monter" /> -->
+			<!-- <img alt="Monterkarta-B" src="images/booth/b_huset.jpg" class="monter" />
+			<img alt="Monterkarta-c" src="images/booth/c_huset.jpg" class="monter" /> -->
 	</div>	
 	<div class="line"></div>
-	
             <?php foreach($companies as $c){ ?>
 	<div id="wrapper-cont">
 			
@@ -176,15 +175,16 @@
 			</tr>
 			<tr>
                 <td class="" colspan="2">
-					<h2>Monterplats: <?=$c['booth']['place']; ?> </h2>
+					<h2>Monterplats: <?php echo ($c['booth'] ? $c['booth']['place'] : '<em>Saknas</em>'); ?></h2>
 				</td>
 			</tr>
 			
 			<tr>
-			   <td>
-			   <img alt="Monterkarta-c" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/katalog/booth/<?php echo $c['company_id']; ?>.jpg" class="monter" />
-					
-			    </td>
+			    <td>
+			    	<img alt="Monterkarta" src="<?php
+	    echo ($c['booth'] ? 'images/booth/'.$c['booth']['place'].'.jpg' : 'images/katalog/monterplatskommer.jpg');
+			    	  ?>" class="monter" />
+			    </td>	
 				<td class="press mumma">
 			        <h2><?=((isset($c['catalogue_company_eng_head']) && $c['catalogue_company_eng_head'] == 1) ? 'About the Company' :'Om Företaget'); ?></h2>
                     <p><?=$c['catalogue_company_description']; ?></p>
@@ -202,7 +202,7 @@
 	
 	</div>
 	<!--<div id="fotter">
-		<img class="lkab" alt="LKAB" src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/images/katalog/lkab_big.png" />
+		<img class="lkab" alt="LKAB" src="images/katalog/lkab_big.png" />
 		<h2>Huvudsamarbetspartner 2012</h2>
 	</div>-->
     </body>

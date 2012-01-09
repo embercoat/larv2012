@@ -4,6 +4,7 @@ class Controller_Katalog_export extends Kohana_controller {
 
     public function before(){
         Model::Factory('counter')->record();
+        ini_set('memory_limit', '1024M');
     }
 	public function action_index()
 	{
@@ -16,7 +17,19 @@ class Controller_Katalog_export extends Kohana_controller {
 	    $booths = array();
 	    foreach(json_decode($_COOKIE['catalogue']) as $cid){
 	        $company = Model::factory('company')->get_company_details($cid);
-	        list($company['booth']) = Model::factory('company')->get_company_booth($cid);
+    		$booth = Model::factory('company')->get_company_booth($cid);
+    		
+        	if(count($booth) > 0)
+        	    list($company['booth'])    = $booth;
+        	else 
+        	    $company['booth'] = false;
+        	    
+        	        		
+    		$exist = Kohana::find_file('../images', 'booth/'.$company['booth']['place'], 'jpg');
+			if(!$exist && $company['booth'] !== false)
+			    Model::factory('booth')->render_booth($cid);
+        	    
+        
 	        $company['branches']             = Model::factory('company')->get_company_branches($cid);
    	        $company['programs']             = Model::factory('company')->get_company_programs($cid);
 	        $company['offers']               = Model::factory('company')->get_company_offers($cid);
@@ -31,6 +44,7 @@ class Controller_Katalog_export extends Kohana_controller {
 	    file_put_contents('render.htm', $template);
 	    
 //	    $this->response->body($template);
+	    $pdf->set_base_path(getcwd());
 	    $pdf->load_html($template);
 	    $pdf->render();
 	    $pdf->stream('my_catalogue.pdf');
