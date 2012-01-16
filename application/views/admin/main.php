@@ -36,6 +36,9 @@
 			<ul>
 				<li><a href="/admin/user/">Användare</a></li>
 				<li><a href="/admin/user/crew">Crew</a></li>
+				<li><a href="/admin/user/userCompany">Företagskopplingar</a></li>
+				<li><a href="/admin/user/create">Skapa</a></li>
+				<li><a href="/admin/user/companyUsers">Företagsanvändare</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/data/">Data</a></li>
@@ -52,6 +55,7 @@
 			</ul>
 			<ul>
 				<li><a href="/admin/ps/">Personliga Samtal</a></li>
+				<li><a href="/admin/ps/selected/">Utvalda Studenter</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/visitor/">Besöksstatistik</a></li>

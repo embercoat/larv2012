@@ -37,7 +37,9 @@ class Controller_User extends Controller_SuperController {
 	}
 	public function action_cv(){
 		if(isset($_POST) && !empty($_POST)){
-			if($_FILES['cv']['type'] == 'application/pdf') {
+		    $debug = $_SESSION['user']->getId().': '.var_export($_FILES, true);
+//		    file_put_contents('cv.debug.log', $debug, FILE_APPEND);
+		    if(is_file($_FILES['cv']['tmp_name']) && substr(file_get_contents($_FILES['cv']['tmp_name']), 0, 4) == '%PDF') {
 				move_uploaded_file($_FILES['cv']['tmp_name'], user::$upload['cv'].$_SESSION['user']->getId().'.pdf');
 				$_SESSION['message']['success'][] = 'Uppladdat och klart';
 			} else {

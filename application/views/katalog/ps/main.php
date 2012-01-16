@@ -1,7 +1,8 @@
 <div class="press-menu">
 	<h1>Personliga Samtal</h1>
-	<p>Nedan är de företag som du är intresserad att ha personligt samtal med.</p>
-<?php
+	<h2>Anmälan har Stängt för i år. Välkommen tillbaka nästa år.</h2>
+<?php 
+/*
 if(!isset($_SESSION['user']) || !$_SESSION['user']->logged_in()) {
     //Inte Inloggad
 ?>
@@ -26,17 +27,22 @@ if(!isset($_SESSION['user']) || !$_SESSION['user']->logged_in()) {
 		</ul>
 	<?php } ?>
 	<?php
-	echo Form::open('/katalog/ps/');
-	echo "<ul>";
-    foreach($companies as $c) {
-	    echo '<li><span class="counter" style="float: right;"></span>'.Form::label('motivation['.$c['company_id'].']', 'Motivation: '.$c['catalogue_company_name'])
-	    .Form::textarea('motivation['.$c['company_id'].']', (isset($preset) ? $preset['motivation'][$c['company_id']] : '') ,array('class' => 'word_count')).'</li>';
-    }
-    echo '</ul>';
-    echo Form::submit('submit', 'Skicka')
-	    .Form::close();
+	if(count($companies) > 0){
+    	echo Form::open('/katalog/ps/');
+    	echo "<ul>";
+        foreach($companies as $c) {
+    	    echo '<li><span class="counter" style="float: right;"></span>'.Form::label('motivation['.$c['company_id'].']', 'Motivation: '.$c['catalogue_company_name'])
+    	    .Form::textarea('motivation['.$c['company_id'].']', (isset($preset) ? $preset['motivation'][$c['company_id']] : '') ,array('class' => 'word_count')).'</li>';
+        }
+        echo '</ul>';
+        echo Form::submit('submit', 'Skicka')
+    	    .Form::close();
+	} else {
 	?>		
-<?php 
+	<p><b>Du har ju inte valt några företag att ha samtal med! Gå tillbaka och leta upp dina företag först.</b></p>
+<?php
+	} 
 }
+*/
 ?>
 </div>

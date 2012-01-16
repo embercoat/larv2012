@@ -1,4 +1,5 @@
 <h1>Studenters intressen av företag</h1>
+<h2>Antal: <?php echo count($interests); ?> st</h2>
 <table>
 	<thead>
 		<tr>

@@ -6,7 +6,8 @@ $menu = array(
 	array("controller" => "sok", 	  "url" => "/katalog/sok/", 	"title" => "Sök",      		"text" => "Sök", 			'image' => '/images/katalog/sok-m.png'),
 	array("controller" => "karta",    "url" => "/katalog/karta/", 	"title" => "Monterkarta", 	"text" => "Monterkarta", 	'image' => '/images/katalog/globe.png'),
 	array("controller" => "skolan",   "url" => "/katalog/skolan/", 	"title" => "Skolan",    	"text" => "Skolan", 		'image' => '/images/katalog/book-brown.png'),
-//	array("controller" => "program",  "url" => "/katalog/program/", "title" => "Utbildningar",  "text" => "Utbildningar", 	'image' => '/images/katalog/receipt-text.png'),
+	array("controller" => "faq",      "url" => "/katalog/faq/", 	"title" => "FAQ",        	"text" => "FAQ",			'image' => ''),
+	//	array("controller" => "program",  "url" => "/katalog/program/", "title" => "Utbildningar",  "text" => "Utbildningar", 	'image' => '/images/katalog/receipt-text.png'),
 );
 
 echo "<ul>\n";
@@ -18,7 +19,10 @@ if(!isset($_SESSION['user']) || !$_SESSION['user']->logged_in()) {
     echo '<li><a href="/login/redirect/'.str_replace('/', '_', Request::$current->uri()).'" title="Logga In"><span>Logga In</span></a></li>';
     echo '<li><a href="/register/" title="Registrera"><span>Registrera</span></a></li>';
 } else {
-    echo '<li><a href="/user/" title="Profil"><span>Min Sida</span></a></li>';
+    if($_SESSION['user']->is_company_user())
+        echo '<li><a href="/katalog/cvbasen/" title="CVBasen"><span>CVBasen</span></a></li>';
+    else
+        echo '<li><a href="/user/" title="Profil"><span>Min Sida</span></a></li>';
 }
 echo "</ul>\n";
 ?>

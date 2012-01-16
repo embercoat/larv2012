@@ -29,7 +29,6 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 				->order_by('user.lname', 'ASC')
 				->order_by('user.fname', 'ASC')
 				->order_by('crew.date', 'DESC');
-//		echo $sql;
 		$hosts = $sql->execute()->as_array();
 		$this->content->hosts = array();
 		foreach($hosts as $h){

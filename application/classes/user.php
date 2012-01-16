@@ -178,7 +178,18 @@ class User{
             return array();
         }
     }
-        
+    public function get_company_link(){
+        $cl = DB::select('*')
+                ->from('lt_user_company')
+                ->where('user_id', '=', $this->getId())
+                ->execute()
+                ->as_array();
+                
+       if(count($cl) > 0)
+           return $cl[0]['company_id'];
+       else 
+           return false;
+    }
     /**
 	 * getProgram
 	 * Returns single program if argument present. if not, returns all programs
@@ -256,7 +267,18 @@ class User{
         else 
             return false;
     }
-    
+    /**
+	 * is_company_user
+	 * Checks whether or not the user is for a company or not. Special access
+	 *
+	 * @return bool
+	 */
+    function is_company_user(){
+        if($this->logged_in() && $this->user_data['usertype'] == 2)
+            return true;
+        else 
+            return false;
+    }
     /**
 	 * get full name
 	 * Returns the full name of the current user

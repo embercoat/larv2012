@@ -13,6 +13,17 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 				->execute()
 				->as_array();
 	}
+	public function action_companyUsers(){
+	    $this->content = View::factory('admin/user/main');
+		$this->content->users = 
+			DB::select('*')
+				->from('user')
+				->order_by('user.lname', 'ASC')
+				->order_by('user.fname', 'ASC')
+				->where('usertype', '=', 2)
+				->execute()
+				->as_array();
+	}
 	public function action_crew(){
 		$this->content = View::factory('admin/user/crew');
 		$this->content->crew = 
@@ -38,6 +49,55 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 				->execute()
 				->as_array();
 	}
+	public function action_userCompany(){
+	    if(isset($_POST) && !empty($_POST)){
+	        DB::delete('lt_user_company')->execute();
+	        $insert = DB::insert('lt_user_company', array('company_id', 'user_id'));
+	        foreach($_POST['link'] as $cid => $uid){
+	            if($uid != 0)
+	                $insert->values(array($cid, $uid));
+	        }
+	        $insert->execute();
+	    }
+	    $uc = DB::select('lt_user_company.*')
+	                ->from('lt_user_company')
+	                ->join('user')
+	                ->on('lt_user_company.user_id', '=', 'user.user_id')
+	                ->execute()
+	                ->as_array();
+	    $userCompany = array();
+	    foreach($uc as $u){ 
+	        $userCompany[$u['company_id']] = $u['user_id'];
+	    }
+	    $users = DB::select('*')
+	                ->from('user')
+	                ->where('usertype', '=', 2)
+	                ->order_by('fname', 'asc')
+	                ->order_by('lname', 'asc')
+	                ->execute()
+	                ->as_array();
+	    $formattedUsers = array();
+	    $formattedUsers[0] = 'Ingen Länk';
+	    foreach($users as $u){
+	        $formattedUsers[$u['user_id']] = $u['username'];
+	    }
+	    $companies = DB::select('*')
+	                    ->from('company')
+	                    ->where('company_id', 'in',
+	                        DB::select('company_id')
+	                            ->from('company_data')
+	                            ->where('field', '=', 'interview_offer')
+	                            ->where('data', '=', 'Ja, Yes')
+	                    )
+	                    ->order_by('name', 'asc')
+	                    ->execute()
+	                    ->as_array();
+	    $this->content = View::factory('/admin/user/userCompany');
+	    $this->content->users = $formattedUsers;
+	    $this->content->userCompany = $userCompany;
+	    $this->content->companies = $companies;
+	                    
+	}
 	public function action_detail($id){
 		$this->css[] = '/css/admin/user.css';
 		if(isset($_POST) && !empty($_POST)){
@@ -57,6 +117,13 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 								->where('userid', '=', $id)
 								->execute()
 								->as_array();
+	}
+	public function action_create(){
+	    if(isset($_POST) && !empty($_POST)){
+	        user::create_user('', '', $_POST['username'], $_POST['password'], '', '', '', '');
+	        
+	    }
+	    $this->content = View::factory('/admin/user/createUser');
 	}
 	public function action_changePassword(){
 		if($_POST['newPassword'] == $_POST['newPassword2']) {

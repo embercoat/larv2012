@@ -182,7 +182,7 @@
                 </table>
             </div>
             <div class="press">
-            	<?php if(!empty($company['catalogue_company_description']) && $company['interview_offer'] == 'Ja, Yes'){ ?>
+            	<?php if(!empty($company['catalogue_company_description']) && $company['interview_offer'] == 'Ja, Yes' and false){ ?>
                     <h2 class="pizza"><?=((isset($company['catalogue_company_eng_head']) && $company['catalogue_company_eng_head'] == 1) ? 'Interview' :'Personligt samtal'); ?></h2>
                     <p class="pizza"><?=$company['interview_info']; ?></p>
                     <button onclick="ps.add(<?=$company['company_id']; ?>)" class="pizza">Anmäl Intresse</button>
