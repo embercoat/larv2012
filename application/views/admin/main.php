@@ -48,6 +48,8 @@
 				<li><a href="/admin/data/cities">Städer</a></li>
 				<li><a href="/admin/data/countries">Länder</a></li>
 				<li><a href="/admin/data/branches">Brancher</a></li>
+				<li><a href="/admin/ps/room/">Rum</a></li>
+				<li><a href="/admin/ps/period/">Pass</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/company/">Företag</a></li>
@@ -62,6 +64,10 @@
 				<li><a href="/admin/visitor/browsers/">Webbläsare</a></li>
 				<li><a href="/admin/visitor/pages/">Sidor</a></li>
 				<li><a href="/admin/visitor/mobile/">Mobil vs Dator</a></li>
+			</ul>
+			<ul>
+				<li><a href="/admin/katExport/">Katalogverktyg</a></li>
+				<li><a href="/admin/katExport/pregen/">PreGen</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/import/">Import</a></li>

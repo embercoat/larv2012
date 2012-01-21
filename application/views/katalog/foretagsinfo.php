@@ -260,18 +260,20 @@
             </div>
             <div class="press-menu kont">
                 <h2>Företagsvärd</h2>
-                <?php if(isset($company['company_host'])){ ?>
-                <img src="/<?php echo (user::find_user_image($company['company_host']) ? user::find_user_image($company['company_host']) : 'upload/random_profiles/'.Model::factory('data')->get_random_profilepicture()); ?>" alt="Företagsvärden" />
+                <?php if($host){ ?>
+                <img src="/<?php echo (user::find_user_image($company['company_host']) ? user::find_user_image($company['company_host']) : 'upload/random_profiles/'.Model::factory('data')->get_random_profilepicture()); ?>" alt="Företagsvärden" height="200" />
                 <ul>
-                    <li><?php echo user::get_name_by_id($company['company_host']); ?></li>
+                    <li><?php echo $host['fname'].' '.$host['lname']; ?></li>
                     <li><?php
                          $program = Model::factory('data')->get_program(user::get_data_by_user_id('programid', $company['company_host']));
                          echo $program[0]['name']. ' År: '. user::get_data_by_user_id('year', $company['company_host']);
-                         
                     ?></li>
+                    <li>Ålder: <? echo $host['age']; ?></li>
+                    <li>Från: <? echo $host['from']; ?></li>
+                    <li>Prata med mig om: <? echo $host['subjects']; ?></li>
                 </ul>
                 <?php } else { ?>
-                <img src="/<?php echo 'upload/random_profiles/'.Model::factory('data')->get_random_profilepicture(); ?>" alt="Företagsvärden" />
+                    <img src="/<?php echo 'upload/random_profiles/'.Model::factory('data')->get_random_profilepicture(); ?>" alt="Företagsvärden"  height="200" />
                 <ul>
                     <li><i>Företagsvärd saknas</i></li>
                 </ul>

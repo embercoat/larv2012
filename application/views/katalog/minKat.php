@@ -12,7 +12,7 @@
             </tbody>
         </table>
         <ul class="horizontal">
-            <li><a href="/katalog/export/katalog/" title="Exportera Din katalog till PDF" class="vtip">Exportera</a></li>
+            <li><a href="#" onclick="exportKat()" title="Exportera Din katalog till PDF" class="vtip">Exportera</a></li>
         </ul>
         <table>
             <thead>

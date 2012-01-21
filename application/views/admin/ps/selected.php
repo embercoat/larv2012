@@ -1,15 +1,19 @@
+<? $alternator = 0; ?>
+<a href="/admin/export/ps">Exportera</a>
 <table>
 	<thead>
 		<tr>
 			<th style="width: 180px;">Företag</th>
 			<th style="width: 280px;">Namn</th>
 			<th style="width: 100px;">Prioritet</th>
+			<th style="width: 100px;">Rum</th>
+			<th style="width: 100px;">Tid</th>
+			<th style="width: 100px;">Edit</th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php foreach($users as $u){ ?>
-		
-		<tr>
+		<tr <?=(++$alternator%2 == 0) ? 'style="background-color: silver"' : '' ?>>
 			<td><?php echo $u['name']; ?></td>
 			<td><?php echo $u['fname'].' '.$u['lname']; ?></td>
 			<td><?php 
@@ -24,7 +28,22 @@
 			        }
 			    }
 			 ?></td>
+			<td><?php echo (!empty($u['room']) ? $rooms[$u['room']] : ''); ?></td>
+			<td><?php echo (!empty($u['period']) ? $periods[$u['period']] : ''); ?></td>
+			<td><a href="#" onclick="editInterview('<?=$u['user_id']; ?>','<?=$u['company']; ?>','<?=$u['room']; ?>','<?=$u['period']; ?>')">Edit</a></td>
 		</tr>
 		<?php } ?>
 	</tbody>
 </table>
+<div style="position: fixed; top: 200px; left: 600px; background: lightGreen; padding: 10px;" id="editBox" class="preHidden">
+	<form action="/admin/ps/editInterview/" method="post">
+		<?= Form::hidden('user_id', ''); ?>
+		<?= Form::hidden('company_id', ''); ?>
+		<?= Form::label('newroom', 'Rum'); ?>
+		<?= Form::select('newroom',$rooms); ?>
+		<?= Form::label('newperiod', 'Pass'); ?>
+		<?= Form::select('newperiod',$periods); ?>
+		<?= Form::submit('save', 'Spara'); ?>
+	</form>
+	<?= Form::button('abort','Avbryt', array('onclick' => 'hideEditBox()')); ?>
+</div>

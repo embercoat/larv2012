@@ -8,13 +8,20 @@
 	</style>
     </head>
     <body>
+	<?php
+	if(!isset($renderIndex) || $renderIndex == true){ 
+	?>
 	<div id="header">
 		<div id="logo">
 			<img class="larv" alt="LARV Katalogen" src="images/katalog/larv-kat2012.png" /> 
 			<img class="lkab" alt="LKAB" src="images/katalog/lkab.png" />
 		</div>
 	</div>
+	<?php } ?>
 	<div id="wrapper">
+	<?php
+	if(!isset($renderIndex) || $renderIndex == true){ 
+	?>
 	<div id="template-cont">
 		<h2>Innehållsförteckning: </h2>
 			<ul class="press">
@@ -24,9 +31,10 @@
 			</ul>
 			<!-- <img alt="Monterkarta-B" src="images/booth/b_huset.jpg" class="monter" />
 			<img alt="Monterkarta-c" src="images/booth/c_huset.jpg" class="monter" /> -->
-	</div>	
+	</div>
 	<div class="line"></div>
-            <?php foreach($companies as $c){ ?>
+	<?php } ?>
+    <?php foreach($companies as $c){ ?>
 	<div id="wrapper-cont">
 			
 			<table class="press">

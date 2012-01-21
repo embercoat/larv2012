@@ -59,16 +59,18 @@
 		<tr>
 			<td colspan="2">
 				<b><?php
-				    switch($interest['company_request']) {
-				        case 1:{
-				            echo "Studenten markerad som förstahandsval";
-				            break;
-				        }
-				        case 2:{
-				            echo "Studenten markerad som reserv";
-				            break;
-				        }
-				    }
+					if($interest){
+					    switch($interest['company_request']) {
+					        case 1:{
+					            echo "Studenten markerad som förstahandsval";
+					            break;
+					        }
+					        case 2:{
+					            echo "Studenten markerad som reserv";
+					            break;
+					        }
+					    }
+					}
 				?></b>
 			</td>
 		</tr>

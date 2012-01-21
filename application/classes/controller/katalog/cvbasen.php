@@ -26,7 +26,7 @@ class Controller_katalog_cvbasen extends Controller_Katalog_SuperController {
 	    $cid = $_SESSION['user']->get_company_link();
 	    $this->content->programs = Model::factory('data')->format_for_select(Model::factory('data')->get_program());
 	    $this->content->users = 
-	        DB::select_array(array('user.fname', 'user.lname', 'user.programId', 'user.user_id', 'interview_interest.company_request'))
+	        DB::select_array(array('user.fname', 'user.lname', 'user.programId', 'user.user_id', 'interview_interest.company_request', 'interview_interest.company'))
 	            ->from('user')
 	            ->join('interview_interest')
 	            ->on('user.user_id', '=', 'interview_interest.user')
@@ -34,10 +34,61 @@ class Controller_katalog_cvbasen extends Controller_Katalog_SuperController {
 	            ->execute()
 	            ->as_array();
 	}
+	public function action_all(){
+	    $this->css[] = '/css/katalog/ps.css';
+	    $this->content = View::factory('/katalog/cvbasen/all');
+	    $cid = $_SESSION['user']->get_company_link();
+	    $this->content->programs = Model::factory('data')->format_for_select(Model::factory('data')->get_program());
+	    
+	    $selected = 
+	    DB::select_array(array('user.fname', 'user.lname', 'user.programId', 'user.user_id', 'interview_interest.company_request', 'interview_interest.company'))
+	            ->from('user')
+	            ->join('interview_interest')
+	            ->on('user.user_id', '=', 'interview_interest.user')
+	            ->where('interview_interest.company', '=', $cid)
+	            ->execute()
+	            ->as_array();
+	    $reformatted = array();
+	    foreach($selected as $s){
+	    	$reformatted[$s['user_id']] = $s['company_request'];
+	    }
+	    $this->content->selected = $reformatted;
+	    $pdfs = kohana::list_files('../upload/user/cv');
+	    $userids = array();
+	    foreach($pdfs as $path => $abspath){
+	    	if(strtolower(substr($path, -3)) == 'pdf'){
+	    		$parts = explode('/', $path);
+	    		$filename = array_pop($parts);
+	    		$userids[] = substr($filename, 0, strpos($filename, '.'));
+	    	}
+	    }
+	    $this->content->users =
+	        DB::select_array(array('user.fname', 'user.lname', 'user.programId', 'user.user_id'))
+	            ->from('user')
+	            ->where('user.user_id', 'in', $userids)
+	            ->execute()
+                ->as_array();
+	}
+	
 	public function action_details($uid){
+	    $this->content = View::factory('/katalog/cvbasen/details');
+		$this->content->interest =
+                    DB::select('*')
+                        ->from('interview_interest')
+                        ->where('user', '=', $uid)
+                        ->where('company', '=', $_SESSION['user']->get_company_link())
+                        ->execute()
+                        ->as_array();
+		if(count($this->content->interest) > 0){
+			list($this->content->interest) = $this->content->interest;
+		} else {
+			$this->content->interest = false;
+		}
+		
 	    if(isset($_POST) && !empty($_POST)){
 	        
 	        $select = (isset($_POST['firsthand']) ? 1 : (isset($_POST['secondhand']) ? 2 : false));
+	        if($this->content->interest){
             DB::update('interview_interest')
                    ->set(array(
                        'company_request' => $select
@@ -45,8 +96,17 @@ class Controller_katalog_cvbasen extends Controller_Katalog_SuperController {
                    ->where('company', '=', $_SESSION['user']->get_company_link())
                    ->where('user', '=', $uid)
                    ->execute();
+	        } else {
+	        	DB::insert('interview_interest', array('user', 'company', 'company_request','time'))
+	        		->values(array(
+	        		     $uid, 
+	        		     $_SESSION['user']->get_company_link(),
+	        		     $select,
+	        		     time()
+	        		))
+	        		->execute();
+	        }
 	    }
-	    $this->content = View::factory('/katalog/cvbasen/details');
 	    list($this->content->user) =
 	                DB::select('*')
                         ->from('user')
@@ -55,15 +115,7 @@ class Controller_katalog_cvbasen extends Controller_Katalog_SuperController {
                         ->as_array();
         
         list($this->content->program) = Model::factory('data')->get_program($this->content->user['programId']);
-        
-        list($this->content->interest) =
-                    DB::select('*')
-                        ->from('interview_interest')
-                        ->where('user', '=', $uid)
-                        ->where('company', '=', $_SESSION['user']->get_company_link())
-                        ->execute()
-                        ->as_array();
-	}
+  	}
 	public function action_selected(){
 	    $this->css[] = '/css/katalog/ps.css';
 	    $this->content = View::factory('/katalog/cvbasen/selected');

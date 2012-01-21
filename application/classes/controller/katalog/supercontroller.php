@@ -38,7 +38,7 @@ class Controller_Katalog_SuperController extends Kohana_Controller {
     public function after(){
         $this->mainView = View::factory('katalog/main');
     	$this->mainView->content = $this->content;
-		
+		$this->js[] = '/js/katalog/katalog.js';
         $this->mainView->css = $this->css;
         $this->mainView->js = $this->js;
         

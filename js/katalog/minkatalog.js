@@ -19,7 +19,7 @@ catalogue = {
 				
 				var newRow = $('<tr class=/>').attr('id', 'minKat_' + id);
 				newRow.html(
-						'<td class="f"><p><a href="/katalog/foretag/'+id+'">' + data['name'] + '</a></p></td>'
+						'<td class="f"><p><a href="/katalog/foretag/'+id+'">' + data['data'] + '</a></p></td>'
 					   +'<td class="x">'
 					   +'	<a onclick="catalogue.remove('+id+');"><img src="/images/katalog/minus-circle.png" title="Ta bort från min katalog" alt="remove" /></a>'
 					   +'</td>');

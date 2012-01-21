@@ -19,16 +19,11 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 			$this->content = View::factory('/admin/company/editDetails');
 			
 		$this->content->company = Model::factory('company')->get_company_details($id);
-		$sql = DB::select_array(array('crew.userid', 'user.fname', 'user.lname'))
-				->from('crew')
-				->join('user')
-				->on('crew.userid', '=', 'user.user_id')
-				->where('crew.role', '=', 'foretagsvard')
-				->or_where('crew.role', '=', 'ftv')
-				->order_by('crew.role', 'ASC')
+		$sql = DB::select_array(array(array('user.user_id', 'userid'), 'user.fname', 'user.lname'))
+				->from('user')
 				->order_by('user.lname', 'ASC')
-				->order_by('user.fname', 'ASC')
-				->order_by('crew.date', 'DESC');
+				->order_by('user.fname', 'ASC');	
+
 		$hosts = $sql->execute()->as_array();
 		$this->content->hosts = array();
 		foreach($hosts as $h){
