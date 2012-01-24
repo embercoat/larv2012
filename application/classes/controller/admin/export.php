@@ -17,7 +17,6 @@ class Controller_Admin_Export extends Controller {
 	                    ->order_by('company_id', 'asc')
 	                    ->execute()
 	                    ->as_array();
-//	    $companies = array(array('company_id' => '210', 'name' => 'abb'));
 	    $this->content = json_encode($companies);
 	}
 	public function action_genCompanyPDF($cid){
@@ -81,6 +80,82 @@ class Controller_Admin_Export extends Controller {
 	            ->where('interview_interest.company_request', 'in', DB::expr('(1,2)'))
 	            ->order_by('company_request', 'asc')
 	            ->order_by('company.name', 'ASC')
+	            ->execute()
+	            ->as_array();
+		
+		$this->contenttype = 'application/vnd.ms-excel';
+        $this->filename = $this->request->controller(). '_' .$this->request->action().'_'.date('Ymdhi').'.xls';
+				
+        $this->content = View::factory('admin/export/crew');
+        $this->content->crew = $crew;
+        $this->response->headers('Content-Type', $this->contenttype.'; charset=utf-8');
+        $this->response->headers('Content-Disposition', 'attachment; filename="'.$this->filename.'"');
+        
+	}
+    public function action_psBooked(){
+        $this->filename = $this->request->controller(). '_' .$this->request->action().'_'.date('Ymdhi').'.xls';
+		$this->headers['Content-Disposition'] = 'attachment; filename="'.$this->filename.'"';
+		$this->contenttype = 'application/vnd.ms-excel';
+        $this->headers['Content-Type'] = $this->contenttype;
+		
+        $crew = DB::select_array(array(
+	    			'user.fname',
+	    			'user.lname',
+        			'user.phone',
+            	    array('company.name', 'company'),
+            	    array('room.name', 'rum'),
+            	    array(DB::expr('concat(period.start, " - ", period.end)'), 'pass')
+        	    ))
+	            ->from('user')
+	            ->join('interview_interest')
+	            ->on('user.user_id', '=', 'interview_interest.user')
+	            ->join('company')
+	            ->on('interview_interest.company', '=', 'company.company_id')
+	            ->join('room')
+	            ->on('interview_interest.room', '=', 'room.room_id')
+	            ->join('period')
+	            ->on('interview_interest.period', '=', 'period.period_id')
+	            ->where('interview_interest.company_request', 'in', DB::expr('(1,2)'))
+	            ->order_by('company.name', 'ASC')
+	            ->order_by('company_request', 'asc')
+	            ->order_by('period.start', 'asc')
+	            ->execute()
+	            ->as_array();
+		
+		$this->contenttype = 'application/vnd.ms-excel';
+        $this->filename = $this->request->controller(). '_' .$this->request->action().'_'.date('Ymdhi').'.xls';
+				
+        $this->content = View::factory('admin/export/crew');
+        $this->content->crew = $crew;
+        $this->response->headers('Content-Type', $this->contenttype.'; charset=utf-8');
+        $this->response->headers('Content-Disposition', 'attachment; filename="'.$this->filename.'"');
+        
+	}public function action_psBookedbyRoom(){
+        $this->filename = $this->request->controller(). '_' .$this->request->action().'_'.date('Ymdhi').'.xls';
+		$this->headers['Content-Disposition'] = 'attachment; filename="'.$this->filename.'"';
+		$this->contenttype = 'application/vnd.ms-excel';
+        $this->headers['Content-Type'] = $this->contenttype;
+		
+        $crew = DB::select_array(array(
+	    			'user.fname',
+	    			'user.lname',
+        			'user.phone',
+            	    array('company.name', 'company'),
+            	    array('room.name', 'rum'),
+            	    array(DB::expr('concat(period.start, " - ", period.end)'), 'pass')
+        	    ))
+	            ->from('user')
+	            ->join('interview_interest')
+	            ->on('user.user_id', '=', 'interview_interest.user')
+	            ->join('company')
+	            ->on('interview_interest.company', '=', 'company.company_id')
+	            ->join('room')
+	            ->on('interview_interest.room', '=', 'room.room_id')
+	            ->join('period')
+	            ->on('interview_interest.period', '=', 'period.period_id')
+	            ->where('interview_interest.company_request', 'in', DB::expr('(1,2)'))
+	            ->order_by('room.name', 'asc')
+	            ->order_by('period.start', 'asc')
 	            ->execute()
 	            ->as_array();
 		

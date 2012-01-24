@@ -61,5 +61,41 @@ class Controller_User extends Controller_SuperController {
 		$this->content = View::factory('/user/image');
 		
 	}
+    public function action_booked(){
+        $this->css[] = '/css/katalog/ps.css';
+	    $this->content = View::factory('/user/booked');
+	    $this->content->programs = Model::factory('data')->format_for_select(Model::factory('data')->get_program());
+	    $this->content->users = 
+	        DB::select_array(array('user.fname', 'user.lname', 'user.programId', 'user.user_id', 'interview_interest.*', array('company.name', 'companyname')))
+	            ->from('user')
+	            ->join('interview_interest')
+	            ->on('user.user_id', '=', 'interview_interest.user')
+	            ->join('company')
+	            ->on('interview_interest.company', '=', 'company.company_id')
+	            ->join('period')
+	            ->on('interview_interest.period', '=', 'period.period_id')
+	            ->where('interview_interest.user', '=', $_SESSION['user']->getId())
+	            ->where('interview_interest.company_request', 'in', DB::expr('(1,2)'))
+	            ->where('interview_interest.room', '>', '0')
+	            ->where('interview_interest.period', '>', '0')
+	            ->order_by('period.start', 'asc')
+	            ->execute()
+	            ->as_array();
+	    $this->content->rooms = DB::select('*')
+	                            ->from('room')
+	                            ->order_by('name', 'asc')
+	                            ->execute()
+	                            ->as_array();
+        $this->content->rooms = Model::factory('data')->format_for_select($this->content->rooms);
+	    $periods = DB::select('*')
+	                            ->from('period')
+	                            ->order_by('start', 'asc')
+	                            ->execute()
+	                            ->as_array();
+        $this->content->periods = array();
+        foreach($periods as $p){
+            $this->content->periods[$p['period_id']] = $p['start'].' - '.$p['end'];
+        }
+	}
 
 } // End Welcome

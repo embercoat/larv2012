@@ -5,6 +5,7 @@
     		<li><a href="/katalog/cvbasen/interest/">Studenters Intresse</a></li>
     		<li><a href="/katalog/cvbasen/all/">Alla Studenter</a></li>
     		<li><a href="/katalog/cvbasen/selected/">Valda Studenter</a></li>
+    		<li><a href="/katalog/cvbasen/booked/">Bokade Studenter</a></li>
     	</ul>
     </div>
     <div id="cvbasen_content">

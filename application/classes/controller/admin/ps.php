@@ -14,37 +14,104 @@ class Controller_Admin_Ps extends Controller_Admin_SuperController {
 		        ->order_by('company.name');
 		$this->content->interests = $interests->execute()->as_array();
 	}
-	public function action_schedule(){
+	public function action_schema(){
 	    //ALTER TABLE `larv2012`.`interview_interest` ADD COLUMN `room` INT NULL  AFTER `company_request` , ADD COLUMN `period` INT NULL  AFTER `room` ;
-	    
-	    $this->content = View::factory('/admin/ps/selected');
+	    $this->css[] = '/css/admin/ps.css';
+	    $this->content = View::factory('/admin/ps/schedule');
 	    $sql = DB::select_array(array(
 	    			'user.fname',
 	    			'user.lname',
             	    'user.programId',
             	    'user.user_id',
             	    'interview_interest.company_request',
-            	    'company.name'
+            	    'company.name',
+            	    'interview_interest.room',
+	                'interview_interest.period'
         	    ))
 	            ->from('user')
 	            ->join('interview_interest')
 	            ->on('user.user_id', '=', 'interview_interest.user')
 	            ->join('company')
 	            ->on('interview_interest.company', '=', 'company.company_id')
-	            ->join('room', 'LEFT')
-	            ->on('interview_interest.room', '=', 'room.room_id')
-	            ->join('period', 'LEFT')
-	            ->on('interview_interest.period', '=', 'period.period_id')
 	            ->where('interview_interest.company_request', 'in', DB::expr('(1,2)'))
 	            ->order_by('company_request', 'asc')
 	            ->order_by('company.name', 'ASC');
-	            
-	    $this->content->users = 
+	    $users = 
 	            $sql->execute()
 	            ->as_array();
+	    $timetable = array();
+	    foreach($users as $u){
+	        $timetable[$u['period']][$u['room']] = $u;
+	    }
+	    $this->content->timetable = $timetable;
+	    $this->content->rooms = DB::select('*')
+	                            ->from('room')
+	                            ->order_by('name', 'asc')
+	                            ->execute()
+	                            ->as_array();
+	    $this->content->periods = DB::select('*')
+	                            ->from('period')
+	                            ->order_by('start', 'asc')
+	                            ->execute()
+	                            ->as_array();
+	}
+	public function action_schemaForetag(){
+	    //ALTER TABLE `larv2012`.`interview_interest` ADD COLUMN `room` INT NULL  AFTER `company_request` , ADD COLUMN `period` INT NULL  AFTER `room` ;
+	    $this->css[] = '/css/admin/ps.css';
+	    $this->content = View::factory('/admin/ps/scheduleForetag');
+	    $sql = DB::select_array(array(
+	    			'user.fname',
+	    			'user.lname',
+	                'user.phone',
+            	    'user.programId',
+            	    'user.user_id',
+            	    'interview_interest.company_request',
+            	    'company.name',
+	                'company.company_id',
+            	    'interview_interest.room',
+	                'interview_interest.period'
+        	    ))
+	            ->from('user')
+	            ->join('interview_interest')
+	            ->on('user.user_id', '=', 'interview_interest.user')
+	            ->join('company')
+	            ->on('interview_interest.company', '=', 'company.company_id')
+	            ->where('interview_interest.company_request', 'in', DB::expr('(1,2)'))
+	            ->order_by('company.name', 'ASC')
+	            ->order_by('company_request', 'asc');
+	    $users = 
+	            $sql->execute()
+	            ->as_array();
+	    $timetable = array();
+	    foreach($users as $u){
+	        $timetable[$u['period']][$u['company_id']] = $u;
+	    }
+	    $this->content->timetable = $timetable;
+	    $this->content->foretag = DB::select('*')
+	                            ->from('company')
+	                            ->order_by('name', 'asc')
+	                            ->where('company_id', 'IN', DB::select('company_id')
+	                                ->from('company_data')
+	                                ->where('company_data.field', '=', 'interview_offer')
+	                                ->where('company_data.data', '=', 'Ja, Yes')
+	                                )
+	                            ->execute()
+	                            ->as_array();
+	    $this->content->rooms = DB::select('*')
+	                            ->from('room')
+	                            ->order_by('name', 'asc')
+	                            ->execute()
+	                            ->as_array();
+	    $this->content->rooms = Model::factory('data')->format_for_select($this->content->rooms);
+	    $this->content->periods = DB::select('*')
+	                            ->from('period')
+	                            ->order_by('start', 'asc')
+	                            ->execute()
+	                            ->as_array();
 	}
 	public function action_selected(){
   	    $this->js[] = '/js/admin/ps.js';
+  	    $this->js[] = '/js/datatables/media/js/jquery.dataTables.min.js';
 	    $this->content = View::factory('/admin/ps/selected');
 	    $sql = DB::select_array(array(
 	    			'user.fname',
@@ -64,7 +131,7 @@ class Controller_Admin_Ps extends Controller_Admin_SuperController {
 	            ->on('interview_interest.company', '=', 'company.company_id')
 	            ->where('interview_interest.company_request', 'in', DB::expr('(1,2)'))
 	            ->order_by('company_request', 'asc')
-	            ->order_by('company.name', 'ASC');
+	            ->order_by('user.lname', 'ASC');
 	    $this->content->rooms = DB::select('*')
 	                            ->from('room')
 	                            ->order_by('name', 'asc')
@@ -76,10 +143,14 @@ class Controller_Admin_Ps extends Controller_Admin_SuperController {
 	                            ->order_by('start', 'asc')
 	                            ->execute()
 	                            ->as_array();
+	    $this->content->rooms[0] = 'Inget Rum';
+	    ksort($this->content->rooms);
         $this->content->periods = array();
         foreach($periods as $p){
             $this->content->periods[$p['period_id']] = $p['start'].' - '.$p['end'];
         }
+        $this->content->periods[0] = 'Ingen Tid';
+        ksort($this->content->periods);
 	    $this->content->users = 
 	            $sql->execute()
 	            ->as_array();
@@ -99,7 +170,7 @@ class Controller_Admin_Ps extends Controller_Admin_SuperController {
 	                        ->execute()
 	                        ->as_array();
 	        
-	        if($count['c'] == 0 && $count_user['c'] == 0){
+	        if(($count['c'] == 0 && $count_user['c'] == 0) || ($_POST['newperiod'] == 0 && $_POST['newroom'] == 0)){
     	        DB::update('interview_interest')
     	            ->set(array(
     	                'room' => $_POST['newroom'],

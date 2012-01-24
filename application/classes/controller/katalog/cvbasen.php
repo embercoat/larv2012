@@ -122,7 +122,7 @@ class Controller_katalog_cvbasen extends Controller_Katalog_SuperController {
 	    $cid = $_SESSION['user']->get_company_link();
 	    $this->content->programs = Model::factory('data')->format_for_select(Model::factory('data')->get_program());
 	    $this->content->users = 
-	        DB::select_array(array('user.fname', 'user.lname', 'user.programId', 'user.user_id', 'interview_interest.company_request'))
+	        DB::select_array(array('user.fname', 'user.lname', 'user.programId', 'user.user_id', 'interview_interest.*'))
 	            ->from('user')
 	            ->join('interview_interest')
 	            ->on('user.user_id', '=', 'interview_interest.user')
@@ -131,6 +131,54 @@ class Controller_katalog_cvbasen extends Controller_Katalog_SuperController {
 	            ->order_by('company_request', 'asc')
 	            ->execute()
 	            ->as_array();
+	    $this->content->rooms = DB::select('*')
+	                            ->from('room')
+	                            ->order_by('name', 'asc')
+	                            ->execute()
+	                            ->as_array();
+        $this->content->rooms = Model::factory('data')->format_for_select($this->content->rooms);
+	    $periods = DB::select('*')
+	                            ->from('period')
+	                            ->order_by('start', 'asc')
+	                            ->execute()
+	                            ->as_array();
+        $this->content->periods = array();
+        foreach($periods as $p){
+            $this->content->periods[$p['period_id']] = $p['start'].' - '.$p['end'];
+        }
+	}
+	public function action_booked(){
+	$this->css[] = '/css/katalog/ps.css';
+	    $this->content = View::factory('/katalog/cvbasen/booked');
+	    $cid = $_SESSION['user']->get_company_link();
+	    $this->content->programs = Model::factory('data')->format_for_select(Model::factory('data')->get_program());
+	    $this->content->users = 
+	        DB::select_array(array('user.fname', 'user.lname', 'user.programId', 'user.user_id', 'interview_interest.*'))
+	            ->from('user')
+	            ->join('interview_interest')
+	            ->on('user.user_id', '=', 'interview_interest.user')
+	            ->where('interview_interest.company', '=', $cid)
+	            ->where('interview_interest.company_request', 'in', DB::expr('(1,2)'))
+	            ->where('interview_interest.room', '>', '0')
+	            ->where('interview_interest.period', '>', '0')
+	            ->order_by('company_request', 'asc')
+	            ->execute()
+	            ->as_array();
+	    $this->content->rooms = DB::select('*')
+	                            ->from('room')
+	                            ->order_by('name', 'asc')
+	                            ->execute()
+	                            ->as_array();
+        $this->content->rooms = Model::factory('data')->format_for_select($this->content->rooms);
+	    $periods = DB::select('*')
+	                            ->from('period')
+	                            ->order_by('start', 'asc')
+	                            ->execute()
+	                            ->as_array();
+        $this->content->periods = array();
+        foreach($periods as $p){
+            $this->content->periods[$p['period_id']] = $p['start'].' - '.$p['end'];
+        }
 	}
 	public function action_confirmed(){
 		$this->content = View::factory('/katalog/cvbasen/confirmed');

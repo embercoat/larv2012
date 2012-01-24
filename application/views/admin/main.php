@@ -58,16 +58,22 @@
 			<ul>
 				<li><a href="/admin/ps/">Personliga Samtal</a></li>
 				<li><a href="/admin/ps/selected/">Utvalda Studenter</a></li>
+				<li><a href="/admin/ps/schema/">Schema efter Rum</a></li>
+				<li><a href="/admin/ps/schemaForetag/">Schema efter Företag</a></li>
+			</ul>
+			<ul>
+				<li><a href="/admin/email/">Email</a></li>
+				<li><a href="/admin/email/psStudent">Personliga Samtal</a></li>
+			</ul>
+			<ul>
+				<li><a href="/admin/katExport/">Katalogverktyg</a></li>
+				<li><a href="/admin/katExport/pregen/">PreGen</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/visitor/">Besöksstatistik</a></li>
 				<li><a href="/admin/visitor/browsers/">Webbläsare</a></li>
 				<li><a href="/admin/visitor/pages/">Sidor</a></li>
 				<li><a href="/admin/visitor/mobile/">Mobil vs Dator</a></li>
-			</ul>
-			<ul>
-				<li><a href="/admin/katExport/">Katalogverktyg</a></li>
-				<li><a href="/admin/katExport/pregen/">PreGen</a></li>
 			</ul>
 			<ul>
 				<li><a href="/admin/import/">Import</a></li>

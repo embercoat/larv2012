@@ -1,12 +1,21 @@
 <? $alternator = 0; ?>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#selectedTable').dataTable({
+		 "bPaginate": false,
+		 "bFilter": true
+	});
+});
+</script>
 <a href="/admin/export/ps">Exportera</a>
-<table>
+<table id="selectedTable">
 	<thead>
 		<tr>
 			<th style="width: 180px;">Företag</th>
-			<th style="width: 280px;">Namn</th>
+			<th style="width: 200px;">Förnamn</th>
+			<th style="width: 200px;">Efternamn</th>
 			<th style="width: 100px;">Prioritet</th>
-			<th style="width: 100px;">Rum</th>
+			<th style="width: 150px;">Rum</th>
 			<th style="width: 100px;">Tid</th>
 			<th style="width: 100px;">Edit</th>
 		</tr>
@@ -15,7 +24,8 @@
 		<?php foreach($users as $u){ ?>
 		<tr <?=(++$alternator%2 == 0) ? 'style="background-color: silver"' : '' ?>>
 			<td><?php echo $u['name']; ?></td>
-			<td><?php echo $u['fname'].' '.$u['lname']; ?></td>
+			<td><?php echo $u['fname']; ?></td>
+			<td><?php echo $u['lname']; ?></td>
 			<td><?php 
 			    switch($u['company_request']) {
 			        case 1: {

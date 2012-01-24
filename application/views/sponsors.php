@@ -35,21 +35,19 @@
 	<a target="_blank" href="http://www.lnab.se" style="text-decoration: none;">
 		<img src="/images/samarbete/lnab_logo.png" alt="" />
 	</a>
-		<a target="_blank" href="http://www.venturecup.se/" style="text-decoration: none;">
+	<a target="_blank" href="http://www.venturecup.se/" style="text-decoration: none;">
 		<img src="/images/samarbete/venturecup_logotyp.png" alt="" />
 	</a>
-	</a>
-		<a target="_blank" href="http://www.statoil.se/" style="text-decoration: none;">
+	<a target="_blank" href="http://www.statoil.se/" style="text-decoration: none;">
 		<img src="/images/spons/statoil.jpg" alt="" />
 	</a>
-	</a>
-		<a target="_blank" href="http://www.brogaraget.se/" style="text-decoration: none;">
+	<a target="_blank" href="http://www.brogaraget.se/" style="text-decoration: none;">
 		<img src="/images/spons/bb-logo.jpg" alt="" />
 	</a>
-		</a>
-		<a target="_blank" href="http://www.profileprofessionals.com/" style="text-decoration: none;">
+	<a target="_blank" href="http://www.profileprofessionals.com/" style="text-decoration: none;">
 		<img src="/images/spons/newwave.jpg" alt="" />
 	</a>
-	
-	
+	<a target="_blank" href="http://wearedeluxe.com/" style="text-decoration: none;">
+		<img src="/images/spons/deluxe.jpg" alt="" />
+	</a>
 </p>

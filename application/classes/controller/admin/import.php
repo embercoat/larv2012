@@ -66,6 +66,7 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 				$attributes['mheight']
 			));
 		}
+		DB::delete('booth')->execute();
 		$sql->execute();
 		
 		$this->content = View::factory('/admin/import/fbStage2');

@@ -1,30 +1,23 @@
-<a href="/admin/export/ps">Exportera</a>
-<table>
-	<thead>
-		<tr>
-			<th style="width: 180px;">Företag</th>
-			<th style="width: 280px;">Namn</th>
-			<th style="width: 100px;">Prioritet</th>
-		</tr>
-	</thead>
+<a href="/admin/export/psBookedbyRoom" style="float: left;">Exportera</a><br />
+<table id="schedule" style="float: left;">
 	<tbody>
-		<?php foreach($users as $u){ ?>
-		
 		<tr>
-			<td><?php echo $u['name']; ?></td>
-			<td><?php echo $u['fname'].' '.$u['lname']; ?></td>
-			<td><?php 
-			    switch($u['company_request']) {
-			        case 1: {
-			            echo "Förstahand";
-			            break;
-			        }
-			        case 2: {
-			            echo "Reserv";
-			            break;
-			        }
+		<td></td>
+		<?php foreach($periods as $p){ ?>
+			<td><?php echo $p['start'].' - '.$p['end'];?></td>
+		<?php } ?>
+		</tr>
+		<?php foreach($rooms as $r){ ?>
+		<tr>
+			<td><?=$r['name']; ?></td>
+			<?php foreach($periods as $p){ ?>
+			<td <?php echo (isset($timetable[$p['period_id']][$r['room_id']]) ? 'class="occupied"': ''); ?>><?php
+			    if(isset($timetable[$p['period_id']][$r['room_id']])){
+			        echo '<p>'.$timetable[$p['period_id']][$r['room_id']]['fname'].' '.$timetable[$p['period_id']][$r['room_id']]['lname'].'</p>';
+			        echo '<p>'.$timetable[$p['period_id']][$r['room_id']]['name'].'</p>';
 			    }
-			 ?></td>
+			?></td>
+			<?php } ?>
 		</tr>
 		<?php } ?>
 	</tbody>
