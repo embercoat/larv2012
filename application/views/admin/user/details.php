@@ -1,4 +1,4 @@
-<div style="float: left";">
+<div style="float: left;">
 <h1>Användare: <?php echo $user['username']; ?></h1>
 <br />
 <?php 

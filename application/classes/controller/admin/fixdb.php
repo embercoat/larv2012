@@ -129,11 +129,11 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 	    $del->execute();
 	    $this->content = 'All done. Carry on Soldier!';
 	}
-	public function after(){
-	    if($_SESSION['user']->getId() != 1){
+	public function before(){
+	    parent::before();
+	    if($_SESSION['user']->getId() != 265){
 	        $this->content = View::factory('admin/fixdb/restricted');
 	    }
-	    parent::after();
 	}
 
 } // End Welcome

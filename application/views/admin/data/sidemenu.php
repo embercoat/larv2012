@@ -1,5 +1,5 @@
 <a href="#" onclick="editSidemenu()">Lägg till val i sidmenyn</a>
-<table width="70%">
+<table style="width:70%">
 <tr>
 	<td><b>Id</b></td>
 	<td><b>Flik</b></td>

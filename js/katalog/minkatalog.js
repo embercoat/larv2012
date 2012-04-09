@@ -7,6 +7,7 @@ catalogue = {
 	},
 	add: function(id){
 		found = false;
+		var i;
 		for(i=0;i<this.myCatalogue.length;i++){
 			if(this.myCatalogue[i] == id){
 				found = true;
@@ -30,6 +31,7 @@ catalogue = {
 	},
 	remove : function(id){
 		newCat = new Array();
+		var i;
 		for(i=0;i<this.myCatalogue.length;i++){
 			if(this.myCatalogue[i] != id){
 				newCat.push(this.myCatalogue[i]);
@@ -49,6 +51,7 @@ catalogue = {
 	},
 	load : function(){
 		cookieCat = $.JSON.decode($.cookie.get('catalogue'))
+		var i;
 		for(i=0;i<cookieCat.length;i++){
 			this.add(cookieCat[i]);
 		}

@@ -7,6 +7,7 @@ ps = {
 	},
 	add: function(id){
 		found = false;
+		var i;
 		for(i=0;i<this.myPs.length;i++){
 			if(this.myPs[i] == id){
 				found = true;
@@ -31,6 +32,7 @@ ps = {
 	},
 	remove : function(id){
 		newPs = new Array();
+		var i;
 		for(i=0;i<this.myPs.length;i++){
 			if(this.myPs[i] != id){
 				newPs.push(this.myPs[i]);
@@ -49,6 +51,7 @@ ps = {
 	},
 	load : function(){
 		cookiePs = $.JSON.decode($.cookie.get('interview'));
+		var i;
 		for(i=0;i<cookiePs.length;i++){
 			this.add(cookiePs[i]);
 		}

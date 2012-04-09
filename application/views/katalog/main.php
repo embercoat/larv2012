@@ -55,7 +55,7 @@ if (isset($js))
 				document.body.appendChild(s);
 				s.src='http://yourjavascript.com/12512268610/asteroids.min.js';
 				void(0);
-			}			
+			};		
 			konami.load();
 		</script>
 		<script type="text/javascript">
