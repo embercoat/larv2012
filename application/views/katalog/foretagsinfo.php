@@ -1,4 +1,5 @@
-<? echo View::factory('katalog/minKat');
+<?php
+echo View::factory('katalog/minKat');
 ?>
 <div id="template-cont">
     <div id="press-cont">
@@ -7,38 +8,38 @@
             </div>
             <div class="sok social-m">
             <?php if(!empty($company['catalogue_link_facebook']) && $company['catalogue_link_facebook'] != 'http://') { ?>
-                <a href="<?=$company['catalogue_link_facebook']; ?>" class="fb" title="Besök oss på Facebook"><img src="/images/katalog/facebook.png" alt="fb" /></a>
-            <?php }?>
-                
-            <?php if(!empty($company['catalogue_link_twitter']) && $company['catalogue_link_twitter'] != 'http://') { ?>
-                <a href="<?=$company['catalogue_link_twitter']; ?>" class="tw" title="Besök oss på Twitter"><img src="/images/katalog/twitter-2.png" alt="tw" /></a>
-            <?php }?>
-                
-            <?php if(!empty($company['catalogue_link_youtube']) && $company['catalogue_link_youtube'] != 'http://') { ?>
-                <a href="<?=$company['catalogue_link_youtube']; ?>" title="Besök oss på Youtube"><img src="/images/katalog/youtube.png" alt="yt" /></a>
-            <?php }?>
-            </div>
-            
-            <div class="pluss float-r pizza">
-                <a href="#" onclick="catalogue.add(<?=$company['company_id']; ?>)" title="Lägg till i din katalog">
-                    <img src="/images/katalog/plus.png" alt="Lägg till i din katalog" /> Lägg till i din katalog</a>
-            </div>
-        
-            <div class="foretagab"> <h1><?=$company['catalogue_company_name']; ?></h1></div>
-            
-            <div class="social pizza">
-            <?php if(!empty($company['catalogue_link_youtube']) && $company['catalogue_link_youtube'] != 'http://') { ?>
-                <a href="<?=$company['catalogue_link_youtube']; ?>" class="yt" title="Besök oss på Youtube" target="_blank">&nbsp;</a>
+                <a href="<?php echo $company['catalogue_link_facebook']; ?>" class="fb" title="Besök oss på Facebook"><img src="/images/katalog/facebook.png" alt="fb" /></a>
             <?php }?>
 
             <?php if(!empty($company['catalogue_link_twitter']) && $company['catalogue_link_twitter'] != 'http://') { ?>
-                <a href="<?=$company['catalogue_link_twitter']; ?>" class="tw" title="Besök oss på Twitter" target="_blank">&nbsp;</a>
+                <a href="<?php echo $company['catalogue_link_twitter']; ?>" class="tw" title="Besök oss på Twitter"><img src="/images/katalog/twitter-2.png" alt="tw" /></a>
+            <?php }?>
+
+            <?php if(!empty($company['catalogue_link_youtube']) && $company['catalogue_link_youtube'] != 'http://') { ?>
+                <a href="<?php echo $company['catalogue_link_youtube']; ?>" title="Besök oss på Youtube"><img src="/images/katalog/youtube.png" alt="yt" /></a>
+            <?php }?>
+            </div>
+
+            <div class="pluss float-r pizza">
+                <a href="#" onclick="catalogue.add(<?php echo $company['company_id']; ?>)" title="Lägg till i din katalog">
+                    <img src="/images/katalog/plus.png" alt="Lägg till i din katalog" /> Lägg till i din katalog</a>
+            </div>
+
+            <div class="foretagab"> <h1><?=$company['catalogue_company_name']; ?></h1></div>
+
+            <div class="social pizza">
+            <?php if(!empty($company['catalogue_link_youtube']) && $company['catalogue_link_youtube'] != 'http://') { ?>
+                <a href="<?php echo $company['catalogue_link_youtube']; ?>" class="yt" title="Besök oss på Youtube" target="_blank">&nbsp;</a>
+            <?php }?>
+
+            <?php if(!empty($company['catalogue_link_twitter']) && $company['catalogue_link_twitter'] != 'http://') { ?>
+                <a href="<?php echo $company['catalogue_link_twitter']; ?>" class="tw" title="Besök oss på Twitter" target="_blank">&nbsp;</a>
             <?php }?>
 
             <?php if(!empty($company['catalogue_link_facebook']) && $company['catalogue_link_facebook'] != 'http://') { ?>
-                <a href="<?=$company['catalogue_link_facebook']; ?>" class="fb" title="Besök oss på Facebook" target="_blank">&nbsp;</a>
+                <a href="<?php echo $company['catalogue_link_facebook']; ?>" class="fb" title="Besök oss på Facebook" target="_blank">&nbsp;</a>
             <?php }?>
-                
+
             </div>
 
             <div class="ad">
@@ -50,14 +51,14 @@
             	<a href="/upload/ads/<?=$filename; ?>" class="fancybox">
                     <img src="/upload/ads/thumbs/<?=$filename; ?>" alt="Bild annons" class="annons" />
                 </a>
-            		<?php 	
+            		<?php
             	} else { ?>
             	<a href="/upload/ads/missing_big.jpg" class="fancybox">
                     <img src="/upload/ads/thumbs/missing.jpg" alt="Bild annons" class="annons" />
                 </a>
-            	
+
             	<?php } ?>
-                
+
             </div>
             <div class="fakta">
                 <table>
@@ -102,7 +103,7 @@
                         </td>
                         <td class="info">
                             <ul class="horizontal land">
-<?php 
+<?php
     if(!empty($countries)){
         foreach($countries as $c){ ?>
 								<li><a href="#"><?=$c['name']; ?></a></li>
@@ -113,7 +114,7 @@
     ?>
                             </ul>
                         </td>
-                    </tr>    
+                    </tr>
                     <tr>
                         <td class="fakta2">
                             <p>Anställda i Sverige: </p>
@@ -148,7 +149,7 @@
     ?>
                               </ul>
                         </td>
-                    </tr>            
+                    </tr>
                     <tr>
                         <td class="fakta2">
                             <p>Intresserad av: </p>
@@ -163,7 +164,7 @@
     ?>
                             </ul>
                         </td>
-                    </tr>    
+                    </tr>
                     <tr>
                         <td class="fakta2">
                             <p>Erbjuder: </p>
@@ -203,7 +204,7 @@
                     <h2><?=((isset($company['catalogue_company_eng_head']) && $company['catalogue_company_eng_head'] == 1) ? 'Come and talk to us about..' :'Kom och prata med oss om..'); ?></h2>
                     <p><?=$company['catalogue_why_visit']; ?></p>
                 <?php } ?>
-                
+
             </div>
 
             <div class="press-menu">
@@ -216,7 +217,7 @@
                 <a href="/images/katalog/monterplatskommer.jpg" class="fancybox">
                 	<img src="/images/katalog/monterplatskommer.jpg" alt="Monterplats" class="monter" />
                 </a>
-                
+
                 <?php } ?>
             </div>
             <div class="press-menu">
@@ -229,7 +230,7 @@
                     <li><a href="mailto:<?php echo $company['catalogue_contact_email']; ?>" title="Maila <?php echo $company['catalogue_contact_firstname'].' '.$company['catalogue_contact_lastname']; ?>"><?php echo $company['catalogue_contact_email']; ?></a></li>
                     <? if(!empty($company['catalogue_contact_cell'])) { ?><li><?php echo $company['catalogue_contact_cell']; ?></li><? } ?>
                 </ul>
-                <?php } else { ?> 
+                <?php } else { ?>
                 <ul>
                     <li><?php echo $company['contact_firstname'].' '.$company['contact_lastname']; ?></li>
                     <li><a href="mailto:<?php echo $company['contact_email']; ?>" title="Maila <?php echo $company['contact_firstname'].' '.$company['contact_lastname']; ?>"><?php echo $company['contact_email']; ?></a></li>
@@ -277,7 +278,7 @@
                 <ul>
                     <li><i>Företagsvärd saknas</i></li>
                 </ul>
-                
+
                 <?php } ?>
             </div>
 

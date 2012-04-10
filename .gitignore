@@ -1,2 +1,7 @@
 /upload
 /.settings
+/rwl.log
+/mysql.log
+/dump_logs
+/.project
+/.buildpath

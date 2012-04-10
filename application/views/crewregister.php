@@ -14,7 +14,7 @@ function showhide(select){
 			$('#motivation').attr('disabled','');
 			$('#submit').attr('disabled','');
 			break;
-		} 
+		}
 		case 'funktionar': {
 		    $('#motivation').html('Anmälan för funktionär har stängt för i år. Välkommen nästa år.');
 			$('#motivation').attr('disabled','');
@@ -29,8 +29,8 @@ function showhide(select){
 	}
 }
 </script>
-<?
-if(isset($_SESSION['user']) && $_SESSION['user']->logged_in()){ 
+<?php
+if(isset($_SESSION['user']) && $_SESSION['user']->logged_in()){
 	$roles = array(
 		''				=> 'Välj en roll',
 		'ftv'			=> 'Företagsvärd',
@@ -41,25 +41,25 @@ if(isset($_SESSION['user']) && $_SESSION['user']->logged_in()){
 		'inredning'		=> 'Inredning'
 	);
 	echo Form::open('/student/crewregister/')
-			
+
 		.Form::label('role', 'Vad vill du göra?')
 		.Form::select('role', $roles, false, (array('onChange' => 'showhide(this.value)')))
-		
+
 		.'<span class="preHidden" id="licenses">'
 		.Form::label('extradata[korkort_b]', 'Personbil')
 		.Form::checkbox('extradata[korkort_b]', 'Ja')
-		
+
 		.Form::label('extradata[korkort_c]', 'Tung lastbil')
 		.Form::checkbox('extradata[korkort_c]', 'Ja')
-		
+
 		.Form::label('extradata[korkort_d]', 'Buss')
 		.Form::checkbox('extradata[korkort_d]', 'Ja')
-		.'</span>'	
-	
+		.'</span>'
+
 
 		.Form::label('motivation', 'Motivering')
 		.Form::textarea('motivation')
-		
+
 		.Form::submit('submit', 'Anmäl Intresse');
 } else {
 ?>
