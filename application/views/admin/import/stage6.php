@@ -22,11 +22,17 @@ echo Form::open('/admin/import/stage7')
 		</tr>
 	</thead>
 	<tbody>
-	<?php foreach($import as $fid){ ?>
+	<?php if(count($import) > 0){
+	        foreach($import as $fid){
+	?>
 		<tr>
 			<td><?php echo $lines[$fid][20];?></td>
 		</tr>
-	<?php } ?>
+	<?php }} else { ?>
+	    <tr>
+	        <td><i>Inga företag valda. Klicka bakåt för att åtgärda.</i></td>
+	    </tr>
+	<?php }?>
 	</tbody>
 </table>
 <h2>Program</h2>

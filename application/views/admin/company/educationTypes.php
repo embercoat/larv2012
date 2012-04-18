@@ -1,5 +1,5 @@
 Utbildningstyper
-<?php 
+<?php
 echo Form::open('/admin/company/educationTypes/'.$company['company_id']);
 ?>
 <table>
@@ -18,13 +18,13 @@ echo Form::open('/admin/company/educationTypes/'.$company['company_id']);
 	        }
 	    ?>
 	    <tr>
-	    	<td><?=$et; ?></td>
+	    	<td><?=$et['name']; ?></td>
 	    	<td><?=Form::checkbox('educationtype[]', $key, $checked); ?></td>
 	    </tr>
 	<?php } ?>
 	</tbody>
 </table>
-<?php 
+<?php
 echo Form::submit('submit', 'Uppdatera')
     .form::close();
 ?>

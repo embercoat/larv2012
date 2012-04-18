@@ -79,7 +79,6 @@ echo Form::open('/admin/import/stage5')
     78 => 'booth_extra_area',
     79 => 'booth_total_cost',
     80 => 'catalogue_company_name',
-    81 => '',
     120 => 'catalogue_cities',
     121 => 'catalogue_employees_sweden',
     122 => 'catalogue_countries',
@@ -126,7 +125,7 @@ echo Form::open('/admin/import/stage5')
 		if(array_search($key, $ignore) === FALSE){
 	?>
 		<tr <?=(($alternator++ % 2 == 0) ? 'style="background-color: silver;"': ''); ?>>
-			<td><?php echo $i; ?></td>
+		    <td><?php echo $i; ?></td>
 			<td><?php echo Form::input('key['.$key.']', $preset[$key]); ?></td>
 		</tr>
 	<?php }} ?>

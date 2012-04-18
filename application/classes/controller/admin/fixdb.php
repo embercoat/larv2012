@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class Controller_Admin_FixDb extends Controller_Admin_SuperController {
-    
+
 	public function action_locations()
 	{
 		$this->content = View::factory('admin/fixdb/locationsStage1');
@@ -9,7 +9,7 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 	public function action_locationsStage2()
 	{
 		$this->content = View::factory('admin/fixdb/locationsStage2');
-		
+
 		$cities = DB::select('*')
 		            ->from('company_data')
 		            ->where('field', '=', 'catalogue_cities')
@@ -20,10 +20,10 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 		    foreach(preg_split("/(( och )|(m[. ]fl)|(bl a)|[,;.])/i", $c['data']) as $cPart)
 		        if(!empty($cPart))
 		            $extractedCities[] = trim($cPart);
-		
+
 		sort($extractedCities);
 		$this->content->cities = array_unique($extractedCities);
-		
+
 	}
 	public function action_locationsStage3(){
 		$cities = DB::select('*')
@@ -31,14 +31,14 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 		            ->where('field', '=', 'catalogue_cities')
 		            ->execute()
 		            ->as_array();
-        
+
 		$insertCities = DB::insert('city', array('name'));
 		foreach($_POST['city'] as $city){
 		    $insertCities->values(array($city));
 		}
-//		DB::delete('city')->execute();
-//		DB::delete('company_city')->execute();
-//		$insertCities->execute();
+		DB::delete('city')->execute();
+		DB::delete('company_city')->execute();
+		$insertCities->execute();
 		$link = DB::insert('company_city', array('company_id', 'city_id'));
 		foreach($cities as $c){
 	        foreach(Model::factory('data')->get_city() as $id => $city)
@@ -47,7 +47,7 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 	    }
 	    $link->execute();
 	}
-	
+
 	public function action_countries()
 	{
 		$this->content = View::factory('admin/fixdb/countriesStage1');
@@ -55,7 +55,7 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 	public function action_countriesStage2()
 	{
 		$this->content = View::factory('admin/fixdb/countriesStage2');
-		
+
 		$cities = DB::select('*')
 		            ->from('company_data')
 		            ->where('field', '=', 'catalogue_countries')
@@ -66,10 +66,10 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 		    foreach(preg_split("/(( och )|(m[. ]fl)|(bl a)|[,;.]|( and ))/i", $c['data']) as $cPart)
 		        if(!empty($cPart))
 		            $extractedCountries[] = trim($cPart);
-		
+
 		sort($extractedCountries);
 		$this->content->countries = array_unique($extractedCountries);
-		
+
 	}
 	public function action_countriesStage3(){
 		$countries = DB::select('*')
@@ -77,7 +77,7 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 		            ->where('field', '=', 'catalogue_countries')
 		            ->execute()
 		            ->as_array();
-        
+
 		$insertCountries = DB::insert('country', array('name'));
 		foreach($_POST['country'] as $country){
 		    $insertCountries->values(array($country));
@@ -95,6 +95,8 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 	    }
 	    $link->execute();
 	}
+	/*
+	 * Obsolete. Import does this immediately
 	public function action_fixInterestedIn(){
 	    $programs = DB::select('*')
 	                    ->from('company_program')
@@ -129,6 +131,7 @@ class Controller_Admin_FixDb extends Controller_Admin_SuperController {
 	    $del->execute();
 	    $this->content = 'All done. Carry on Soldier!';
 	}
+	*/
 	public function before(){
 	    parent::before();
 	    if($_SESSION['user']->getId() != 265){

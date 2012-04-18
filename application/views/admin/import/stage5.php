@@ -15,10 +15,10 @@ Antal företag i listan: <?=count($lines);?>
 	</thead>
 	<tbody>
 	<?php foreach($lines as $key => $line){
-	    $exists = (bool)(arraY_search($line[20], $existingCompanies));
+	    $exists = (bool)(array_search($line[20], $existingCompanies));
 	     ?>
 		<tr <?=(($alternator++ % 2 == 0) ? 'style="background-color: silver;"': ''); ?>>
-			<td <?php echo ($exists ? 'style="background-color: red;"':''); ?>><?php echo $line[20]; ?></td>
+	     	<td <?php echo ($exists ? 'style="background-color: red;"':''); ?>><?php echo $line[20]; ?></td>
 			<td><?php echo Form::checkbox('import[]', $key, !$exists); ?></td>
 		</tr>
 	<?php } ?>

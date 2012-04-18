@@ -14,7 +14,19 @@ Class Model_Data extends Model
 		}
 		return $sql->execute()->as_array();
 	}
+	function get_educationtype($id = false){
+        $sql = DB::select_array(array('id', 'name'))
+                    ->from('educationType')
+                    ->order_by('name', 'asc');
+       if($id !== false){
+           $sql->where('id', '=', $id);
+       }
+       return $sql->execute()->as_array();
+	}
 	function format_for_select($input){
+	    if(count($input) == 0){
+	        return array();
+	    }
 		$return = array();
 		$keys = array_keys($input[0]);
 		foreach($input as $i){
@@ -67,21 +79,6 @@ Class Model_Data extends Model
 	    }
 	    return $return;
 	}
-	function get_educationtype($id = false){
-	    $branch = DB::select('*')
-	                ->from('educationType')
-	                ->order_by('name');
-	    if($id !== false)
-	            $branch->where('id', '=', $id);
-	    $branch = $branch
-	                ->execute()
-	                ->as_array();
-	    $return = array();
-	    foreach($branch as $c){
-	        $return[$c['id']] = $c['name'];
-	    }
-	    return $return;
-	}
 	function get_offer($id = false){
 	    $offer = DB::select('*')
 	                ->from('offer')
@@ -103,7 +100,7 @@ Class Model_Data extends Model
 		foreach($rand as $r)
 			if($r[0] !== '.')
 				$clean[] = $r;
-		
+
 		return $clean[rand(0, count($clean)-1)];
 	}
 }

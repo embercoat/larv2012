@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>LARV</title> 
+		<title>LARV</title>
 		<style type="text/css">
 			@import url('/css/resethtml5.css');
 			@import url('/css/adminstyle.css');
@@ -13,7 +13,7 @@
 			echo '			@import url(\''.$c.'\');'."\r\n";
 ?>
         	</style>
-        
+
         <script type="text/javascript" src="/js/jquery.js">1;</script>
         <?php
             if(isset($js))
@@ -77,16 +77,15 @@
 			</ul>
 			<ul>
 				<li><a href="/admin/import/">Import</a></li>
-				<li><a href="/admin/import/fetchBooths/">Hämta monterplaceringar</a></li>				
+				<li><a href="/admin/import/fetchBooths/">Hämta monterplaceringar</a></li>
 			</ul>
 			<ul>
 				<li><a href="#">Rätta till DB</a></li>
 				<li><a href="/admin/fixdb/locations/">Platser</a></li>
 				<li><a href="/admin/fixdb/countries/">Länder</a></li>
-				<li><a href="/admin/fixdb/fixInterestedIn/">Utbildningstyper</a></li>
 			</ul>
-			
-			
+
+
 		</div>
 		<div id="content">
 		<?php

@@ -13,13 +13,13 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 	{
 		$this->content = View::factory('/admin/import/uploadform');
 	}
-	
+
 	public function action_fetchBooths(){
 		$this->content = View::factory('/admin/import/fbStage0');
 	}
 	public function action_fbStage1(){
 		$data = file_get_contents('http://larvinfo.scripter.se/monterWs.php');
-		
+
 		$xml = simplexml_load_string($data);
 
 		/* For each <movie> node, we echo a separate <plot>. */
@@ -39,17 +39,11 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 	}
 	public function action_fbStage2(){
 		$data = file_get_contents('http://larvinfo.scripter.se/monterWs.php');
-		
+
 		$xml = simplexml_load_string($data);
 
 		$booths = array();
-/*		booth_id         int(11) PK
-		company_id       int(11)
-		place            int(11)
-		x                int(11)
-		y                int(11)
-		rotation         int(11)
-		house            int(11)*/
+
 		$sql = DB::insert('booth', array('company_id', 'place', 'x', 'y', 'rotation', 'house', 'width', 'depth', 'height'));
 		foreach ($xml->booth as $b) {
 			$attributes = (array)$b;
@@ -68,11 +62,11 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		}
 		DB::delete('booth')->execute();
 		$sql->execute();
-		
+
 		$this->content = View::factory('/admin/import/fbStage2');
 	}
-	
-	
+
+
 	public function action_stage2(){
 		$import = utf8_encode(file_get_contents($_FILES['file']['tmp_name'])); //Import into utf-8
 		$import = str_replace(chr(0), '', $import); // Get rid of all the useless NULLS that exist EVERYWHERE in these exports
@@ -101,9 +95,13 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 			$branches[] = $branch;
 		}
 
-		$programs = array();
+	    $programs = array();
 		foreach($_POST['isProgram'] as $program){
 			$programs[] = $program;
+		}
+		$educationtypes = array();
+		foreach($_POST['isEducationType'] as $educationtype){
+		    $educationtypes[] = $educationtype;
 		}
 
 		$offers = array();
@@ -111,50 +109,55 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 			$offers[] = $offer;
 		}
 		$ignores = array();
-		if(!empty($_POST['ignore']))
+		if(!empty($_POST['ignore'])){
 			foreach($_POST['ignore'] as $ignore){
 				$ignores[] = $ignore;
 			}
+		}
 		$this->content = View::factory('/admin/import/stage3');
 		$this->content->filename = $filename;
 		$this->content->programs = $programs;
+		$this->content->educationtypes = $educationtypes;
 		$this->content->index = $index;
 		$this->content->carryOn = serialize(
 		array(
-										'branches' => $branches,
-										'programs' => $programs, 
-										'offers'   => $offers,
-										'ignore'   => $ignores
+			'branches' => $branches,
+			'programs' => $programs,
+			'offers'   => $offers,
+			'ignore'   => $ignores,
+		    'educationtypes'=> $educationtypes
+
 		));
 	}
-	
-	
-	
+
+
+
 	public function action_stage4(){
 		$carryOn = unserialize($_POST['carryOn']);
-		$ignore = array_merge($carryOn['branches'], $carryOn['programs'], $carryOn['offers'], $carryOn['ignore']);
+		$ignore = array_merge($carryOn['branches'], $carryOn['programs'], $carryOn['offers'], $carryOn['ignore'], $carryOn['educationtypes']);
 		$filename = $_POST['filename'];
 		$carryOn['programTranslation'] = $_POST['program'];
-		
+		$carryOn['educationTypeTranslation'] = $_POST['educationtype'];
+
 		$filename = $_POST['filename'];
 		$import = file_get_contents($filename);
 		$lines = explode("\"\n", trim($import));
 		array_shift($lines); //remove empty line
 		array_shift($lines); //remove empty line
 		$index = explode(chr(9), array_shift($lines)); //get the index
-		
+
 		$this->content = View::factory('/admin/import/stage4');
 		$this->content->index = $index;
 		$this->content->ignore = $ignore;
 		$this->content->filename = $filename;
 		$this->content->carryOn = serialize($carryOn);
 	}
-	
-	
+
+
 	public function action_stage5(){
 		$filename = $_POST['filename'];
 		$carryOn = unserialize($_POST['carryOn']);
-		
+
 		$import = file_get_contents($filename);
 		$lines = explode("\"\n", trim($import));
 		array_shift($lines); //remove empty line
@@ -163,7 +166,7 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		foreach($lines as &$line){
 			$line = explode('"'.chr(9).'"', $line);
 		}
-		
+
 		$carryOn['keys'] = $_POST['key'];
 		usort($lines, array($this, 'sort_company'));
 		$this->content = View::factory('/admin/import/stage5');
@@ -172,11 +175,11 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		$this->content->existingCompanies = Model::factory('data')->format_for_select(Model::factory('company')->get_companies());
 		$this->content->carryOn = serialize($carryOn);
 	}
-	
+
 	public function action_stage6(){
 		$filename = $_POST['filename'];
 	    $carryOn = unserialize($_POST['carryOn']);
-		
+
 		$import = file_get_contents($filename);
 		$lines = explode("\"\n", trim($import));
 		array_shift($lines); //remove empty line
@@ -185,7 +188,11 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		foreach($lines as &$line){
 			$line = explode('"'.chr(9).'"', $line);
 		}
-		$carryOn['import'] = $_POST['import'];
+		if(!isset($_POST['import'])){
+		    $carryOn['import'] = array();
+		} else {
+    		$carryOn['import'] = $_POST['import'];
+		}
 		usort($lines, array($this, 'sort_company'));
 		$this->content = View::factory('/admin/import/stage6');
 		$this->content->lines = $lines;
@@ -193,8 +200,8 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		$this->content->index = $index;
 		$this->content->carryOn = serialize($carryOn);
 	}
-	
-	
+
+
 	public function action_stage7(){
 		$filename = $_POST['filename'];
 		$carryOn = unserialize($_POST['carryOn']);
@@ -207,7 +214,7 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 			$line = explode('"'.chr(9).'"', $line);
 		}
 		$translationTable = array(
-			81 => 'El', 
+			81 => 'El',
 			82 => 'Vatten',
 			83 => 'Energi och Kraft',
 			84 => 'Miljö',
@@ -245,21 +252,25 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 			116 => 'Industridoktorandplatser',
 			117 => 'Lönestatistik',
 			118 => 'Medlemsskap',
-			119 => 'CV-Granskning'		
+			119 => 'CV-Granskning'
 		);
 		extract($carryOn);
 		$programArgLarv = array();
+		$educationTypeArgLarv = array();
 		$companyModel = Model::factory('company');
 		$offerArgLarv = array();
 		$branchArgLarv = array();
 		$fieldLarv = array();
-		$ignoreAll = array_merge($ignore, $programs, $branches, $offers);
-		
+		$ignoreAll = array_merge($ignore, $programs, $branches, $offers, $educationtypes);
+
 		foreach($programTranslation as $key => $value){
 			$programArgLarv[$programs[$key]] = $value;
 		}
-		foreach($offers as $o){ 
-			$offerArgLarv[$o] = $companyModel->create_offer($translationTable[$o]); 	
+        foreach($educationTypeTranslation as $key => $value){
+            $educationTypeArgLarv[$educationtypes[$key]] = $value;
+        }
+		foreach($offers as $o){
+			$offerArgLarv[$o] = $companyModel->create_offer($translationTable[$o]);
 		}
 		foreach($branches as $b){
 			$branchArgLarv[$b] = $companyModel->create_branch($translationTable[$b]);
@@ -267,29 +278,34 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		foreach($index as $key => $field){
 			if(array_search($key, $ignoreAll) === FALSE)
 				$fieldLarv[$key] = $companyModel->create_field($field);
-		} 
-		
+		}
+
 		usort($lines, array($this, 'sort_company'));
-		
-		
+
+
 		foreach($import as $i){
 			$companyBranches = array();
 			$companyPrograms = array();
+			$companyEducationTypes = array();
 			$companyOffers = array();
 			$companyData = array();
 			foreach($offers as $o)
 				if(!empty($lines[$i][$o]))
 					$companyOffers[] = $offerArgLarv[$o];
-					
+
 			foreach($branches as $b)
 				if(!empty($lines[$i][$b]))
 					$companyBranches[] = $branchArgLarv[$b];
-					
-			foreach($programs as $p)
+
+		    foreach($programs as $p)
 				if(!empty($lines[$i][$p])){
 					$companyPrograms[] = $programArgLarv[$p];
 				}
-			
+			foreach($educationtypes as $et){
+    			if(!empty($lines[$i][$et])){
+					$companyEducationTypes[] = $educationTypeArgLarv[$et];
+				}
+			}
 			foreach($lines[$i] as $key => $data){
 				if(array_search($key, $ignoreAll) === FALSE)
 					$companyData[$keys[$key]] = $data;
@@ -297,17 +313,21 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 			$companyId = $companyModel->create_company($lines[$i][20]);
 			if(!empty($companyPrograms))
 				$companyModel->set_programs($companyId, array_unique($companyPrograms));
+			if(!empty($companyEducationTypes)){
+				$companyModel->set_educationtypes($companyId, array_unique($companyEducationTypes));
+			}
+
 			if(!empty($companyOffers))
 				$companyModel->set_offers($companyId, $companyOffers);
 			if(!empty($companyBranches))
 				$companyModel->set_branches($companyId, $companyBranches);
-				
+
 			$companyModel->set_data($companyId, $companyData);
-			
+
 		}
-		
-		
-		
+
+
+
 		$this->content = View::factory('/admin/import/stage7');
 	}
 } // End Welcome

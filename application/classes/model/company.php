@@ -31,7 +31,7 @@ Class Model_Company extends Model
 				->where('company_data.field', '=', 'catalogue_company_name');
 		if($cid !== false)
 		    $sql->where('company.company_id', '=', $cid);
-		    
+
 		return $sql->execute()
 				->as_array();
 	}
@@ -46,7 +46,7 @@ Class Model_Company extends Model
 		        $sql->where('booth.house', '=', $house);
 		if($sort !== false)
 		$sql->order_by($sort, 'asc');
-		
+
 		return $sql->execute()->as_array();
 	}
 	function get_company_details($id){
@@ -59,7 +59,7 @@ Class Model_Company extends Model
 		$return['company_id'] = $id;
 		foreach($fields as $f)
 			$return[$f['field']] = $f['data'];
-			
+
 		return $return;
 	}
 	function get_company_branches($id){
@@ -84,7 +84,7 @@ Class Model_Company extends Model
 						->as_array();
 		return $educationtypes;
 	}
-	
+
 	function get_company_programs($id){
 		$programs = DB::select_array(array('program.shortname', 'program.id'))
 						->from('program')
@@ -106,7 +106,7 @@ Class Model_Company extends Model
 						->execute()
 						->as_array();
 		return $offers;
-		
+
 	}
 	function get_company_cities($id){
 		$cities = DB::select_array(array('city.name', 'city.id'))
@@ -118,7 +118,7 @@ Class Model_Company extends Model
 						->execute()
 						->as_array();
 		return $cities;
-		
+
 	}
 	function get_company_countries($id){
 		$cities = DB::select_array(array('country.name', 'country.id'))
@@ -130,9 +130,9 @@ Class Model_Company extends Model
 						->execute()
 						->as_array();
 		return $cities;
-		
+
 	}
-	
+
 	function set_programs($company_id, $programs){
 		DB::delete('company_program')
 			->where('company_id', '=', $company_id)
@@ -143,6 +143,17 @@ Class Model_Company extends Model
 		}
 		$insert->execute();
 	}
+	function set_educationtypes($company_id, $educationtypes){
+	    DB::delete('company_educationType')
+	    ->where('company_id', '=', $company_id)
+	    ->execute();
+	    $insert = DB::insert('company_educationType', array('company_id', 'educationType_id'));
+	    foreach($educationtypes as $et){
+	        $insert->values(array($company_id, $et));
+	    }
+	    $insert->execute();
+	}
+
 	function set_offers($company_id, $offers){
 		DB::delete('company_offer')
 			->where('company_id', '=', $company_id)
@@ -174,7 +185,7 @@ Class Model_Company extends Model
 		}
 		$insert->execute();
 	}
-	
+
 	function create_branch($branch){
 		$exists = DB::select('branch_id')
 					->from('branch')
