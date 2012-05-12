@@ -22,6 +22,12 @@
 		  clear: both;
 		}
 	</style>
+	<script type="text/javascript" src="/js/jquery.js">1;</script>
+	<script type="text/javascript">
+    $(document).ready(function(){
+        $("#username").focus();
+    });
+	</script>
 </head>
 <body>
 <div id="wrap">
