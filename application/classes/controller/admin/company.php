@@ -12,17 +12,17 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 			unset($_POST['submit']);
 			Model::factory('company')->set_data($id, $_POST);
 		}
-		
+
 		if(!$edit)
 			$this->content = View::factory('/admin/company/details');
-		else 
+		else
 			$this->content = View::factory('/admin/company/editDetails');
-			
+
 		$this->content->company = Model::factory('company')->get_company_details($id);
 		$sql = DB::select_array(array(array('user.user_id', 'userid'), 'user.fname', 'user.lname'))
 				->from('user')
 				->order_by('user.lname', 'ASC')
-				->order_by('user.fname', 'ASC');	
+				->order_by('user.fname', 'ASC');
 
 		$hosts = $sql->execute()->as_array();
 		$this->content->hosts = array();
@@ -30,16 +30,16 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 			$this->content->hosts[$h['userid']] = (empty($h['lname']) ? $h['fname'] : $h['fname'] .' '. $h['lname']);
 		}
 	}
-	
+
 	public function action_detailsEvent($id, $edit = false){
 		if(!$edit)
 			$this->content = View::factory('/admin/company/detailsEvent');
-		else 
+		else
 			$this->content = View::factory('/admin/company/editDetailsEvent');
-			
+
 		$this->content->company = Model::factory('company')->get_company_details($id);
 	}
-	
+
 	public function action_detailsInterview($id, $edit = false){
 	    if(isset($_POST) && !empty($_POST)){
 			unset($_POST['submit']);
@@ -49,33 +49,33 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 		}
 		if(!$edit)
 			$this->content = View::factory('/admin/company/detailsInterview');
-		else 
+		else
 			$this->content = View::factory('/admin/company/editDetailsInterview');
-			
+
 		$this->content->company = Model::factory('company')->get_company_details($id);
-		
+
 	}
-	
+
 	public function action_detailsGoods($id, $edit = false){
 		if(!$edit)
 			$this->content = View::factory('/admin/company/detailsGoods');
-		else 
+		else
 			$this->content = View::factory('/admin/company/editDetailsGoods');
-			
+
 		$this->content->company = Model::factory('company')->get_company_details($id);
-		
+
 	}
-	
+
 	public function action_detailsBooth($id, $edit = false){
 		if(!$edit)
 			$this->content = View::factory('/admin/company/detailsBooth');
-		else 
+		else
 			$this->content = View::factory('/admin/company/editDetailsBooth');
-			
+
 		$this->content->company = Model::factory('company')->get_company_details($id);
-		
+
 	}
-	
+
 	public function action_detailsCatalogue($id, $edit = false){
 		if(isset($_POST) && !empty($_POST)){
 			unset($_POST['submit']);
@@ -85,9 +85,9 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 		}
 		if(!$edit)
 			$this->content = View::factory('/admin/company/detailsCatalogue');
-		else 
+		else
 			$this->content = View::factory('/admin/company/editDetailsCatalogue');
-			
+
 		$this->content->company = Model::factory('company')->get_company_details($id);
 	}
 	public function action_detailsFile($id){
@@ -96,12 +96,12 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 			$filename = 'upload/ads/'.$id.'_big.'.array_pop($parts);
 			move_uploaded_file($_FILES['catalogue_file_ad_big']['tmp_name'], $filename);
 			$data['catalogue_file_ad_big'] = $filename;
-			
+
 			$parts = explode('.', $_FILES['catalogue_file_ad_small']['name']);
 			$filename = 'upload/ads/'.$id.'_small.'.array_pop($parts);
-			move_uploaded_file($_FILES['catalogue_file_ad_small']['tmp_name'], $filename);			
+			move_uploaded_file($_FILES['catalogue_file_ad_small']['tmp_name'], $filename);
 			$data['catalogue_file_ad_small'] = $filename;
-			
+
 			Model::factory('company')->set_data($id, $data);
 		}
 		$this->content = View::factory('/admin/company/detailsFile');
@@ -202,65 +202,7 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 	    $this->content->company = Model::factory('company')->get_company_details($id);
 	}
 	public function action_boothMaps(){
-	    $houses = array(
-    			'b' => array(
-                    'base' => 'booth/karta-b',
-	                'house_id' => 1,
-	                'scale' => 0.094,
-	                'base_offset' => array('x' => -5, 'y' => 33),
-	                'out' => 'b_huset.jpg'
-                ),
-    			'c' => array(
-                    'base' => 'booth/karta-c',
-	                'house_id' => 2,
-	                'scale' => 0.0952,
-	                'base_offset' => array('x' => 61, 'y' => -27),
-	                'out' => 'c_huset.jpg'                
-                )
-            );
-        foreach($houses as $h){
-    	    $filename = Kohana::find_file('../images', $h['base'], 'jpg');
-    	    $base = imagecreatefromjpeg($filename);
-    	    $booths = DB::select_array(array('booth.*'))
-    	                ->from('booth')
-    	                ->where('house', '=', $h['house_id'])
-    	                ->execute()
-    	                ->as_array();
-    
-    	    $scale = $h['scale']; //10px/100cm
-    	    $base_offset = $h['base_offset'];
-    	    $black = imagecolorallocate($base, 0,0,0);
-    	    $grey = imagecolorallocate($base, 178,9,51);
-    	    $white = imagecolorallocate($base, 255,255,255);
-    	    $rotated = imagerotate($base, 90, $white);
-    	    foreach($booths as $b){
-    	        $mon_depth = (($b['depth'])*$scale)-2;
-    	        $mon_width = (($b['width'])*$scale)-2;
-    	        
-    	        $offset_y = -round($b['y']*$scale)+$base_offset['y'];
-    	        $offset_x = round($b['x']*$scale)+$base_offset['x'];
-    	        
-    	        if($b['rotation'] == 90){
-    	            $x2 = $offset_x + $mon_depth;
-    	            $y2 = $offset_y + $mon_width;
-    	            imagefilledrectangle($rotated, $offset_x, $offset_y, $x2, $y2, $grey);
-    	            imagettftext($rotated, 10, 90, $offset_x+14, $offset_y+25, $white, APPPATH.'../images/booth/Arial_Bold.ttf', $b['place']);
-    	        } else {
-    	            $x2 = $offset_x + $mon_width;
-    	            $y2 = $offset_y + $mon_depth;
-    	            imagefilledrectangle($rotated, $offset_x, $offset_y, $x2, $y2, $grey);
-    	            imagettftext($rotated, 10, 0, $offset_x+2, $offset_y+14, $white, APPPATH.'../images/booth/Arial_Bold.ttf', $b['place']);
-    	        }
-    	        
-    	    }
-    	    $output = APPPATH.'../images/booth/'.$h['out'];
-    	    imagejpeg(imagerotate($rotated, -90, $white), $output, 100);
-        }
-	    
-	    
-	    
+	    Model::factory('booth')->render_boothmaps();
 	    $this->content = View::factory('admin/company/boothmaps');
-	    
-	    
 	}
 } // End Welcome

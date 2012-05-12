@@ -100,10 +100,7 @@ class model_file extends Model {
                                 $sql = 'insert into meta (filename, artistid, albumid, title) VALUES ("'.$path.$file.'", '.$artist_id.', '.$album_id.', "'.$fileinfo['tags_html'][$tagver]['title'][0].'")';
                                 $db->query($sql);
                             }
-                            //~ $files[] = $file;
                         }
-                    } else {
-                        //~ $files[] = $file;
                     }
                 }
             }

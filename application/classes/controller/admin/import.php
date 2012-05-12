@@ -60,8 +60,19 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 				$attributes['mheight']
 			));
 		}
-		DB::delete('booth')->execute();
-		$sql->execute();
+// 		DB::delete('booth')->execute();
+// 		$sql->execute();
+
+		//Cleanup and regen new maps
+		$fileModel = Model::factory('file');
+		$booths = $fileModel->get_files(DOCROOT.'images/booth');
+		foreach($booths as $b){
+		    $parts = explode('/', $b);
+		    if(preg_match('#(B|C)\d{2}\.jpg#', $b) == 1)
+		        unlink($b);
+		}
+		Model::factory('booth')->render_boothmaps();
+        Model::factory('status')->update_to_now('lastboothmaprender');
         Model::factory('status')->update_to_now('lastboothimport');
 		$this->content = View::factory('/admin/import/fbStage2');
 	}

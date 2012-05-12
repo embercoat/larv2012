@@ -43,7 +43,8 @@ class Controller_Admin_Admin extends Controller_Admin_SuperController {
         $statuses = array(
                 'lastboothimport' => 7,
                 'lastimport'      => 7,
-                'lastpregen'      => 14
+                'lastpregen'      => 14,
+                'lastboothmaprender'  => 7,
                 );
         $statusModel = Model::factory('status');
         foreach($statuses as $s => $limit){
