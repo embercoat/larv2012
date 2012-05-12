@@ -3,6 +3,8 @@
 echo  Form::open('/admin/news/edit/'.(isset($details) ? $details['id'] : ''), array('method' => 'post'))
 	 .Form::label('title', 'Titel')
 	 .Form::input('title', (isset($details) ? $details['title'] : ''))
+	 .Form::label('visible', 'Synlig')
+	 .Form::checkbox('visible',1, (isset($details) ? (bool)$details['visible'] : true))
 	 .'<div style="float: left; clear: both;">'.Form::textarea('text', (isset($details) ? $details['text'] : '')).'</div>'
 	 .Form::submit('submit', 'Spara');
 ?>

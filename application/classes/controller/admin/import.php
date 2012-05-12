@@ -21,8 +21,6 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		$data = file_get_contents('http://larvinfo.scripter.se/monterWs.php');
 
 		$xml = simplexml_load_string($data);
-
-		/* For each <movie> node, we echo a separate <plot>. */
 		$booths = array();
 		foreach ($xml->booth as $b) {
 			$attributes = (array)$b;

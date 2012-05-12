@@ -2,16 +2,22 @@
 
 Class Model_News extends Model
 {
-	public function get_news($limit = false){
+    /*
+     * ALTER TABLE `larv2012`.`news` ADD COLUMN `visible` TINYINT NULL DEFAULT 1  AFTER `author` ;
+     */
+	public function get_news($limit = false, $onlyvisible = false){
 		$query = DB::select_array(array('news.*', 'user.fname', 'user.lname'))
 			->from('news')
 			->join('user')
 			->on('news.author', '=', 'user.user_id')
 			->order_by('published', 'desc');
-			
+
+        if($onlyvisible)
+            $query->where('visible', '=', '1');
+
 		if($limit)
 			$query->limit($limit);
-			
+
 		return $query->execute()
 			->as_array();
 	}
@@ -23,27 +29,29 @@ Class Model_News extends Model
 				->as_array();
 		return $result;
 	}
-	
-	public function update_by_id($id, $title, $text, $author)
+
+	public function update_by_id($id, $title, $text, $author, $visible)
 	{
 		DB::update('news')
 			->set(array(
-				'author' => $author,
-				'title'  => $title, 
-				'text'   => $text
+				'author'  => $author,
+				'title'   => $title,
+				'text'    => $text,
+			    'visible' => $visible,
 			))
 			->where('id', '=', $id)
 			->execute();
 	}
-	public function create($title, $text, $author, $timestamp)
+	public function create($title, $text, $author, $timestamp, $visible)
 	{
 		list($id, $null) = DB::insert('news', array('title', 'text', 'author', 'published'))
 			->values(
 				array(
 					'title'		=> $title,
 					'text'		=> $text,
-					'author'	=> $author, 
-					'published'	=> $timestamp
+					'author'	=> $author,
+					'published'	=> $timestamp,
+				    'visible'   => $visible,
 				)
 			)
 			->execute();
@@ -55,5 +63,5 @@ Class Model_News extends Model
 			->where('id', '=', $id)
 			->execute();
 	}
-	
+
 }
