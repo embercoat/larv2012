@@ -42,7 +42,7 @@ class Controller_Admin_Admin extends Controller_Admin_SuperController {
         }
         $statuses = array(
                 'lastboothimport' => 7,
-                'lastimport'      => 7,
+                'lastimport'      => 30,
                 'lastpregen'      => 14,
                 'lastboothmaprender'  => 7,
                 );

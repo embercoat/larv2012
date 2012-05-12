@@ -60,8 +60,8 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 				$attributes['mheight']
 			));
 		}
-// 		DB::delete('booth')->execute();
-// 		$sql->execute();
+		DB::delete('booth')->execute();
+		$sql->execute();
 
 		//Cleanup and regen new maps
 		$fileModel = Model::factory('file');
@@ -76,7 +76,6 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
         Model::factory('status')->update_to_now('lastboothimport');
 		$this->content = View::factory('/admin/import/fbStage2');
 	}
-
 
 	public function action_stage2(){
 		$import = utf8_encode(file_get_contents($_FILES['file']['tmp_name'])); //Import into utf-8
