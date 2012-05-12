@@ -62,7 +62,7 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 		}
 		DB::delete('booth')->execute();
 		$sql->execute();
-
+        Model::factory('status')->update_to_now('lastboothimport');
 		$this->content = View::factory('/admin/import/fbStage2');
 	}
 
@@ -325,7 +325,7 @@ class Controller_Admin_Import extends Controller_Admin_SuperController {
 			$companyModel->set_data($companyId, $companyData);
 
 		}
-
+        Model::factory('status')->update_to_now('lastimport');
 
 
 		$this->content = View::factory('/admin/import/stage7');

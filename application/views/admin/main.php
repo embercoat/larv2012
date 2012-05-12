@@ -1,4 +1,4 @@
-<?='<?xml version="1.0" encoding="UTF-8"?>'; ?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -30,10 +30,13 @@
 	<div id="container">
 		<div id="nav-local">
 			<ul>
+				<li><a href="/admin/">Start</a></li>
+			</ul>
+					<ul>
 				<li><a href="/admin/news/">Nyheter</a></li>
 				<li><a href="/admin/news/edit">Skriv</a></li>
 			</ul>
-			<ul>
+					<ul>
 				<li><a href="/admin/user/">Användare</a></li>
 				<li><a href="/admin/user/crew">Crew</a></li>
 				<li><a href="/admin/user/userCompany">Företagskopplingar</a></li>

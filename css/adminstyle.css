@@ -32,11 +32,12 @@ html, body{
 }
 #container {
 	height: 99%;
+	width: 2000px;
 }
 #content {
-	/*float: left;*/
-	width: 100%;
-	padding: 10px 0;
+	float: left;
+	width: 75%;
+	padding: 10px 15px;
 	height: 100%;
 }
 .preHidden {
@@ -93,10 +94,9 @@ li li{ font-size: 1em; }
 #nav-local{ 
 	border: 0px solid black;
 	float: left;
-	width: 200px;
-	height: 150%;
+	width: 10%;
+	height: 200%;
 	display: inline;
-	margin: 0px 15px 0 0;
 	padding: 0;
 	background: #eaeaea;
 	
