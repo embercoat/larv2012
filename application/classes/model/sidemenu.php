@@ -10,7 +10,6 @@ Class Model_Sidemenu extends Model
 		if ($onlyvisible) $query->where('visible', '=', '1');
 
 		$query->order_by('id', 'asc');
-
 		return $query->execute()
 			->as_array();
 	}
