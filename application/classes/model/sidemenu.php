@@ -19,6 +19,7 @@ Class Model_Sidemenu extends Model
 		DB::delete('sidemenu')
 			->where('id', '=', $id)
 			->execute();
+
 	}
 
 }
