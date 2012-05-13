@@ -51,4 +51,5 @@ function editSidemenu(id){
 	document.getElementById('controller').value = (id?$('#controller_'+id).html():'');
 	document.getElementById('action').value = (id?$('#action_'+id).html():'');
 	document.getElementById('text').value = (id?$('#text_'+id).html():'');
+	id?($('#visible_'+id).html() == 'Ja' ? document.getElementById('visible').checked = true : document.getElementById('visible').checked = false):'';
 }
