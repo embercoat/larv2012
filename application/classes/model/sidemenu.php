@@ -14,9 +14,6 @@ Class Model_Sidemenu extends Model
 		return $query->execute()
 			->as_array();
 	}
-
-
-
 	public function delete($id)
 	{
 		DB::delete('sidemenu')
