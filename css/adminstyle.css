@@ -2,6 +2,18 @@
 html, body{
 	height: 99%;
 }
+#progress {
+	display: none;
+	position: fixed;
+	top: 100px;
+	left: 50%;
+	height: 100px;
+	width: 500px;
+	border: 1px solid black;
+	background-color: white;
+	padding: 15px;
+	margin-left: -265px;
+}
 .success {
 	list-style:none outside none;
 	background-color:lightGreen;

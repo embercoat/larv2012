@@ -2,6 +2,13 @@
 
 class Controller_Admin_Company extends Controller_Admin_SuperController {
 
+    public function after(){
+        $this->js[] = '/js/all_scripts.js';
+        $this->js[] = '/js/admin/company.js';
+        $this->content .= View::factory('progress');
+        parent::after();
+    }
+
 	public function action_index()
 	{
 		$this->content = View::factory('/admin/company/main');

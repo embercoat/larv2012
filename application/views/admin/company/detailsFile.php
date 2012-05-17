@@ -2,9 +2,11 @@
 <?=Form::open('/admin/company/detailsFile/'.$company['company_id'], array('enctype' => 'multipart/form-data')); ?>
 <table>
 	<thead>
-		<tr>
-			<th colspan="2"><?=Form::submit('submit', 'Uppdatera');?></th>
-		</tr>
+		<th colspan="2">
+		    <?=Form::submit('submit', 'Uppdatera');?>
+		    <a href="javascript:updatePDF(<?php echo $company['company_id']; ?>)">Update Company PDF</a>
+		</th>
+
 		<tr>
 			<th style="width: 150px;">Fält</th>
 			<th style="width: 150px;">Data</th>

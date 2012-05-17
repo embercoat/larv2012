@@ -2,6 +2,10 @@
 <?=Form::open('/admin/company/detailsInterview/'.$company['company_id'].'/edit/'); ?>
 <table>
 	<thead>
+		<th colspan="2">
+		    <?=Form::submit('submit', 'Uppdatera');?>
+		    <a href="javascript:updatePDF(<?php echo $company['company_id']; ?>)">Update Company PDF</a>
+		</th>
 		<tr>
 			<th style="width: 150px;">Fält</th>
 			<th style="width: 150px;">Data</th>
@@ -40,4 +44,3 @@
 </table>
 <?=Form::submit('submit', 'Uppdatera');?>
 <?=Form::close(); ?>
-  

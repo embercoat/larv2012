@@ -2,6 +2,7 @@ Utbildningstyper
 <?php
 echo Form::open('/admin/company/educationTypes/'.$company['company_id']);
 ?>
+<a href="javascript:updatePDF(<?php echo $company['company_id']; ?>)">Update Company PDF</a>
 <table>
 	<thead>
 		<tr>

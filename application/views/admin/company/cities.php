@@ -1,7 +1,8 @@
 Städer
-<?php 
+<?php
 echo Form::open('/admin/company/cities/'.$company['company_id']);
 ?>
+<a href="javascript:updatePDF(<?php echo $company['company_id']; ?>)">Update Company PDF</a>
 <table>
 	<thead>
 		<tr>
@@ -24,7 +25,7 @@ echo Form::open('/admin/company/cities/'.$company['company_id']);
 	<?php } ?>
 	</tbody>
 </table>
-<?php 
+<?php
 echo Form::submit('submit', 'Uppdatera')
     .form::close();
 ?>

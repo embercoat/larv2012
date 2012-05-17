@@ -3,7 +3,10 @@
 <table>
 	<thead>
 		<tr>
-			<th colspan="2"><?=Form::submit('submit', 'Uppdatera');?></th>
+			<th colspan="2">
+			    <?=Form::submit('submit', 'Uppdatera');?>
+			    <a href="javascript:updatePDF(<?php echo $company['company_id']; ?>)">Update Company PDF</a>
+			</th>
 		</tr>
 		<tr>
 			<th style="width: 150px;">Fält</th>
@@ -139,4 +142,3 @@
 </table>
 <?=Form::submit('submit', 'Uppdatera');?>
 <?=Form::close(); ?>
-  
