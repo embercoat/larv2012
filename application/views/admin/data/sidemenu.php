@@ -18,7 +18,7 @@ foreach (Model::factory('sidemenu')->get_sidemenu() as $item) {
 	echo "	<td id=\"action_{$item['id']}\">{$item["action"]}</td>\n";
 	echo "	<td id=\"visible_{$item['id']}\">".($item["visible"] == 1 ? 'Ja': 'Nej')."</td>\n";
 	echo "	<td><a onclick=\"editSidemenu({$item['id']})\">Ändra</a></td>\n";
-	echo "	<td><a href=\"/admin/data/delSidemenu/{$item['id']}/\" onclick=\"return confirm('Är du helt säker?');\">Radera</a></td>\n";
+	echo "	<td><a href=\"/admin/data/delSidemenu/{$item['id']}/\" onclick=\"return confirm('Är du helt säker?');\" class=\"delete\">Radera</a></td>\n";
 	echo "</tr>\n";
 }
 

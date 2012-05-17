@@ -17,7 +17,7 @@
 		<td><?php echo ($news['visible'] == 1 ? 'Ja' : 'Nej'); ?></td>
 		<td>
 			<a href="/admin/news/edit/<?=$news['id']; ?>">Edit</a>
-			<a href="/admin/news/delete/<?=$news['id']; ?>">Radera</a>
+			<a href="/admin/news/delete/<?=$news['id']; ?>" class="delete">Radera</a>
 		</td>
 	</tr>
 	<? } ?>

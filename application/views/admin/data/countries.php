@@ -13,7 +13,7 @@ $alternator = 0; ?>
 		<tr <?=(++$alternator%2 == 0) ? 'style="background-color: silver"' : '' ?>>
 			<td id="country_<?=$c['id'] ?>"><?=$c['name'] ?></td>
 			<td>
-				<a href="/admin/data/delCountry/<?=$c['id'].'/'; ?>">
+				<a href="/admin/data/delCountry/<?=$c['id'].'/'; ?>" class="delete">
 					Radera
 				</a>
 				<a href="#" onclick="editCountry(<?=$c['id']; ?>)">

@@ -16,7 +16,7 @@ $alternator = 0; ?>
 			<td id="programshort_<?=$p['id'] ?>"><?=$p['shortname'] ?></td>
 			<td id="url_<?=$p['id'] ?>"><?=$p['url'] ?></td>
 			<td>
-				<a href="/admin/data/delProgram/<?=$p['id'].'/'; ?>">
+				<a href="/admin/data/delProgram/<?=$p['id'].'/'; ?>" class="delete">
 					Radera
 				</a>
 				<a href="#" onclick="editProgram(<?=$p['id']; ?>)">
@@ -38,7 +38,7 @@ $alternator = 0; ?>
 		<?= Form::input('shortname', ''); ?>
 		<?= Form::label('newurl', 'URL'); ?>
 		<?= Form::input('newurl', ''); ?>
-		
+
 		<?= Form::submit('save', 'Spara'); ?>
 	</form>
 	<?= Form::button('abort','Avbryt', array('onclick' => 'hideEditBox()')); ?>

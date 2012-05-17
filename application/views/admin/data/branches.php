@@ -13,7 +13,7 @@ $alternator = 0; ?>
 		<tr <?=(++$alternator%2 == 0) ? 'style="background-color: silver"' : '' ?>>
 			<td id="branch_<?=$b['branch_id'] ?>"><?=$b['branch'] ?></td>
 			<td>
-				<a href="/admin/data/delBranch/<?=$b['branch_id'].'/'; ?>">
+				<a href="/admin/data/delBranch/<?=$b['branch_id'].'/'; ?>" class="delete">
 					Radera
 				</a>
 				<a href="#" onclick="editBranch(<?=$b['branch_id']; ?>)">
