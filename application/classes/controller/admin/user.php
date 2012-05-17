@@ -5,7 +5,7 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 	public function action_index()
 	{
 		$this->content = View::factory('admin/user/main');
-		$this->content->users = 
+		$this->content->users =
 			DB::select('*')
 				->from('user')
 				->order_by('user.lname', 'ASC')
@@ -15,7 +15,7 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 	}
 	public function action_companyUsers(){
 	    $this->content = View::factory('admin/user/main');
-		$this->content->users = 
+		$this->content->users =
 			DB::select('*')
 				->from('user')
 				->order_by('user.lname', 'ASC')
@@ -26,7 +26,7 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 	}
 	public function action_crew(){
 		$this->content = View::factory('admin/user/crew');
-		$this->content->crew = 
+		$this->content->crew =
 			DB::select('*')
 				->from('crew')
 				->join('user')
@@ -40,7 +40,7 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 	}
 	public function action_crewDetail($id){
 		$this->content = View::factory('admin/user/crewDetail');
-		list($this->content->crew) = 
+		list($this->content->crew) =
 			DB::select('*')
 				->from('crew')
 				->join('user')
@@ -66,7 +66,7 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 	                ->execute()
 	                ->as_array();
 	    $userCompany = array();
-	    foreach($uc as $u){ 
+	    foreach($uc as $u){
 	        $userCompany[$u['company_id']] = $u['user_id'];
 	    }
 	    $users = DB::select('*')
@@ -96,7 +96,7 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 	    $this->content->users = $formattedUsers;
 	    $this->content->userCompany = $userCompany;
 	    $this->content->companies = $companies;
-	                    
+
 	}
 	public function action_detail($id){
 		$this->css[] = '/css/admin/user.css';
@@ -106,7 +106,7 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 			$_SESSION['message']['success'][] = 'Uppgifterna har uppdaterats.';
 		}
 		$this->content = View::factory('admin/user/details');
-		list($this->content->user) = 
+		list($this->content->user) =
 			DB::select('*')
 				->from('user')
 				->where('user_id', '=', $id)
@@ -120,8 +120,8 @@ class Controller_Admin_User extends Controller_Admin_SuperController {
 	}
 	public function action_create(){
 	    if(isset($_POST) && !empty($_POST)){
-	        user::create_user('', '', $_POST['username'], $_POST['password'], '', '', '', '');
-	        
+	        user::create_user('', '', $_POST['username'], $_POST['password'], '', 118, '', '', $_POST['usertype']);
+
 	    }
 	    $this->content = View::factory('/admin/user/createUser');
 	}

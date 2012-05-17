@@ -28,7 +28,7 @@ class User{
 			$this->instance()->login_by_username_and_password($username, $password);
 		}
 	}
-	
+
     /**
 	 * Instance
 	 * Singleton function
@@ -41,9 +41,9 @@ class User{
             self::$instance = new $c;
         }
         return self::$instance;
-        
+
     }
-    
+
     /**
 	 * getId
 	 * returns the current users userID
@@ -53,7 +53,7 @@ class User{
     function getId(){
         return $this->user_id;
     }
-    
+
     /**
 	 * encrypt_password
 	 * encrypts and returns the string
@@ -77,7 +77,7 @@ class User{
         			->where('user_id', '= ', $userid)
         			->execute();
     }
-    
+
     /**
 	 * Create User
 	 * Creates a basic user to access more of the site
@@ -88,8 +88,8 @@ class User{
 	 * @param string password
 	 * @return int
 	 */
-    public static function create_user($fname, $lname, $username, $password, $email,$program, $program_ovrig, $telephone){
-        $query = DB::insert('user', array('fname', 'lname', 'username', 'password', 'phone', 'email', 'programId', 'program_ovrig', 'acceptTos'))
+    public static function create_user($fname, $lname, $username, $password, $email,$program, $program_ovrig, $telephone, $usertype){
+        $query = DB::insert('user', array('fname', 'lname', 'username', 'password', 'phone', 'email', 'programId', 'program_ovrig', 'acceptTos', 'usertype'))
                             ->values(
                                 array(
                                     $fname,
@@ -100,17 +100,17 @@ class User{
                                 	$email,
                                 	$program,
                                 	$program_ovrig,
-                                    1
+                                    1,
+                                    $usertype
                                 )
                              );
-//		var_dump((string)$query);
 		return $query->execute();
     }
-    
+
     /**
 	 * Login by username and password
 	 * Takes username and password, searches the db for a match and then calls login_by_user_id
-	 * 
+	 *
 	 * @param string username
 	 * @param string password
 	 * @return mixed
@@ -129,7 +129,7 @@ class User{
             return false;
         }
     }
-    
+
     /**
 	 * Login by user id
 	 * Takes userid and logs the user in
@@ -144,7 +144,7 @@ class User{
             return false;
         }
     }
-    
+
     /**
 	 * Load user data
 	 * Called when login occurs. Loads the users data into the object
@@ -161,7 +161,7 @@ class User{
         }
         return false;
     }
-    
+
     /**
 	 * Get user data
 	 * Gets the userdata from the database
@@ -184,10 +184,10 @@ class User{
                 ->where('user_id', '=', $this->getId())
                 ->execute()
                 ->as_array();
-                
+
        if(count($cl) > 0)
            return $cl[0]['company_id'];
-       else 
+       else
            return false;
     }
     /**
@@ -205,14 +205,14 @@ class User{
             $data = $data->where('id', '=', $program_id);
         if($sort)
             $data = $data->order_by('name', 'asc');
-            
+
         $data = $data->execute()->as_array();
         $return = array();
         foreach($data as $d)
             $return[$d['id']] = $d['name'];
         return $return;
     }
-    
+
     static function get_data_by_user_id($field, $user_id){
     	$data = DB::select($field)->from('user')->where('user_id','=',$user_id)->execute()->as_array();
         if(count($data) > 0){
@@ -231,7 +231,7 @@ class User{
     static function get_username_by_id($id){
     	return self::get_data_by_user_id('username', $id);
     }
-    
+
     static function get_name_by_id($id){
         $username = DB::select_array(array('fname', 'lname'))->from('user')->where('user_id','=',$id)->execute()->as_array();
         if(count($username) > 0){
@@ -239,8 +239,8 @@ class User{
         } else {
             return false;
         }
-    }    
-    
+    }
+
     /**
 	 * Logged in
 	 * Checks to see if the user is currently logged in.
@@ -254,7 +254,7 @@ class User{
             return false;
         }
     }
-    
+
     /**
 	 * isAdmin
 	 * Checks whether or not the user has administrative rights
@@ -264,7 +264,7 @@ class User{
     function isAdmin(){
         if($this->logged_in() && $this->user_data['usertype'] == 3)
             return true;
-        else 
+        else
             return false;
     }
     /**
@@ -276,7 +276,7 @@ class User{
     function is_company_user(){
         if($this->logged_in() && $this->user_data['usertype'] == 2)
             return true;
-        else 
+        else
             return false;
     }
     /**
@@ -288,7 +288,7 @@ class User{
     public function get_full_name(){
         return $this->user_data['fname'].' '.$this->user_data['lname'];
     }
-    
+
     /**
 	 * free username
 	 * Used in the validation process to check whether or not a username is taken
@@ -300,14 +300,14 @@ class User{
         $free = DB::select('username')->from('user')->where('username','=',$username)->execute()->as_array();
         if(count($free) == 0)
             return true;
-        else 
+        else
             return false;
     }
-    
+
     /**
 	 * change_user_details
 	 * Updates user details according to details
-	 * 
+	 *
 	 * @param int id the user id
 	 * @param array details key-value pairs of the new details
 	 */
@@ -332,7 +332,7 @@ class User{
     		}
     	}
     	return false;
-    }    
+    }
 }
 
 
