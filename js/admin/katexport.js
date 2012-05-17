@@ -4,24 +4,16 @@ $(document).ready(function() {
     $("#progressbar").progressbar({ value: 0 });
 });
 function doIt(){
-	jQuery.ajaxSetup({async:false});
 	$("#progress").show();
-	var cdata;
-	$.getJSON('/admin/export/getCompanies', function(data, status){
-		cdata = data;
-	});
-	var date = new Date();
-	var curDate = null;
+	rpc = new XmlRpc('/xmlrpc');
+    companies = rpc.call('rpc.getCompanies', 1,3);
+	$("#companies").html(companies.length);
+	scale = 100 / companies.length;
 	
-	$("#companies").html(cdata.length);
-	scale = 100 / cdata.length;
-	i = 0;
-	while(i<cdata.length){
-		$('#current').html(i+1);
-		//$.getJSON('/admin/export/genCompanyPDF/'+ cdata[i].company_id, function(data, status){
-		//	 $("#progressbar").progressbar({ value: (i+1)*scale });
-		//});
-    i++;
+	for(i=0;i<companies.length;i++){
+		$('#current').html((i+1)+' '+companies[i]['name']);
+		rpc.call('rpc.genCompanyPDF', companies[i]['company_id']);
+		$("#progressbar").progressbar({ value: (i+1)*scale });
 	}
-
+	$('#current').html('Klar!');
 }

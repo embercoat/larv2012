@@ -112,6 +112,7 @@ Kohana::modules(array(
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
     // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	'editor'  => MODPATH.'editor',  // User guide and API documentation
+    'xmlrpc'  => MODPATH.'xmlrpc',  // User guide and API documentation
 	));
 
 /**
@@ -136,7 +137,7 @@ Route::set('katalog_booth', 'katalog/booth/<id>(.jpg)')
         'controller' => 'booth',
         'action'     => 'index'
     ));
-    
+
 Route::set('katalog', 'katalog(/<controller>(/<action>(/<a1>(/<a2>))))')
     ->defaults(array(
         'directory' => 'katalog',
