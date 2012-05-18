@@ -16,13 +16,14 @@ class model_file extends Model {
         }
         return $dirsize;
     }
-    public function get_files($path){
+    public function get_files($path, $ignore_hidden = true){
         $path = ($path[strlen($path)-1]!='/') ? $path.'/' : $path;
         $files = scandir($path);
         $return = array();
         foreach($files as $f){
             if(is_file($path.$f)){
-                $return[] = $path.$f;
+                if(($f[0] == '.' && !$ignore_hidden) || $f[0] != '.' )
+                    $return[] = $path.$f;
             }
         }
         return $return;

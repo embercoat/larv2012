@@ -5,6 +5,7 @@
 	<style type="text/css">
 	@import url(/css/master.css);
 	@import url(/css/form.css);
+	@import url(/css/slideshow.css);
 	@import url(http://fonts.googleapis.com/css?family=Questrial);
 <?php
 if (isset($css))
@@ -12,9 +13,10 @@ if (isset($css))
 		echo "	@import url('".$c."');\n";
 ?>
 	</style>
-	<script type="text/javascript" src="/js/main.js"></script>
-	<script type="text/javascript" src="/js/jquery.js"></script>
-<?php
+	<script type="text/javascript" src="/js/jquery.js">1;</script>
+	<script type="text/javascript" src="/js/slides.min.jquery.js">1;</script>
+	<script type="text/javascript" src="/js/main.js">1;</script>
+	<?php
 if (isset($js))
 	foreach ($js as $j)
 		echo '<script type="text/javascript" src="'.$j.'"></script>'."\n";
@@ -25,12 +27,12 @@ if (isset($js))
       _gaq.push(['_setAccount', 'UA-30512762-1']);
       _gaq.push(['_setDomainName', 'larv.org']);
       _gaq.push(['_trackPageview']);
-    
+
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })(); 
+      })();
     </script>
 </head>
 <body>
@@ -48,12 +50,15 @@ if (isset($js))
 		</div>
 	</div>
 	<div id="nav-global">
-<?php echo View::factory('menu'); ?>
+        <?php echo View::factory('menu'); ?>
+	</div>
+	<div id="slideshow">
+	    <?php echo View::factory('slideshow'); ?>
 	</div>
 	<div id="content">
 		<div id="content-inner">
 			<div id="nav-local">
-<?php echo View::factory('sidemenu'); ?>
+                <?php echo View::factory('sidemenu'); ?>
 			</div>
 			<div id="content-master">
 			<?php

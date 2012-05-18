@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+.slides_container {
+	width:590px;
+    height:230px;
+}
+.slides_container div {
+    width:590px;
+    height:230px;
+    display:block;
+}
+ul.pagination {
+    margin: 6px 0 0;
+    float: right;
+    list-style: none;
+}
+.pagination li {
+    float: left;
+    margin: 0 1px;
+}
+.pagination li a {
+    display: block;
+    width: 13px;
+    height: 0;
+    padding-top: 13px;
+    background-image: url(/images/slideshow_pagination.png);
+    background-position: 0 0;
+    float: left;
+    overflow: hidden;
+}
+li.current a {
+	background-position: 0 -13px;
+}
+li a:hover {
+	background-position: 0 13px;
+}
