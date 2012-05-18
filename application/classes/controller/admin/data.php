@@ -83,8 +83,8 @@ class Controller_Admin_data extends Controller_Admin_SuperController{
 				->execute();
 	    }
 	    else {
-			DB::insert('sidemenu')
-				->values(array($_POST['id'], $_POST['controller'], $_POST['text'], $_POST['action']), (isset($_POST['visible']) ? 1 : 0) )
+			DB::insert('sidemenu', array('id', 'controller', 'text', 'action', 'visible'))
+				->values(array($_POST['id'], $_POST['controller'], $_POST['text'], $_POST['action'], (isset($_POST['visible']) ? 1 : 0)) )
 	            ->execute();
 		}
    	 	$this->request->redirect('/admin/data/sidemenu');

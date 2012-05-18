@@ -41,23 +41,17 @@
 		</div>
 	</div>
 	<div id="loginform">
-		<?=Form::open('/login/login/', array('method' => 'post'))."\n"; ?>
+		<?=Form::open('/login/recover/', array('method' => 'post'))."\n"; ?>
 			<p>
-				<?=Form::hidden('redirect', (isset($redirect)?$redirect:''))."\n"; ?>
-				<?=Form::label('username', 'Användarnamn')."\n"; ?>
-				<?=Form::input('username', (isset($username)?$username:''))."\n"; ?>
-				<?=Form::label('password', 'Lösenord')."\n"; ?>
-				<?=Form::password('password')."\n"; ?>
-				<?=Form::submit('submit', 'Logga In')."\n"; ?>
+			Ange din epost nedan för att återskapa ditt lösenord.
+				<?=Form::label('email', 'Epost')."\n"; ?>
+				<?=Form::input('email', (isset($email)?$email:''))."\n"; ?>
+				<?=Form::submit('submit', 'Återskapa')."\n"; ?>
 			</p>
 		<?=Form::close()."\n"; ?>
-		<p style="float: left; clear: both;">
-			Ingen användare? <a href="/register" style="color: white;">Registrera dig!</a><br />
-			<a href="/login/recover" style="color: white;">Glömt Lösenord</a>
-		</p>
 		<?php
-		if ($attempt) {
-			echo "<p class=\"error\">Felaktigt användarnamn eller lösenord!</p>\n";
+		if (isset($message)) {
+			echo "<p style='clear: both;'>".$message."</p>".PHP_EOL;
 		}
 		?>
 	</div>

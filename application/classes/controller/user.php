@@ -4,10 +4,10 @@ class Controller_User extends Controller_SuperController {
 	public function before(){
 		parent::before();
 		if(isset($_SESSION['user']) && $_SESSION['user']->logged_in()){
-			
+
 		} else {
 			$this->request->redirect('/');
-		}	
+		}
 	}
 	public function action_details(){
 		if(isset($_POST) && !empty($_POST)){
@@ -47,7 +47,7 @@ class Controller_User extends Controller_SuperController {
 			}
 		}
 		$this->content = View::factory('/user/cv');
-		
+
 	}
 	public function action_image(){
 		if(isset($_POST) && !empty($_POST)){
@@ -59,13 +59,13 @@ class Controller_User extends Controller_SuperController {
 			}
 		}
 		$this->content = View::factory('/user/image');
-		
+
 	}
     public function action_booked(){
         $this->css[] = '/css/katalog/ps.css';
 	    $this->content = View::factory('/user/booked');
 	    $this->content->programs = Model::factory('data')->format_for_select(Model::factory('data')->get_program());
-	    $this->content->users = 
+	    $this->content->users =
 	        DB::select_array(array('user.fname', 'user.lname', 'user.programId', 'user.user_id', 'interview_interest.*', array('company.name', 'companyname')))
 	            ->from('user')
 	            ->join('interview_interest')
@@ -95,6 +95,22 @@ class Controller_User extends Controller_SuperController {
         $this->content->periods = array();
         foreach($periods as $p){
             $this->content->periods[$p['period_id']] = $p['start'].' - '.$p['end'];
+        }
+	}
+	public function action_changepassword(){
+        $this->content = View::factory('user/changepassword');
+        if(isset($_POST) && !empty($_POST)){
+            if($_POST['newpassword'] == $_POST['newpasswordrepeat'] && strlen($_POST['newpassword']) > 0 && $_SESSION['user']->getId() == user::get_userid_by_field('password', user::encrypt_password($_POST['oldpassword']))){
+                user::change_password($_SESSION['user']->getId(), $_POST['newpassword']);
+                $this->content->message = 'Du har nu bytt ditt lösenord';
+            } else {
+                $message = '';
+                if($_POST['newpassword'] != $_POST['newpasswordrepeat'])
+                    $message .= 'De nya lösenorden stämmer inte med varandra.<br />'.PHP_EOL;
+                if($_SESSION['user']->getId() != user::get_userid_by_field('password', user::encrypt_password($_POST['oldpassword'])))
+                    $message .= 'Det gamla lösenordet du angav stämmer inte överens med det nuvarande.<br />'.PHP_EOL;
+                $this->content->message = $message;
+            }
         }
 	}
 

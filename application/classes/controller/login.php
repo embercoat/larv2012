@@ -40,6 +40,32 @@ class Controller_Login extends Kohana_Controller{
 	public function action_redirect($redirect = '') {
 		$this->redirect = $redirect;
 	}
+	public function action_recover(){
+	    $this->content = View::factory('recover_password');
+	    if(isset($_POST) && !empty($_POST)){
+	        $this->content->email = $_POST['email'];
+	        $userid = user::get_userid_by_field('email', $_POST['email']);
+	        if($userid){
+	            $new_password = user::random_password();
+	            $smtp = Model::Factory('SMTPClient');
+	            $smtp->config(
+	                    'send.one.com',
+	                    '2525',
+	                    'no-reply@larv.org',
+	                    'Qj0ttngp',
+	                    'no-reply@larv.org',
+	                    $_POST['email'],
+	                    'Nytt lösenord',
+	                    View::factory('mail/newpassword')->set('password', $new_password)
+	                    );
+	            user::change_password($userid, $new_password);
+	            $smtp->SendMail();
+                $this->content->message = 'Ditt nya lösenord har skickats till den adress du angav. <br /><a href="/login/" style="color: white">Logga In</a>';
+	        } else {
+                $this->content->message = 'Det finns ingen användare med den adressen';
+	        }
+	    }
+	}
 	public function after(){
 		$this->content->attempt = $this->attempt;
 		if ($this->attempt)

@@ -119,8 +119,7 @@ class User{
         $sql = DB::select('user_id')
                 ->from('user')
                 ->where('username','=',$username)
-                ->and_where('password','=',md5($password))
-                ->or_where('password','=',sha1($password));
+                ->and_where('password','=',$this->encrypt_password($password));
         $id = $sql->execute()
                 ->as_array();
         if(count($id) > 0){
@@ -226,16 +225,40 @@ class User{
 	 * returns the username corresponding to the user_id
 	 *
 	 * @param int id
-	 * @return mixed string username if success else false
+	 * @return mixed string username on success else false
 	 */
     static function get_username_by_id($id){
     	return self::get_data_by_user_id('username', $id);
     }
+    /**
+     * Get full name by id
+     * returns the username corresponding to the user_id
+     *
+     * @param int id
+     * @return mixed string full name on success else false
+     */
 
     static function get_name_by_id($id){
         $username = DB::select_array(array('fname', 'lname'))->from('user')->where('user_id','=',$id)->execute()->as_array();
         if(count($username) > 0){
             return $username[0]['fname']. ' '. $username[0]['lname'];
+        } else {
+            return false;
+        }
+    }
+    /**
+     * Get userid from field
+     * returns the userid corresponding to the field value
+     *
+     * @param string field
+     * @param string value
+     * @return mixed userid on success else false
+     */
+
+    static function get_userid_by_field($field, $value){
+        $userid = DB::select('user_id')->from('user')->where($field,'=',$value)->execute()->as_array();
+        if(count($userid) > 0){
+            return $userid[0]['user_id'];
         } else {
             return false;
         }
@@ -332,6 +355,15 @@ class User{
     		}
     	}
     	return false;
+    }
+    public static function random_password($length = 8){
+        $chars = 'abcdefghigjklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ1234567890';
+        $pass = "";
+        for($i =0; $i<$length;$i++){
+            $r = rand(0, strlen($chars)-1);
+            $pass .= $chars[$r];
+        }
+        return $pass;
     }
 }
 
