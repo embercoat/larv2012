@@ -4,7 +4,7 @@ $(document).ready(function(){
 	    preloadImage: '/images/loading.gif',
 		play: 5000,
 		pause: 5000,
-		slideSpeed: 450,
+		slideSpeed: 1000,
 		hoverPause: true
 	});
 });

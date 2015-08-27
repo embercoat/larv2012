@@ -1,8 +1,5 @@
-<div class="press-menu">
-	<h1>Personliga Samtal</h1>
-	<h2>Anmälan har Stängt för i år. Välkommen tillbaka nästa år.</h2>
-<?php 
-/*
+<div><?php 
+
 if(!isset($_SESSION['user']) || !$_SESSION['user']->logged_in()) {
     //Inte Inloggad
 ?>
@@ -43,6 +40,6 @@ if(!isset($_SESSION['user']) || !$_SESSION['user']->logged_in()) {
 <?php
 	} 
 }
-*/
+
 ?>
 </div>

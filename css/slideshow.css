@@ -33,3 +33,21 @@ li.current a {
 li a:hover {
 	background-position: 0 13px;
 }
+#slideshow {
+	margin: 0;
+	position: absolute;
+	left: 253px;
+	top: 95px;
+	width:590px;
+	height: 230px;
+/*	border: 1px solid black;*/
+	
+	background: white url(../images/header_bg.png) bottom repeat-x;
+	border: 3px solid white;
+	-moz-box-shadow: 0px 0px 3px 2px #B6B6B6;
+	-webkit-box-shadow: 0px 0px 3px 2px	#B6B6B6;
+	box-shadow: 0px 0px 3px 2px #B6B6B6;
+}
+#slideshow .pagination {
+	margin-top: 10px;
+}

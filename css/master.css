@@ -78,7 +78,7 @@ a:hover, a:active {
 	padding: 55px 5px 22px 22px;
 }
 #logo-teknolog {
-	padding: 30px 10px 14px 20px;
+	padding: 30px 10px 14px 60px;
 }
 #logo-teknolog a {
 	border: none;
@@ -128,15 +128,6 @@ body{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; line-height: 1
 p { font-size: 1.2em; margin: 0.5em 0; }
 		
 li li{ font-size: 1em; }
-#slideshow {
-	margin: 0;
-	position: absolute;
-	left: 253px;
-	top: 100px;
-	width:590px;
-	height: 230px;
-	border: 1px solid black;
-}
 
 /* Menu  Global*/
 

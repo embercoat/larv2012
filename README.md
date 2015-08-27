@@ -1,3 +1,3 @@
-# Kohana PHP Framework, version 3.1 (release)
+### LARV 2012
 
-This is the current release version of [Kohana](http://kohanaframework.org/).
+LARV 2012 is the new CMS for LTU's big Job fair. Since the beginning of LARV the website has been fundamentally changed every few years, but has since the implementation of LARV2012 remained in use to date.

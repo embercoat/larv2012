@@ -64,7 +64,7 @@ class rpc {
 	    $pdf->set_base_path(getcwd());
 	    $pdf->load_html($template);
 	    $pdf->render();
-	    Model::factory('status')->update_to_now('lastpregen');
+	    Model::factory('status')->set_to_now('lastpregen');
 	    if(file_put_contents('pdf/katalog/'.$cid.'.pdf', $pdf->output())){
 	        return true;
 	    } else {

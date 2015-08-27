@@ -46,7 +46,6 @@ if (isset($js))
 		</div>
 		<div id="logo-teknolog">
 			<a href="http://teknologkaren.se/" target="_blank" ><img src="/images/logo_teknologkaren.png" alt="Teknologkåren" /></a>
-				<img src="/images/lkab.png" alt="LKAB" />
 		</div>
 	</div>
 	<div id="nav-global">
@@ -75,9 +74,9 @@ if (isset($js))
 			</div>
 		</div>
 	</div>
-	<div id="sponsors">
-		<?=View::factory('sponsors'); ?>
-	</div>
+	<!-- div id="sponsors">
+		<? View::factory('sponsors'); ?>
+	</div-->
 	<div id="footer">
 		<div id="login"><?php
 if ($_SESSION['user']->logged_in()){

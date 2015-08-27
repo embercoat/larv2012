@@ -210,6 +210,7 @@ class Controller_Admin_Company extends Controller_Admin_SuperController {
 	}
 	public function action_boothMaps(){
 	    Model::factory('booth')->render_boothmaps();
+	    Model::factory('status')->set_to_now('lastboothmaprender');
 	    $this->content = View::factory('admin/company/boothmaps');
 	}
 } // End Welcome

@@ -1,6 +1,6 @@
 <?php
 class model_status extends Model {
-    function update_to($thing, $value){
+    function set($thing, $value){
         $exist = DB::select('key')
                     ->from('status')
                     ->where('key', '=', $thing)
@@ -17,8 +17,8 @@ class model_status extends Model {
                 ->execute();
         }
     }
-    function update_to_now($thing){
-        $this->update_to($thing, time());
+    function set_to_now($thing){
+        $this->set($thing, time());
     }
     function get($thing){
         $get = DB::select('*')
